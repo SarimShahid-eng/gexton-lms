@@ -25,7 +25,6 @@ class User extends Authenticatable
         'password',
         'user_type',
         'is_active',
-        'session_year_id'
     ];
 
     /**
@@ -52,20 +51,20 @@ class User extends Authenticatable
 
         ];
     }
-    public function student_details()
-    {
-        return $this->hasOne(StudentDetail::class, 'user_id');
-    }
-    public function session()
-    {
-        return $this->belongsTo(CustomSession::class,'session_year_id');
-    }
+    // public function student_details()
+    // {
+    //     return $this->hasOne(StudentDetail::class, 'user_id');
+    // }
+    // public function session()
+    // {
+    //     return $this->belongsTo(CustomSession::class,'session_year_id');
+    // }
     public function hasRole($role)
     {
         return $this->user_type === $role;
     }
-    public function getFullNameAttribute()
-    {
-        return $this->firstname . ' ' . $this->lastname;
-    }
+    // public function getFullNameAttribute()
+    // {
+    //     return $this->firstname . ' ' . $this->lastname;
+    // }
 }

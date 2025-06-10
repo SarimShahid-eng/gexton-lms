@@ -1,7 +1,4 @@
-@studentInProgress
-    {{-- @dd('ss') --}}
-@else
-    {{-- @dd('ss'); --}}
+
     <aside :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
         class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-r border-gray-200 bg-white px-5 dark:border-gray-800 dark:bg-black lg:static lg:translate-x-0">
         <!-- SIDEBAR HEADER -->
@@ -9,13 +6,10 @@
             class="flex items-center gap-2 pt-8 sidebar-header pb-7">
             <a href="index.html">
                 <span class="logo font-bold dark:text-gray-200" :class="sidebarToggle ? 'hidden' : ''">
-                    GEXTON INTERNSHIP PORTAL
-                    {{-- <img class="dark:hidden" src="./images/logo/logo.svg" alt="Logo" />
-                    <img class="hidden dark:block" src="./images/logo/logo-dark.svg" alt="Logo" /> --}}
+                    GEXTON NEW LMS PORTAL
+
                 </span>
-                {{--
-                <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'" src="./images/logo/logo-icon.svg"
-                    alt="Logo" /> --}}
+
             </a>
         </div>
         <!-- SIDEBAR HEADER -->
@@ -72,11 +66,10 @@
 
                             <!-- Menu Item Course -->
                             <li>
-                                <a href="{{ route('courses_create') }}" @class([
+                                <a href="" @class([
                                     'menu-item',
                                     'group',
                                     'menu-item-inactive',
-                                    'menu-item-active' => request()->routeIs('courses_create'),
                                 ])
                                     @click="selected = (selected === 'Calendar' ? '':'Calendar')" class="menu-item group">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -92,11 +85,10 @@
                             <!-- Menu Item Course -->
                             <!-- Menu Item Group -->
                             <li>
-                                <a href="{{ route('show_batch') }}" @class([
+                                <a href="" @class([
                                     'menu-item',
                                     'group',
                                     'menu-item-inactive',
-                                    'menu-item-active' => request()->routeIs('show_batch'),
                                 ])
                                     @click="selected = (selected === 'Calendar' ? '':'Calendar')" class="menu-item group">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -113,11 +105,11 @@
                             <!-- Menu Item Group -->
                             <!-- Menu Item Group -->
                             <li>
-                                <a href="{{ route('student_create') }}" @class([
+                                <a href="" @class([
                                     'menu-item',
                                     'group',
                                     'menu-item-inactive',
-                                    'menu-item-active' => request()->routeIs('student_create'),
+                                    // 'menu-item-active' => ,
                                 ])
                                     @click="selected = (selected === 'Calendar' ? '':'Calendar')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -134,11 +126,10 @@
                             <!-- Menu Item Group -->
                             <!-- Menu Item Group -->
                             <li>
-                                <a href="{{ route('show_teachers') }}" @class([
+                                <a href="" @class([
                                     'menu-item',
                                     'group',
                                     'menu-item-inactive',
-                                    'menu-item-active' => request()->routeIs('show_teachers'),
                                 ])
                                     @click="selected = (selected === 'Calendar' ? '':'Calendar')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -155,11 +146,11 @@
                             <!-- Menu Item Group -->
 
                             <li>
-                                <a href="{{ route('show_questions') }}" @class([
+                                <a href="" @class([
                                     'menu-item',
                                     'group',
                                     'menu-item-inactive',
-                                    'menu-item-active' => request()->routeIs('show_questions'),
+                                    // 'menu-item-active' ,
                                 ])
                                     @click="selected = (selected === 'Calendar' ? '':'Calendar')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -176,11 +167,11 @@
                             </li>
                             <!-- Menu Item Group -->
                             <li>
-                                <a href="{{ route('show_result') }}" @class([
+                                <a href="#" @class([
                                     'menu-item',
                                     'group',
                                     'menu-item-inactive',
-                                    'menu-item-active' => request()->routeIs('show_result'),
+                                    // 'menu-item-active' => request()->routeIs('show_result'),
                                 ])
                                     @click="selected = (selected === 'Calendar' ? '':'Calendar')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -296,4 +287,3 @@
 
         </div>
     </aside>
-@endstudentInProgress

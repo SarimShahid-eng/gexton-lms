@@ -3,9 +3,9 @@
     <div class="flex grow flex-col items-center justify-between lg:flex-row lg:px-6">
         <div
             class="flex w-full items-center justify-between gap-2 border-b border-gray-200 px-3 py-3 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4 dark:border-gray-800">
-            @studentInProgress
-                <h1 class="dark:text-gray-200">Gexton Internship Portal</h1>
-            @else
+            {{-- @studentInProgress --}}
+                <h1 class="dark:text-gray-200">GEXTON NEW LMS PORTAL</h1>
+            {{-- @else --}}
                 <!-- Hamburger Toggle BTN -->
                 <button
                     :class="sidebarToggle ? 'lg:bg-transparent dark:lg:bg-transparent bg-gray-100 dark:bg-gray-800' : ''"
@@ -34,7 +34,7 @@
                     </svg>
                 </button>
                 <!-- Hamburger Toggle BTN -->
-            @endstudentInProgress
+            {{-- @endstudentInProgress --}}
             <a href="index.html" class="lg:hidden">
                 <img class="dark:hidden" src="./images/logo/logo.svg" alt="Logo" />
                 <img class="hidden dark:block" src="./images/logo/logo-dark.svg" alt="Logo" />
@@ -114,8 +114,7 @@
                             {{ auth()->user()->email }}
                         </span>
                     </div>
-                    @studentInProgress
-                    @else
+
                         <ul class="flex flex-col gap-1 border-b border-gray-200 pt-4 pb-3 dark:border-gray-800">
                             <li>
                                 <a href="{{ route('show_profile') }}"
@@ -147,7 +146,6 @@
                                 Sign out
                             </button>
                         </form>
-                    @endstudentInProgress
                 </div>
                 <!-- Dropdown End -->
             </div>

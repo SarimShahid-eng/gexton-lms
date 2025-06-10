@@ -16,9 +16,9 @@ class PassStudentsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->student_details->result !== 'pass'){
-            return abort(404);
-        }
+        // if(Auth::user()->student_details->result !== 'pass'){
+        //     return abort(404);
+        // }
         return $next($request);
     }
 }

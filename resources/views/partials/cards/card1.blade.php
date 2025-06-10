@@ -14,7 +14,7 @@
             <div>
                 <span class="text-sm text-gray-500 dark:text-gray-400">Students</span>
                 <h4 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
-                    {{ $studentsCount }}
+                    {{ $studentsCount??'0' }}
                 </h4>
             </div>
 
@@ -37,7 +37,7 @@
             <div>
                 <span class="text-sm text-gray-500 dark:text-gray-400">Teachers</span>
                 <h4 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
-                    {{ $teachersCount }}
+                    {{ $teachersCount??'0' }}
 
                 </h4>
             </div>
