@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms_new/public/livewire/update', $handle);
+    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
 });
 
 Route::middleware('auth')->group(function () {

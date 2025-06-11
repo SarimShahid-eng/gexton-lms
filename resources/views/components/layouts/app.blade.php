@@ -30,21 +30,17 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 
     <!-- ===== Page Wrapper Start ===== -->
     <div class="flex h-screen overflow-hidden">
-        @auth
 
             <!-- ===== Sidebar Start ===== -->
             @include('partials.sidebar')
-        @endauth
         <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
 
             <!-- Small Device Overlay Start -->
             @include('partials.overlay')
             <!-- Small Device Overlay End -->
-            @auth
                 <!-- ===== Header Start ===== -->
                 @include('partials.header')
                 <!-- ===== Header End ===== -->
-            @endauth
             <!-- ===== Main Content Start ===== -->
             <main>
                 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">

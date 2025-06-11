@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentRegister extends Model
 {
+
     protected $fillable = [
         'full_name',
         'father_name',
@@ -26,5 +27,6 @@ class StudentRegister extends Model
         'course_choice_3',
         'course_choice_4',
     ];
+
 
 }

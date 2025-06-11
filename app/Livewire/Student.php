@@ -10,7 +10,7 @@ class Student extends Component
 {
     use WithFileUploads;
 
-    public $full_name,$father_name,$gender,$cnic_number,$contact_number,$date_of_birth,$profile_picture,$intermediate_marksheet,$domicile_district,$domicile_form_c,$is_enrolled = false,$university_name,$preferred_study_center,$preferred_time_slot,$course_choice_1,$course_choice_2,$course_choice_3,$course_choice_4,$courseList = [];
+    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
     public function render()
     {
         $this->courseList = [
@@ -21,24 +21,22 @@ class Student extends Component
             'Cyber Security',
             'Data Science',
         ];
-        return view('livewire.student');
+        return view('livewire.student')->layout('layouts.student-layout');
     }
     public function save()
     {
-        dd($this->all());
         $rule = [
-           'full_name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'father_name' => 'required|string|max:255',
             'gender' => 'required',
             'cnic_number' => 'required|digits:13|unique:student_registers,cnic_number',
-            'email' => 'required|email|unique:student_registers,email',
             'contact_number' => 'required|numeric',
             'date_of_birth' => 'required',
-            'profile_picture' => 'required|image|max:1024', // 1MB
+            'profile_picture' => 'required|image|max:1024',
             'intermediate_marksheet' => 'required|image|max:1024',
             'domicile_form_c' => 'required|image|max:1024',
             'domicile_district' => 'required|string',
-            'is_enrolled' => 'required|in:Yes,No',
+            'is_enrolled' => 'required|in:0,1',
             'university_name' => 'nullable|string|max:255',
             'preferred_study_center' => 'required|string',
             'preferred_time_slot' => 'required|string',
@@ -67,10 +65,6 @@ class Student extends Component
             'cnic_number.digits' => 'CNIC number must be exactly 13 digits.',
             'cnic_number.unique' => 'This CNIC number is already registered.',
 
-            // Email
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email address is already registered.',
 
             // Contact Number
             'contact_number.required' => 'Please enter your contact number.',
@@ -126,24 +120,29 @@ class Student extends Component
         foreach ($fileFields as $field) {
             if ($this->$field) {
                 $file = $this->$field;
+
+                // Generate a unique filename
                 $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
+
+                // Destination path inside public folder
                 $destinationPath = public_path('attachments');
 
-                // Create directory if it doesn't exist
+                // Ensure the directory exists
                 if (!file_exists($destinationPath)) {
                     mkdir($destinationPath, 0755, true);
                 }
 
-                // Move the file to the destination
-                $file->move($destinationPath, $filename);
+                // Move file to the public/attachments directory
+                $file->storeAs('', $filename, [
+                    'disk' => 'custom_public',
+                ]);
 
-                // Store the file path (relative to public/attachments)
-                $validatedData[$field] = 'attachments/' . $filename;
+                // Save just the filename to the DB
+                $validatedData[$field] = $filename;
             }
         }
-        try {
-            StudentRegister::create($validatedData);
-            $this->reset();
+               StudentRegister::create($validatedData);
+                $this->reset();
             $this->dispatch(
                 'student-saved',
                 title: 'Success!',
@@ -151,8 +150,11 @@ class Student extends Component
                 icon: 'success',
             );
             $this->reset();
-        } catch (\Exception $e) {
-            session()->flash('error', 'Failed to submit registration: ' . $e->getMessage());
-        }
+        // try {
+        //     StudentRegister::create($validatedData);
+        //
+        // } catch (\Exception $e) {
+        //     session()->flash('error', 'Failed to submit registration: ' . $e->getMessage());
+        // }
     }
 }
