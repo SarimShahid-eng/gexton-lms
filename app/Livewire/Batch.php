@@ -10,6 +10,7 @@ use Livewire\WithPagination;
 class Batch extends Component
 {
     use WithPagination;
+    protected $paginationTheme='tailwind';
 
     public $campus_id, $title, $description, $id;
     public function render()
@@ -44,6 +45,9 @@ class Batch extends Component
             text: "Batch has been $message successfully.",
             icon: 'success',
         );
+        sleep(1);
+
+        return redirect()->route('show_batches');
     }
     public function edit($id)
     {

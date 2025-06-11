@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Campus as CampusModel;
+use Livewire\WithPagination;
 
 class Campus extends Component
 {
+    use WithPagination;
+    protected $paginationTheme='tailwind';
     public $title, $description, $id;
     public function render()
     {
