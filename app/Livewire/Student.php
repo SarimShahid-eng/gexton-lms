@@ -120,41 +120,29 @@ class Student extends Component
         foreach ($fileFields as $field) {
             if ($this->$field) {
                 $file = $this->$field;
-
-                // Generate a unique filename
                 $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
 
-                // Destination path inside public folder
                 $destinationPath = public_path('attachments');
 
-                // Ensure the directory exists
                 if (!file_exists($destinationPath)) {
                     mkdir($destinationPath, 0755, true);
                 }
 
-                // Move file to the public/attachments directory
                 $file->storeAs('', $filename, [
                     'disk' => 'custom_public',
                 ]);
-
-                // Save just the filename to the DB
                 $validatedData[$field] = $filename;
             }
         }
-               StudentRegister::create($validatedData);
-                $this->reset();
-            $this->dispatch(
-                'student-saved',
-                title: 'Success!',
-                text: "Registeration Completed.",
-                icon: 'success',
-            );
-            $this->reset();
-        // try {
-        //     StudentRegister::create($validatedData);
-        //
-        // } catch (\Exception $e) {
-        //     session()->flash('error', 'Failed to submit registration: ' . $e->getMessage());
-        // }
+        StudentRegister::create($validatedData);
+        $this->reset();
+        $this->dispatch(
+            'student-saved',
+            title: 'Success!',
+            text: "Registeration Completed.",
+            icon: 'success',
+        );
+        $this->reset();
+
     }
 }

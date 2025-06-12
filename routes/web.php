@@ -3,6 +3,7 @@
 use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
+use App\Livewire\ShowStudent;
 use Livewire\Livewire;
 use App\Livewire\Student;
 use App\Livewire\Dashboard;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
+    return Route::post('/gexton-lms_new/public/livewire/update', $handle);
 });
 
 Route::middleware('auth')->group(function () {
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/show-campus', Campus::class)->name('show_campus');
         Route::get('/show-batches', Batch::class)->name('show_batches');
         Route::get('show-courses', CreateCourses::class)->name('courses_create');
+        Route::get('show-student', ShowStudent::class)->name('show_students');
 
     });
 });

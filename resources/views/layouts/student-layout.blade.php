@@ -39,11 +39,10 @@
                         {{ $slot }}
 
 
+
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- End Form Area -->
+            <!-- End Form Area -->
         </div>
         </div>
         </div>
@@ -278,6 +277,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+        </div>
         </div>
         </div>
         </div>
@@ -289,7 +291,8 @@
     <script src="{{ asset('form_assets') }}/js/bootstrap.min.js"></script>
 
     <script src="{{ asset('form_assets') }}/js/final-countdown.min.js"></script>
-    {{-- <script src="{{ asset('form_assets') }}/js/flatpickr.js"></script> --}}
+
+    <script src="{{ asset('form_assets') }}/js/flatpickr.js"></script>
     <script src="{{ asset('form_assets') }}/js/main.js"></script>
 
 
