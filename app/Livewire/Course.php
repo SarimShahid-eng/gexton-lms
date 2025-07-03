@@ -58,7 +58,7 @@ class Course extends Component
         );
         sleep(1);
 
-        return redirect()->route('courses_create');
+        return redirect()->route('show_courses');
     }
     public function edit($id)
     {

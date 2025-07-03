@@ -24,16 +24,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile', EditProfile::class)->name('show_profile');
         Route::get('/show-campus', Campus::class)->name('show_campus');
         Route::get('/show-batches', Batch::class)->name('show_batches');
-        Route::get('show-courses', Course::class)->name('show_courses');
+        Route::get('show-courses', Course::class)->name('courses_create');
     });
-    Route::middleware('role:teacher')->prefix('teacher')->name('teacher.')->group(function () {
-        Route::get('/show-questions', Question::class)->name('show_questions');
-        Route::get('show-quiz', Quiz::class)->name('show_quiz');
-    });
-    Route::middleware('role:student')->prefix('student')->name('student.')->group(function () {
-        Route::get('/show-', Question::class)->name('show_questions');
+    Route::middleware('role:student')->name('student.')->group(function () {
         Route::get('show-quiz', QuizStudent::class)->name('show_quiz');
         Route::get('start-test/{id}', StartTest::class)->name('start_test');
+    });
+    Route::middleware('role:teacher')->name('teacher.')->group(function () {
+        Route::get('show-quiz-teacher', Quiz::class)->name('show_quiz');
+        Route::get('show-questions', Question::class)->name('show_questions');
     });
 });
 Route::get('/student-register', Student::class)->name('student');
