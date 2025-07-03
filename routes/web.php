@@ -1,28 +1,27 @@
 <?php
 
-use App\Livewire\Quiz;
-use Livewire\Livewire;
 use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
 use App\Livewire\EnrollStudent;
+use App\Livewire\Question;
+use App\Livewire\Quiz;
+use App\Livewire\QuizStudent;
 use App\Livewire\ShowStudent;
+use App\Livewire\StartTest;
 use App\Livewire\StudentAttendance;
 use App\Livewire\StudentView;
 use App\Livewire\Teacher;
 use App\Livewire\TeacherTask;
 use Livewire\Livewire;
 use App\Livewire\Student;
-use App\Livewire\Question;
 use App\Livewire\Dashboard;
 use App\Livewire\EditProfile;
-use App\Livewire\QuizStudent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Livewire\StartTest;
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
+    return Route::post('/gexton-lms_new/public/livewire/update', $handle);
 });
 
 Route::middleware('auth')->group(function () {
@@ -40,12 +39,17 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:student'])->prefix('students')->name('students.')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/tasks', Dashboard::class)->name('tasks');
+        Route::get('/show-', Question::class)->name('show_questions');
+        Route::get('show-quiz', QuizStudent::class)->name('show_quiz');
+        Route::get('start-test/{id}', StartTest::class)->name('start_test');
     });
     Route::middleware(['role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/students', StudentView::class)->name('students');
         Route::get('/attendace', StudentAttendance::class)->name('attendace');
         Route::get('/task', TeacherTask::class)->name('task');
+        Route::get('/show-questions', Question::class)->name('show_questions');
+        Route::get('show-quiz', Quiz::class)->name('show_quiz');
     });
 });
 Route::get('/student-register', Student::class)->name('student');
