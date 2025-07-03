@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // dd(Auth::user());
         Blade::if('role', function ($role) {
+            // dd($role);
             return Auth::user()->hasRole($role);
         });
         // Blade::if('studentPassed', function () {

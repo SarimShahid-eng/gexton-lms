@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Quiz;
+use Livewire\Livewire;
 use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
@@ -11,13 +13,16 @@ use App\Livewire\Teacher;
 use App\Livewire\TeacherTask;
 use Livewire\Livewire;
 use App\Livewire\Student;
+use App\Livewire\Question;
 use App\Livewire\Dashboard;
 use App\Livewire\EditProfile;
+use App\Livewire\QuizStudent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Livewire\StartTest;
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms_new/public/livewire/update', $handle);
+    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
 });
 
 Route::middleware('auth')->group(function () {

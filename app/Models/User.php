@@ -60,6 +60,7 @@ class User extends Authenticatable
     // }
     public function hasRole($role)
     {
+        // dd($role);
         return $this->user_type === $role;
     }
     function enroll_student()
