@@ -1,14 +1,18 @@
 <?php
 
+use App\Livewire\Quiz;
+use Livewire\Livewire;
 use App\Livewire\Batch;
 use App\Livewire\Campus;
-use App\Livewire\CreateCourses;
-use Livewire\Livewire;
+use App\Livewire\Course;
 use App\Livewire\Student;
+use App\Livewire\Question;
 use App\Livewire\Dashboard;
 use App\Livewire\EditProfile;
+use App\Livewire\QuizStudent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Livewire\StartTest;
 
 Livewire::setUpdateRoute(function ($handle) {
     return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
@@ -20,8 +24,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile', EditProfile::class)->name('show_profile');
         Route::get('/show-campus', Campus::class)->name('show_campus');
         Route::get('/show-batches', Batch::class)->name('show_batches');
-        Route::get('show-courses', CreateCourses::class)->name('courses_create');
-
+        Route::get('show-courses', Course::class)->name('show_courses');
+    });
+    Route::middleware('role:teacher')->prefix('teacher')->name('teacher.')->group(function () {
+        Route::get('/show-questions', Question::class)->name('show_questions');
+        Route::get('show-quiz', Quiz::class)->name('show_quiz');
+    });
+    Route::middleware('role:student')->prefix('student')->name('student.')->group(function () {
+        Route::get('/show-', Question::class)->name('show_questions');
+        Route::get('show-quiz', QuizStudent::class)->name('show_quiz');
+        Route::get('start-test/{id}', StartTest::class)->name('start_test');
     });
 });
 Route::get('/student-register', Student::class)->name('student');

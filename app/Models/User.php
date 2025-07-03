@@ -61,10 +61,11 @@ class User extends Authenticatable
     // }
     public function hasRole($role)
     {
+        // dd($role);
         return $this->user_type === $role;
     }
-    // public function getFullNameAttribute()
-    // {
-    //     return $this->firstname . ' ' . $this->lastname;
-    // }
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 }

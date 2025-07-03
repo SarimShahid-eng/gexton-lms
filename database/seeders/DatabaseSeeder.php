@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
     // ]);
         // CustomSession::factory(1)->create();
                 User::factory()->create([
-                    'firstname' => 'Sarim Shahid',
-                    'email' => 'admin@example.com',
-                    'user_type'=>'admin',
+                    'firstname' => 'Hadi',
+                    'email' => 'student@example.com',
+                    'user_type'=>'student',
                 ]);
         // StudentDetail::create([
         //     'user_id'=>'3',
