@@ -342,6 +342,49 @@
                                 @endif
                             </a>
                         </li>
+
+                        <li>
+                            <a href="{{ route('teacher.show_questions') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('teacher.show_questions') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                </svg>
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Show Questions
+                                </span>
+
+                                @if (request()->routeIs('teacher.show_questions'))
+                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('teacher.show_quiz') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('teacher.show_quiz') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                </svg>
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Quiz
+                                </span>
+
+                                @if (request()->routeIs('teacher.show_quiz'))
+                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
                     @endrole
 
                     @role('student')
@@ -390,7 +433,29 @@
                                 @endif
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('students.show_quiz') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('students.show_quiz') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
+                                {{-- New Icon: Clipboard --}}
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 2.25h6M9 2.25a2.25 2.25 0 0 0-2.25 2.25h10.5A2.25 2.25 0 0 0 15 2.25m-6 0v1.5m6 0V2.25m3 3.75H6a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 6 21h12a2.25 2.25 0 0 0 2.25-2.25V8.25A2.25 2.25 0 0 0 18 6z" />
+                                </svg>
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Quiz
+                                </span>
+
+                                @if (request()->routeIs('students.show_quiz'))
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
 
                     @endrole
                 </ul>
