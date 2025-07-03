@@ -7,7 +7,7 @@
             <div class="flex flex-col gap-2 mb-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white/90 font-['Open_Sans']">
-                        Registered Students
+                        Enrolled Students
                     </h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         Manage student enrollment and view details
@@ -47,11 +47,6 @@
                             </th>
                             <th class="py-4 px-3 text-center">
                                 <p class="font-semibold text-gray-600 text-sm dark:text-gray-300 font-['Open_Sans']">
-                                    Status
-                                </p>
-                            </th>
-                            <th class="py-4 px-3 text-center">
-                                <p class="font-semibold text-gray-600 text-sm dark:text-gray-300 font-['Open_Sans']">
                                     Actions
                                 </p>
                             </th>
@@ -80,10 +75,7 @@
                                             {{ $student->full_name }}
                                         </p>
                                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                                            Father: {{ $student->father_name }}
-                                        </p>
-                                        <p class="text-xs text-gray-400 dark:text-gray-500">
-                                            CNIC: {{ $student->cnic_number }}
+                                            Email: {{ $student->email }}
                                         </p>
                                     </div>
                                 </td>
@@ -101,33 +93,11 @@
                                             </svg>
                                         </div>
                                         <span class="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                                            {{ $student->contact_number }}
+                                            {{ $student->phone }}
                                         </span>
                                     </div>
                                 </td>
 
-                                <!-- Status Column -->
-                                <td class="py-4 px-3">
-                                    <div class="flex justify-center">
-                                        @if ($student->enrolled_status == 0)
-                                            <span
-                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-semibold rounded-full">
-                                                <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-                                                Pending
-                                            </span>
-                                        @else
-                                            <span
-                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-semibold rounded-full">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                Enrolled
-                                            </span>
-                                        @endif
-                                    </div>
-                                </td>
 
                                 <!-- Actions Column -->
                                 <td class="py-4 px-3">
@@ -153,26 +123,7 @@
                                         </button>
 
                                         <!-- Enrollment Button/Status -->
-                                        @if ($student->enrolled_status == 0)
-                                            <button wire:click="enroll_student({{ $student->id }})"
-                                                class="group relative inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-200"
-                                                title="Enroll Student">
 
-                                                <svg class="w-4 h-4 group-hover:rotate-12 transition-transform duration-200"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M18 9a3 3 0 11-6 0 3 3 0 016 0zM13.5 20.25h6M16.5 17.25v6M4.5 20.25v-1.5A4.5 4.5 0 019 14.25h3" />
-                                                </svg>
-
-                                                <span class="hidden sm:inline">Enroll</span>
-
-                                                <!-- Loading Spinner -->
-                                                <div wire:loading wire:target="enroll_student({{ $student->id }})"
-                                                    class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin">
-                                                </div>
-                                            </button>
-                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -238,6 +189,5 @@
             </script>
         @endpush
     </div>
-
-    @include('partials.models.student_modal')
+    @include('partials.models.enroll_model')
 </div>

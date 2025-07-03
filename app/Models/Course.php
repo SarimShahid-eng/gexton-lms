@@ -10,9 +10,10 @@ class Course extends Model
     use HasFactory;
     protected $fillable = [
         'title',
-        'description',
+        'user_id',
         'campus_id',
-        'batch_id'
+        'batch_id',
+        'description'
     ];
 
     public function campus()
@@ -22,5 +23,9 @@ class Course extends Model
     public function batch()
     {
         return $this->belongsTo(Batch::class);
+    }
+    public function user()
+    {
+        return $this->hasOne(User::class,'id', 'user_id');
     }
 }

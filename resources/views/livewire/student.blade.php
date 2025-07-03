@@ -77,6 +77,15 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
+                                            <label>Email *</label>
+                                            <div class="formify-forms__input">
+                                                <input  type="email" wire:model="email" placeholder="Your Email"
+                                                    required="required">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
                                             <label>Contact Number (WhatsApp) *</label>
                                             <div class="formify-forms__input">
                                                 <input type="text" wire:model="contact_number"

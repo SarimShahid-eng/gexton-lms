@@ -18,8 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'firstname',
-        'lastname',
+        'full_name',
         'phone',
         'email',
         'password',
@@ -51,10 +50,10 @@ class User extends Authenticatable
 
         ];
     }
-    // public function student_details()
-    // {
-    //     return $this->hasOne(StudentDetail::class, 'user_id');
-    // }
+    public function student_detail()
+    {
+        return $this->hasOne(EnrollStudent::class, 'student_id');
+    }
     // public function session()
     // {
     //     return $this->belongsTo(CustomSession::class,'session_year_id');
@@ -63,8 +62,12 @@ class User extends Authenticatable
     {
         return $this->user_type === $role;
     }
-    // public function getFullNameAttribute()
-    // {
-    //     return $this->firstname . ' ' . $this->lastname;
-    // }
+    function enroll_student()
+    {
+        return $this->hasOne(EnrollStudent::class, 'student_id');
+    }
+    function courses()
+    {
+        return $this->hasMany(Course::class, 'user_id');
+    }
 }

@@ -1,7 +1,7 @@
 /* =====================================
 Template Name: Formify
 Author Name: PicmaticWeb
-========================================*/   
+========================================*/
 /*======================================
 	General CSS
 ========================================*/
@@ -53,7 +53,7 @@ Author Name: PicmaticWeb
 }
 .formify-form__jstart{
 	display: flex;
-	justify-content: start !important; 
+	justify-content: start !important;
 }
 .formify-form__jcenter{
 	display: flex;
@@ -618,13 +618,13 @@ Author Name: PicmaticWeb
 	  -webkit-transform: translateX(-20px);
 	  transform: translateX(-20px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
 	  transform: translateX(0);
 	}
-}  
+}
 
 @keyframes scale-right {
 	0% {
@@ -948,14 +948,14 @@ Author Name: PicmaticWeb
 		-webkit-transform: translateY(40px);
 		transform: translateY(40px);
 	  }
-	
+
 	  100% {
 		opacity: 1;
 		-webkit-transform: translateY(0);
 		transform: translateY(0);
 	  }
   }
-  
+
   .tpfadeUp {
 	-webkit-animation-name: tpfadeUp;
 	animation-name: tpfadeUp;
@@ -967,14 +967,14 @@ Author Name: PicmaticWeb
 	  -webkit-transform: translateX(-30px);
 	  transform: translateX(-30px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
 	  transform: translateX(0);
 	}
   }
-  
+
   @keyframes tpfadeLeft {
 	0% {
 	  opacity: 0;
@@ -982,7 +982,7 @@ Author Name: PicmaticWeb
 	  -ms-transform: translateX(-30px);
 	  transform: translateX(-30px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
@@ -990,7 +990,7 @@ Author Name: PicmaticWeb
 	  transform: translateX(0);
 	}
   }
-  
+
   .tpfadeLeft {
 	-webkit-animation-name: tpfadeLeft;
 	animation-name: tpfadeLeft;
@@ -1002,14 +1002,14 @@ Author Name: PicmaticWeb
 	  -webkit-transform: translateX(30px);
 	  transform: translateX(30px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
 	  transform: translateX(0);
 	}
   }
-  
+
   @keyframes tpfadeRight {
 	0% {
 	  opacity: 0;
@@ -1017,7 +1017,7 @@ Author Name: PicmaticWeb
 	  -ms-transform: translateX(30px);
 	  transform: translateX(30px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
@@ -1025,7 +1025,7 @@ Author Name: PicmaticWeb
 	  transform: translateX(0);
 	}
   }
-  
+
   .tpfadeRight {
 	-webkit-animation-name: tpfadeRight;
 	animation-name: tpfadeRight;
@@ -1037,14 +1037,14 @@ Author Name: PicmaticWeb
 	  -webkit-transform: translateX(30px);
 	  transform: translateX(30px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
 	  transform: translateX(0);
 	}
   }
-  
+
   @keyframes fadeInRight {
 	0% {
 	  opacity: 0;
@@ -1052,7 +1052,7 @@ Author Name: PicmaticWeb
 	  -ms-transform: translateX(30px);
 	  transform: translateX(30px);
 	}
-  
+
 	100% {
 	  opacity: 1;
 	  -webkit-transform: translateX(0);
@@ -1060,7 +1060,7 @@ Author Name: PicmaticWeb
 	  transform: translateX(0);
 	}
   }
-  
+
   .fadeInRight {
 	-webkit-animation-name: fadeInRight;
 	animation-name: fadeInRight;
@@ -1070,17 +1070,17 @@ Author Name: PicmaticWeb
 	0% {
 	  opacity: 0;
 	}
-  
+
 	100% {
 	  opacity: 1;
 	}
   }
-  
+
   @keyframes tpfadeIn {
 	0% {
 	  opacity: 0;
 	}
-  
+
 	100% {
 	  opacity: 1;
 	}
@@ -1132,7 +1132,7 @@ Author Name: PicmaticWeb
 	  transform: rotate(360deg);
 	}
   }
-  
+
   @keyframes moving {
 	0% {
 	  transform: translatey(0px);
@@ -1147,7 +1147,7 @@ Author Name: PicmaticWeb
 	  transform: translatey(0px);
 	}
   }
-  
+
   @keyframes tptranslateX2 {
 	0% {
 	  -webkit-transform: translateX(-30px);
@@ -1163,8 +1163,8 @@ Author Name: PicmaticWeb
 	  -o-transform: translateX(20px);
 	  transform: translateX(20px);
 	}
-  }	
-  
+  }
+
   @keyframes play-btn-1 {
 	0% {
 	 -webkit-transform:scale(1);
@@ -1493,7 +1493,7 @@ input[type="checkbox"]:checked::before {
 	overflow: hidden !important;
 	border-radius: 12px;
   }
-  
+
   .formify-forms__survey .formify-btn.prev-step {
 	background: transparent;
 	color: #667085;
@@ -1505,7 +1505,7 @@ input[type="checkbox"]:checked::before {
   .formify-forms__survey .formify-btn.prev-step:hover {
 	color: #4065ED;
   }
-  
+
   .formify-forms__survery-welcome__title {
 	font-size: 24px;
 	font-weight: 600;
@@ -1667,7 +1667,7 @@ input[type="checkbox"]:checked::before {
 	background: #fff;
 	color: #4065ED;
   }
-  
+
 .form-group.formify-forms__job-form--group {
 	display: flex;
 	align-items: center;
@@ -2417,7 +2417,7 @@ input[type="checkbox"]:checked::before {
 	background: #fff;
 	padding: 40px;
   }
-  
+
   .formify-booking-summary {
 	background: #FFFFFF;
 	border: 1px solid #DCE6F1;
@@ -2456,19 +2456,19 @@ input[type="checkbox"]:checked::before {
 	display: flex;
 	justify-content: space-between;
   }
-  
+
   .fb-list-border {
 	border-top: 1px solid #EAECF0;
 	padding-top: 15px;
 }
-  
+
 .fb-list-toptal {
 	background: #F1F2F4;
 	padding: 12px;
 	background: #F1F2F4;
 	border-radius: 8px;
   }
-  
+
 .formify-booking-summary__list b {
 	font-weight: 600;
   }
@@ -2979,7 +2979,7 @@ input[type="checkbox"]:checked::before {
   }
   .formify-forms__checkbox-modal label a:hover{
 	color: #3D46FB;
-  }  
+  }
 .formify-forms__footer {
 	display: flex;
 	align-items: center;
@@ -2993,7 +2993,7 @@ input[type="checkbox"]:checked::before {
 	align-items: center;
 	gap: 5px;
   }
-  
+
 .formify-forms__copylink:hover {
 	color: #3D46FB;
   }
@@ -3019,7 +3019,7 @@ input[type="checkbox"]:checked::before {
   .formify-modals--v9 .form-group .form-group__heading-title {
 	margin: 0;
   }
-  
+
 .formify-forms__input-icon {
 	position: absolute;
 	top: 6px;
@@ -3293,26 +3293,26 @@ input[type="checkbox"]:checked::before {
 	color: #fff;
 	border-color: transparent;
   }
-  
+
 @media only screen and (min-width: 1300px) {
 	.formify-welcome, .formify-form__form-box--booking {
 		max-width: 600px;
 		min-width: 600px;
 	}
-	
+
 	.formify-booking-column-main {
 		width: 61%;
 	}
 	.formify-booking-column-main2 {
 		width: 39%;
 	}
-	
+
 	.formify-forms__cbooking.formify-forms__cbooking--v2 li {
 		width: 100%;
 	  }
 }
 	@media only screen and (max-width: 991px) {
-	
+
 		.formify-form__layout--booking-v1  {
 			flex-direction: column-reverse;
 		}
@@ -3363,7 +3363,7 @@ input[type="checkbox"]:checked::before {
 .formify-forms__booking-form .nice-select,.formify-forms__calday{
 	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 	color:#667085;
-	border-radius: 8px; 
+	border-radius: 8px;
 }
 
 .formify-btn.prev-step{

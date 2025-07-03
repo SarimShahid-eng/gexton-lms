@@ -14,8 +14,22 @@ class Dashboard extends Component
     //     $teachersCount,
     //     $coursesCount,
     //     $groupsCount;
+    public $courseName = "Web Development Bootcamp 2024";
+    public $modules = [];
+    public $tasks = [];
     public function render()
     {
+        $this->modules = [
+            ['name' => 'Laravel Basics'],
+            ['name' => 'Livewire Fundamentals'],
+            ['name' => 'Alpine.js Integration'],
+        ];
+
+        $this->tasks = [
+            ['title' => 'Create Dashboard', 'completed' => true],
+            ['title' => 'Implement Auth', 'completed' => true],
+            ['title' => 'Submit Final Project', 'completed' => false],
+        ];
         // dd('ss');
         // $this->studentsCount = Cache::remember('dashboard_students_count', now()->addMinutes(3), function () {
         //     return User::where('user_type', 'student')->count();

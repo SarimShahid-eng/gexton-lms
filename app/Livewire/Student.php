@@ -10,7 +10,7 @@ class Student extends Component
 {
     use WithFileUploads;
 
-    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
+    public $full_name, $father_name, $gender, $cnic_number,$email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
     public function render()
     {
         $this->courseList = [
@@ -30,6 +30,7 @@ class Student extends Component
             'father_name' => 'required|string|max:255',
             'gender' => 'required',
             'cnic_number' => 'required|digits:13|unique:student_registers,cnic_number',
+            'email' => 'required|email|unique:student_registers,email',
             'contact_number' => 'required|numeric',
             'date_of_birth' => 'required',
             'profile_picture' => 'required|image|max:1024',
@@ -64,6 +65,10 @@ class Student extends Component
             'cnic_number.required' => 'Please enter your CNIC number.',
             'cnic_number.digits' => 'CNIC number must be exactly 13 digits.',
             'cnic_number.unique' => 'This CNIC number is already registered.',
+
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email address is already registered.',
 
 
             // Contact Number

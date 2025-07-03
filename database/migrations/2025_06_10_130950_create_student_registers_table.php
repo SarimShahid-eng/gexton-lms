@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('father_name');
             $table->string('gender');
             $table->string('cnic_number')->unique();
+            $table->string('email')->unique();
             $table->string('contact_number');
             $table->string('date_of_birth');
             $table->string('profile_picture')->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('domicile_form_c')->nullable();
             $table->string('domicile_district');
             $table->boolean('is_enrolled');
+            $table->boolean('enrolled_status')->default(false);
             $table->string('university_name')->nullable();
             $table->string('preferred_study_center');
             $table->string('preferred_time_slot');

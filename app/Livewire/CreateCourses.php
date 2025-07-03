@@ -5,25 +5,27 @@ namespace App\Livewire;
 use App\Models\Batch;
 use App\Models\Campus;
 use App\Models\Course;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\CustomSession;
-use Livewire\WithoutUrlPagination;
 
 class CreateCourses extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'tailwind';
-    public $campus_id, $batches= [], $title, $description, $id ,$batch_id;
+    public $campus_id, $batches= [], $user_id ,$title, $description, $id ,$batch_id, $courseIdToDelete;
     public function render()
     {
         $campuses = Campus::get();
-        $courses = Course::with('campus','batch')->paginate(10);
-        return view('livewire.create-courses', compact('courses', 'campuses'));
+        $users = User::where('user_type', 'teacher')->get();
+        $courses = Course::with('campus','batch','user')->paginate(10);
+        return view('livewire.create-courses', compact('courses', 'campuses','users'));
     }
     public function updatedCampusId($value)
     {
-        $this->batches = Batch::where('campus_id', $value)->get();
+        $this->batches = Batch::where('campus_id', $value)
+        ->where('status', 1)
+        ->get();
     }
     public function save()
     {
@@ -32,6 +34,7 @@ class CreateCourses extends Component
             'title' => 'required|string|max:20',
             'description' => 'string|max:200',
             'campus_id' => 'required',
+            'user_id' => 'required',
             'batch_id' => 'required',
         ];
         $message = [
@@ -41,6 +44,7 @@ class CreateCourses extends Component
             'description.max' => 'Course description may not be greater than 200 characters.',
             'campus_id.required' => 'Campus is required.',
             'batch_id.required' => 'Batch is required.',
+            'user_id.required' => 'Teacher is required.',
         ];
         $validated = $this->validate($rules, $message);
         Course::updateOrCreate(
@@ -68,6 +72,7 @@ class CreateCourses extends Component
         $this->description = $course->description;
         $this->campus_id = $course->campus_id;
         $this->batch_id = $course->batch_id;
+        $this->user_id = $course->user_id;
     }
     public function delete($id)
     {
@@ -88,6 +93,8 @@ class CreateCourses extends Component
     }
     public function deleteCourse()
     {
+        // dd($this->courseIdToDelete);
+
         Course::destroy($this->courseIdToDelete);
         $this->dispatch('course-deleted', title: 'Deleted!', text: 'Course has been deleted successfully.', icon: 'success');
     }

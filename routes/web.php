@@ -3,7 +3,12 @@
 use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
+use App\Livewire\EnrollStudent;
 use App\Livewire\ShowStudent;
+use App\Livewire\StudentAttendance;
+use App\Livewire\StudentView;
+use App\Livewire\Teacher;
+use App\Livewire\TeacherTask;
 use Livewire\Livewire;
 use App\Livewire\Student;
 use App\Livewire\Dashboard;
@@ -22,8 +27,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/show-campus', Campus::class)->name('show_campus');
         Route::get('/show-batches', Batch::class)->name('show_batches');
         Route::get('show-courses', CreateCourses::class)->name('courses_create');
-        Route::get('show-student', ShowStudent::class)->name('show_students');
+        Route::get('register-student', ShowStudent::class)->name('show_students');
+        Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
+        Route::get('create-teacher', Teacher::class)->name('create_teacher');
 
+    });
+    Route::middleware(['role:student'])->prefix('students')->name('students.')->group(function () {
+        Route::get('/dashboard', Dashboard::class)->name('dashboard');
+        Route::get('/tasks', Dashboard::class)->name('tasks');
+    });
+    Route::middleware(['role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+        Route::get('/dashboard', Dashboard::class)->name('dashboard');
+        Route::get('/students', StudentView::class)->name('students');
+        Route::get('/attendace', StudentAttendance::class)->name('attendace');
+        Route::get('/task', TeacherTask::class)->name('task');
     });
 });
 Route::get('/student-register', Student::class)->name('student');

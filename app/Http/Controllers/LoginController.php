@@ -25,15 +25,13 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->user_type === "student") {
-                if ($user->student_details && $user->student_details->result === 'pass') {
-                    return to_route('students.create_task');
-                } elseif ($user->student_details && $user->student_details->result == 'In_progress') {
-                    return to_route('entry_test');
-                }
+                // dd('Student');
+                return redirect()->route('students.dashboard');
             } elseif ($user->user_type === 'admin') {
                 return redirect()->intended('dashboard');
             } elseif ($user->user_type === 'teacher') {
-                return redirect()->route('teacher.students');
+                // dd('Teacher');
+                return redirect()->route('teacher.dashboard');
             }
         }
 
