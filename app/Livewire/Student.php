@@ -2,16 +2,101 @@
 
 namespace App\Livewire;
 
-use App\Models\StudentRegister;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use App\Models\StudentRegister;
+use Illuminate\Validation\Rule;
 
 class Student extends Component
 {
     use WithFileUploads;
 
     public $full_name, $father_name, $gender, $cnic_number, $email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
+    public $highest_qualification, $have_disability, $monthly_household_income, $course_if_participated, $phase_if_participated, $center_if_participated, $from_source, $participated_previously, $info_confirm = false;
     public $activeTab = 'step1';
+
+    protected function rules()
+    {
+        return [
+            'full_name'               => ['required', 'string', 'min:2', 'max:150'],
+            'monthly_household_income' => ['required', 'string', 'min:2', 'max:150'],
+            'father_name'             => ['required', 'string', 'min:2', 'max:150'],
+            'gender'                  => ['required', Rule::in(['Male', 'Female', 'Transgender'])],
+
+            'cnic_number'    => ['required', 'integer', 'digits:13'],
+            'contact_number' => ['required', 'integer', 'digits:11'],
+
+            'email'                   => ['required', 'email', 'max:100', 'unique:student_registers,email'],
+            'contact_number'          => ['required', 'string', 'min:11', 'max:11'], // adjust pattern if needed
+            'date_of_birth'           => ['required', 'date'],
+
+            // FILES (Laravel's max is in KB)
+            'profile_picture' => [
+                'required',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:1024',                        // ≈ 1 MB
+                // 'dimensions:min_width=350,min_height=450,ratio=7/9', // ~35x45 mm
+            ],
+            'intermediate_marksheet'  => ['required', 'file', 'max:256'],
+
+            'domicile_form_c'         => ['required', 'file', 'max:1024'],
+
+            'domicile_district'       => ['required', 'string', 'max:100'],
+            'is_enrolled'             => ['required', Rule::in(['0', '1'])],
+            'university_name'         => ['required', 'string', 'max:150'],
+            'preferred_study_center'  => ['required', 'string', 'max:120'],
+            'preferred_time_slot'     => ['required', 'string', 'max:50'],
+
+            // Course choices: all required & distinct & must be from list (if you want to lock to known list)
+            'course_choice_1'         => ['required', Rule::in($this->courseList)],
+            'course_choice_2'         => ['required', 'different:course_choice_1', Rule::in($this->courseList)],
+            'course_choice_3'         => ['required', 'different:course_choice_1', 'different:course_choice_2', Rule::in($this->courseList)],
+            'course_choice_4'         => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3', Rule::in($this->courseList)],
+
+            'highest_qualification'   => ['required', 'string', 'max:100'],
+            'have_disability'         => ['required', Rule::in(['yes', 'no'])],
+
+            // Participated previously → require details
+            'participated_previously' => ['required', Rule::in(['yes', 'no'])],
+            'course_if_participated' => [
+                'exclude_unless:participated_previously,yes',
+                'required',
+                'string',
+                'max:150'
+            ],
+            'phase_if_participated' => [
+                'exclude_unless:participated_previously,yes',
+                'required',
+                'string',
+                'max:150'
+            ],
+            'center_if_participated' => [
+                'exclude_unless:participated_previously,yes',
+                'required',
+                'string',
+                'max:150'
+            ],
+
+            'from_source'             => ['required', 'string', 'max:50'],
+            'info_confirm'            => ['accepted'],  // checkbox must be checked
+        ];
+    }
+
+    protected $messages = [
+        'info_confirm.accepted' => 'Please confirm that the information is accurate.',
+        'domicile_form_c.required' => 'Please upload Domicile or Form‑C (max 256 KB).',
+        'profile_picture.max'      => 'Profile picture must be at most 1 MB.',
+        'profile_picture.mimes'    => 'Profile picture must be JPG or PNG.',
+        // 'profile_picture.dimensions' => 'Profile picture must be passport size (~35x45mm, ratio 7:9, min 350×450 px).',
+        'intermediate_marksheet.max' => 'Intermediate Marksheet/Certificate must be at most 256 KB.',
+        'course_choice_2.different' => 'Course choices must be different.',
+        'course_choice_3.different' => 'Course choices must be different.',
+        'course_choice_4.different' => 'Course choices must be different.',
+        'cnic_number.digits'       => 'CNIC must be exactly 13 digits.',
+        'contact_number.digits'    => 'Contact number must be exactly 11 digits.',
+    ];
     public function render()
     {
         $this->courseList = [
@@ -37,124 +122,46 @@ class Student extends Component
     }
     public function save()
     {
-        $rule = [
-            'full_name' => 'required|string|max:255',
-            'father_name' => 'required|string|max:255',
-            'gender' => 'required',
-            'cnic_number' => 'required|digits:13|unique:student_registers,cnic_number',
-            'email' => 'required|email|unique:student_registers,email',
-            'contact_number' => 'required|numeric',
-            'date_of_birth' => 'required',
-            'profile_picture' => 'required|image|max:1024',
-            'intermediate_marksheet' => 'required|image|max:1024',
-            'domicile_form_c' => 'required|image|max:1024',
-            'domicile_district' => 'required|string',
-            'is_enrolled' => 'required|in:0,1',
-            'university_name' => 'nullable|string|max:255',
-            'preferred_study_center' => 'required|string',
-            'preferred_time_slot' => 'required|string',
-            'course_choice_1' => 'required|string',
-            'course_choice_2' => 'required|string',
-            'course_choice_3' => 'required|string',
-            'course_choice_4' => 'required|string',
-        ];
-        $messages = [
-            // Full Name
-            'full_name.required' => 'Please enter your full name.',
-            'full_name.string' => 'Your full name must be a valid string.',
-            'full_name.max' => 'Your full name cannot exceed 255 characters.',
 
-            // Father's Name
-            'father_name.required' => 'Please enter your father’s name.',
-            'father_name.string' => 'Father’s name must be a valid string.',
-            'father_name.max' => 'Father’s name cannot exceed 255 characters.',
+        // Validate all input fields according to your rules
+        $validatedData = $this->validate();
 
-            // Gender
-            'gender.required' => 'Please select your gender.',
-            'gender.in' => 'Gender must be either Male or Female.',
+        // Force CNIC & contact number into string to preserve leading zeros
+        $validatedData['cnic_number']    = (string) $validatedData['cnic_number'];
+        $validatedData['contact_number'] = (string) $validatedData['contact_number'];
 
-            // CNIC Number
-            'cnic_number.required' => 'Please enter your CNIC number.',
-            'cnic_number.digits' => 'CNIC number must be exactly 13 digits.',
-            'cnic_number.unique' => 'This CNIC number is already registered.',
-
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email address is already registered.',
-
-
-            // Contact Number
-            'contact_number.required' => 'Please enter your contact number.',
-            'contact_number.numeric' => 'Contact number must be numeric.',
-
-            // Date of Birth
-            'date_of_birth.required' => 'Please enter your date of birth.',
-
-            // Profile Picture
-            'profile_picture.required' => 'Please upload your profile picture.',
-
-            // Intermediate Marksheet
-            'intermediate_marksheet.required' => 'Please upload your intermediate marksheet.',
-            'intermediate_marksheet.image' => 'Intermediate marksheet must be an image (e.g., JPG, PNG).',
-            'intermediate_marksheet.max' => 'Intermediate marksheet size cannot exceed 1MB.',
-
-            // Domicile/Form C
-            'domicile_form_c.required' => 'Please upload your domicile or Form C.',
-            'domicile_form_c.image' => 'Domicile/Form C must be an image (e.g., JPG, PNG).',
-            'domicile_form_c.max' => 'Domicile/Form C size cannot exceed 1MB.',
-
-            // Domicile District
-            'domicile_district.required' => 'Please select your domicile district.',
-            'domicile_district.string' => 'Domicile district must be a valid string.',
-
-            // University Name
-            'university_name.string' => 'University name must be a valid string.',
-
-            // Preferred Study Center
-            'preferred_study_center.required' => 'Please select your preferred study center.',
-            'preferred_study_center.string' => 'Preferred study center must be a valid string.',
-
-            // Preferred Time Slot
-            'preferred_time_slot.required' => 'Please select your preferred time slot.',
-            'preferred_time_slot.string' => 'Preferred time slot must be a valid string.',
-
-            // Course Choices
-            'course_choice_1.required' => 'Please select your 1st course choice.',
-            'course_choice_1.string' => '1st course choice must be a valid string.',
-
-            'course_choice_2.required' => 'Please select your 2nd course choice.',
-            'course_choice_2.string' => '2nd course choice must be a valid string.',
-
-            'course_choice_3.required' => 'Please select your 3rd course choice.',
-            'course_choice_3.string' => '3rd course choice must be a valid string.',
-
-            'course_choice_4.required' => 'Please select your 4th course choice.',
-            'course_choice_4.string' => '4th course choice must be a valid string.',
+        $fileDirs = [
+            'profile_picture'        => '/profile_pictures',
+            'intermediate_marksheet' => '/marksheets',
+            'domicile_form_c'        => '/domicile_form_c',
         ];
 
-        $validatedData = $this->validate($rule, $messages);
-        $fileFields = ['profile_picture', 'intermediate_marksheet', 'domicile_form_c'];
-        foreach ($fileFields as $field) {
+        foreach ($fileDirs as $field => $subFolder) {
             if ($this->$field) {
-                $file = $this->$field;
-                $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
+                $file     = $this->$field;
+                $ext      = strtolower($file->getClientOriginalExtension());
+                $filename = time() . '_' . $field . '.' . $ext;
 
-                $destinationPath = public_path('attachments');
+                // Absolute path to the target folder in /public
+                $destinationPath = public_path($subFolder);
 
+                // Ensure folder exists
                 if (!file_exists($destinationPath)) {
                     mkdir($destinationPath, 0755, true);
                 }
 
-                $file->storeAs('', $filename, [
+                // Store file in that subfolder via custom_public disk
+                $file->storeAs($subFolder, $filename, [
                     'disk' => 'custom_public',
                 ]);
-                $validatedData[$field] = $filename;
+
+                // Save relative path for DB or further use
+                $validatedData[$field] = "{$filename}";
             }
         }
         StudentRegister::create($validatedData);
+
         $this->reset();
         return redirect()->back()->with('message', 'Successfully Registered !');
-
     }
-
 }

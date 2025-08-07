@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentRegister extends Model
 {
-
     protected $fillable = [
         'full_name',
         'father_name',
@@ -22,13 +21,20 @@ class StudentRegister extends Model
         'is_enrolled',
         'enrolled_status',
         'university_name',
+        'highest_qualification',
         'preferred_study_center',
         'preferred_time_slot',
         'course_choice_1',
         'course_choice_2',
         'course_choice_3',
         'course_choice_4',
+        'have_disability',
+        'monthly_household_income',
+        'participated_previously',
+        'course_if_participated',
+        'phase_if_participated',
+        'center_if_participated',
+        'from_source',
+        'info_confirm',
     ];
-
-
 }

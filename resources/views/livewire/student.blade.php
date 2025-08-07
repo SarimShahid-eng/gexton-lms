@@ -28,12 +28,12 @@
                         <a class="list-group-item {{ $activeTab === 'step2' ? 'active' : '' }}"
                             wire:click="switchTab('step2')" data-bs-toggle="list" href="#step2" role="tab">
                             <span class="fstp-count"><span>2</span> <i class="fas fa-check"></i></span>
-                            <span class="fstp-text">Education</span>
+                            <span class="fstp-text">Select Courses</span>
                         </a>
                         <a class="list-group-item {{ $activeTab === 'step3' ? 'active' : '' }}"
                             wire:click="switchTab('step3')" data-bs-toggle="list" href="#step3" role="tab">
                             <span class="fstp-count"><span>3</span> <i class="fas fa-check"></i></span>
-                            <span class="fstp-text">Select Courses</span>
+                            <span class="fstp-text">Additional Information</span>
                         </a>
                     </div>
 
@@ -68,15 +68,15 @@
                                                     <option value="">Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
+                                                    <option value="Transgender">Transgender</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>CNIC Number (without dashes) *</label>
                                                 <div class="formify-forms__input">
-                                                    <input type="text" wire:model="cnic_number"
-                                                        placeholder="Your CNIC" required="required" maxlength="13"
+                                                    <input type="number" wire:model="cnic_number"
+                                                        placeholder="Your CNIC" required="required"
                                                         id="cnic-number">
                                                     @error('cnic_number')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -95,10 +95,24 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Contact Number (WhatsApp) *</label>
+                                                <label> WhatsApp Contact Number (e.g., 03xxxxxxxxx) *</label>
                                                 <div class="formify-forms__input">
-                                                    <input type="text" wire:model="contact_number"
+                                                    <input type="number" wire:model="contact_number"
                                                         placeholder="Your Contact" required="required">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label> Highest Qualification</label>
+                                                <div class="formify-forms__input">
+                                                    <select class="form-select" wire:model="highest_qualification"
+                                                        required="required">
+                                                        <option value="">Select Gender</option>
+                                                        <option value="Matric">Matric</option>
+                                                        <option value="Intermediate">Intermediate</option>
+                                                        <option value="Graduate">Graduate</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,9 +130,127 @@
                                                 <label>Profile Picture (passport size, max file size 1 mb) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="profile_picture"
-                                                        required="required" accept="image/*"
+                                                        name="profile_picture" accept="image/*"
+                                                        data-max-size-kb="1000"
                                                         style="padding-top: 13px; font-size: 12px;">
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <h3 class="text-center bg-light p-2 mt-3">Education</h3>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Upload Latest Marksheet/Certificate (Max 256 KB)</label>
+                                                <div class="formify-forms__input">
+                                                    <input type="file" wire:model="intermediate_marksheet"
+                                                        name="intermediate_marksheet" data-max-size-kb="256"
+                                                        accept="image/*" style="padding-top: 13px; font-size: 12px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Upload Your Domicile or Form C (maximum file size is 1 mb)
+                                                    *</label>
+                                                <div class="formify-forms__input">
+                                                    <input type="file" wire:model="domicile_form_c"
+                                                        name="domicile_form_c" accept="image/*"
+                                                        data-max-size-kb="1000"
+                                                        style="padding-top: 13px; font-size: 12px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                            <h4 class="formify-forms__booking-title">Domicile District *</h4>
+                                            <div class="form-group form-group__flex">
+                                                <select wire:model="domicile_district" class="form-select"
+                                                    required="required">
+                                                    <option value="badin">Badin</option>
+                                                    <option value="dadu">Dadu</option>
+                                                    <option value="ghotki">Ghotki</option>
+                                                    <option value="hyderabad">Hyderabad</option>
+                                                    <option value="jacobabad">Jacobabad</option>
+                                                    <option value="jamshoro">Jamshoro</option>
+                                                    <option value="karachi-central">Karachi Central</option>
+                                                    <option value="karachi-east">Karachi East</option>
+                                                    <option value="karachi-south">Karachi South</option>
+                                                    <option value="karachi-west">Karachi West</option>
+                                                    <option value="kashmore">Kashmore</option>
+                                                    <option value="khairpur">Khairpur</option>
+                                                    <option value="larkana">Larkana</option>
+                                                    <option value="matiari">Matiari</option>
+                                                    <option value="mirpurkhas">Mirpurkhas</option>
+                                                    <option value="naushahro-feroze">Naushahro Feroze</option>
+                                                    <option value="shaheed-benazirabad">Shaheed Benazirabad</option>
+                                                    <option value="qambar-shahdadkot">Qambar Shahdadkot</option>
+                                                    <option value="sanghar">Sanghar</option>
+                                                    <option value="shikarpur">Shikarpur</option>
+                                                    <option value="sukkur">Sukkur</option>
+                                                    <option value="tando-allahyar">Tando Allahyar</option>
+                                                    <option value="tando-muhammad-khan">Tando Muhammad Khan</option>
+                                                    <option value="tharparkar">Tharparkar</option>
+                                                    <option value="thatta">Thatta</option>
+                                                    <option value="umerkot">Umerkot</option>
+                                                    <option value="sujawal">Sujawal</option>
+                                                    <option value="korangi">Korangi</option>
+                                                    <option value="malir">Malir</option>
+                                                    {{-- <option value="other">Other (please specify)</option> --}}
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                            <h4 class="formify-forms__booking-title">Are you currently
+                                                admitted/enrolled/studying
+                                                in university? *</h4>
+                                            <div class="form-group form-group__flex">
+                                                <select class="form-select" wire:model="is_enrolled"
+                                                    required="required">
+                                                    <option value="">Select Option</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>If yes, write the name of the university/institute in which you
+                                                    are currently
+                                                    studying?</label>
+                                                <div class="formify-forms__input">
+                                                    <input type="text" wire:model="university_name"
+                                                        placeholder="University Name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                            <h4 class="formify-forms__booking-title">Your preferred center for study? *
+                                            </h4>
+                                            <div class="form-group form-group__flex">
+                                                <select class="form-select" wire:model="preferred_study_center"
+                                                    required="required">
+                                                    <option value="">Select Center</option>
+                                                    <option value="MUET Jamshoro">MUET, Jamshoro</option>
+                                                    <option value="Hyderabad">Hyderabad</option>
+                                                    <option value="Mirpurkhas">Mirpurkhas</option>
+                                                    <option value="Dadu">Dadu</option>
+                                                    <option value="Thatta">Thatta</option>
+                                                    <option value="Badin">Badin</option>
+                                                    <option value="Tando Muhammad khan">Tando Muhammad khan</option>
+                                                    {{-- <option value="Umerkot">Umerkot</option> --}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                            <h4 class="formify-forms__booking-title">Your preferred time slot *</h4>
+                                            <div class="form-group form-group__flex">
+                                                <select class="form-select" wire:model="preferred_time_slot"
+                                                    required="required">
+                                                    <option value="">Select Time Slot</option>
+                                                    <option value="9 AM to 12 PM">9 AM - 12 PM (Morning)</option>
+                                                    <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>
+                                                    <option value="3 PM to 6 PM">3 PM - 6 PM (Evening)</option>
+                                                    <option value="6 PM to 9 PM">6 PM - 9 PM (Evening)</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group formify-mg-top-20">
@@ -142,107 +274,77 @@
 
                         <!-- Step 2: Education -->
                         <div class="tab-pane fade {{ $activeTab === 'step2' ? 'show active' : '' }}" id="step2">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Upload Intermediate/Equivalent (HSC-II) Marksheet or Pakka *</label>
-                                    <div class="formify-forms__input">
-                                        <input type="file" wire:model="intermediate_marksheet" required="required"
-                                            accept="image/*" style="padding-top: 13px; font-size: 12px;">
+
+
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                        <h4 class="formify-forms__booking-title">1st Choice *</h4>
+                                        <div class="form-group">
+                                            {{-- enable course-choice it will reset course everytime tab changes --}}
+                                            <select name="course_choice_1" wire:model="course_choice_1"
+                                                class="form-control course-choice" id="choice1">
+                                                <option value="">Select Course</option>
+                                                @foreach ($courseList as $course)
+                                                    <option value="{{ $course }}">
+                                                        {{ $course }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('course_choice_1')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                        <h4 class="formify-forms__booking-title">2nd Choice *</h4>
+                                        <div class="form-group form-group__flex">
+                                            <select class="form-control course-choice" id="choice2"
+                                                name="course_choice_2" wire:model="course_choice_2">
+                                                <option value="">Select Course</option>
+                                                @foreach ($courseList as $course)
+                                                    <option value="{{ $course }}">
+                                                        {{ $course }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                        <h4 class="formify-forms__booking-title">3rd Choice *</h4>
+                                        <div class="form-group form-group__flex">
+                                            <select class="form-control course-choice" id="choice3"
+                                                name="course_choice_3" wire:model="course_choice_3">
+                                                <option value="">Select Course</option>
+                                                @foreach ($courseList as $course)
+                                                    <option value="{{ $course }}">
+                                                        {{ $course }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                        <h4 class="formify-forms__booking-title">4th Choice *</h4>
+                                        <div class="form-group form-group__flex">
+                                            <select class="form-control course-choice" id="choice4"
+                                                name="course_choice_4" wire:model="course_choice_4">
+                                                <option value="">Select Course</option>
+                                                @foreach ($courseList as $course)
+                                                    <option value="{{ $course }}">
+                                                        {{ $course }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Upload Your Domicile or Form C (maximum file size is 1 mb) *</label>
-                                    <div class="formify-forms__input">
-                                        <input type="file" wire:model="domicile_form_c" required="required"
-                                            accept="image/*" style="padding-top: 13px; font-size: 12px;">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                <h4 class="formify-forms__booking-title">Domicile District *</h4>
-                                <div class="form-group form-group__flex">
-                                    <select wire:model="domicile_district" class="form-select" required="required">
-                                        <option value="badin">Badin</option>
-                                        <option value="dadu">Dadu</option>
-                                        <option value="ghotki">Ghotki</option>
-                                        <option value="hyderabad">Hyderabad</option>
-                                        <option value="jacobabad">Jacobabad</option>
-                                        <option value="jamshoro">Jamshoro</option>
-                                        <option value="karachi-central">Karachi Central</option>
-                                        <option value="karachi-east">Karachi East</option>
-                                        <option value="karachi-south">Karachi South</option>
-                                        <option value="karachi-west">Karachi West</option>
-                                        <option value="kashmore-kandhkot">Kashmore / Kandhkot</option>
-                                        <option value="khairpur">Khairpur</option>
-                                        <option value="larkana">Larkana</option>
-                                        <option value="matiari">Matiari</option>
-                                        <option value="mirpur-khas">Mirpur Khas</option>
-                                        <option value="naushahro-firoze">Naushahro Firoze</option>
-                                        <option value="shaheed-benazirabad">Shaheed Benazirabad / Nawabshah</option>
-                                        <option value="qambar-shahdadkot">Qambar Shahdadkot</option>
-                                        <option value="sanghar">Sanghar</option>
-                                        <option value="shikarpur">Shikarpur</option>
-                                        <option value="sukkur">Sukkur</option>
-                                        <option value="tando-allahyar">Tando Allahyar</option>
-                                        <option value="tando-muhammad-khan">Tando Muhammad Khan</option>
-                                        <option value="tharparkar">Tharparkar</option>
-                                        <option value="thatta">Thatta</option>
-                                        <option value="umerkot">Umerkot</option>
-                                        <option value="sujawal">Sujawal</option>
-                                        <option value="korangi">Korangi</option>
-                                        <option value="malir">Malir</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                <h4 class="formify-forms__booking-title">Are you currently admitted/enrolled/studying
-                                    in university? *</h4>
-                                <div class="form-group form-group__flex">
-                                    <select class="form-select" wire:model="is_enrolled" required="required">
-                                        <option value="">Select Option</option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>If yes, write the name of the university/institute in which you are currently
-                                        studying?</label>
-                                    <div class="formify-forms__input">
-                                        <input type="text" wire:model="university_name"
-                                            placeholder="University Name">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                <h4 class="formify-forms__booking-title">Your preferred center for study? *</h4>
-                                <div class="form-group form-group__flex">
-                                    <select class="form-select" wire:model="preferred_study_center"
-                                        required="required">
-                                        <option value="">Select Center</option>
-                                        <option value="MUET Jamshoro">MUET, Jamshoro</option>
-                                        <option value="Hyderabad">Hyderabad</option>
-                                        <option value="Mirpurkhas">Mirpurkhas</option>
-                                        <option value="Dadu">Dadu</option>
-                                        <option value="Thatta">Thatta</option>
-                                        <option value="Umerkot">Umerkot</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                <h4 class="formify-forms__booking-title">Your preferred time slot *</h4>
-                                <div class="form-group form-group__flex">
-                                    <select class="form-select" wire:model="preferred_time_slot" required="required">
-                                        <option value="">Select Time Slot</option>
-                                        <option value="9 AM to 12 PM">9 AM to 12 PM (Morning)</option>
-                                        <option value="12 PM to 3 PM">12 PM to 3 PM (Afternoon)</option>
-                                        <option value="3 PM to 6 PM">3 PM to 6 PM (Evening)</option>
-                                    </select>
-                                </div>
-                            </div>
+
+
                             <div class="form-group formify-mg-top-20">
                                 <div class="formify-forms__button gap15">
                                     <button class="formify-btn prev-step" wire:click="switchTab('step1')">
@@ -272,70 +374,134 @@
                             <div class="formify-forms__booking-form formify-mg-top-30">
                                 <div class="formify-forms__booking-form">
                                     <div class="formify-forms__booking-form--single">
+
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">1st Choice *</h4>
-                                                    <div class="form-group">
-                                                        <select wire:model="course_choice_1"
-                                                            class="form-control course-choice" id="choice1">
-                                                            <option value="">Select Course</option>
-                                                            @foreach ($courseList as $course)
-                                                                <option value="{{ $course }}">
-                                                                    {{ $course }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('course_choice_1')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                    <h4 class="formify-forms__booking-title">Do you have a disability?
+                                                    </h4>
+                                                    <div class="form-group form-group__flex">
+                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                            <input class="" style="height:16px;width:16px;"
+                                                                type="radio" name="participated_yes"
+                                                                id="participated_yes" value="yes"
+                                                                wire:model="have_disability" required="">
+                                                            <label class="form-check-label m-0"
+                                                                for="participated_yes">Yes</label>
+                                                        </div>
+                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                            <input class="" style="height:16px;width:16px;"
+                                                                type="radio" name="participated_yes"
+                                                                id="participated_yes" value="yes"
+                                                                wire:model="have_disability" required="">
+                                                            <label class="form-check-label m-0"
+                                                                for="participated_yes">No</label>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">2nd Choice *</h4>
+                                                    <h4 class="formify-forms__booking-title">Monthly Household Income*
+                                                    </h4>
                                                     <div class="form-group form-group__flex">
-                                                        <select class="form-control course-choice" id="choice2"
-                                                            wire:model="course_choice_2" required="required">
-                                                            <option value="">Select Course</option>
-                                                            @foreach ($courseList as $course)
-                                                                <option value="{{ $course }}">
-                                                                    {{ $course }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">3rd Choice *</h4>
-                                                    <div class="form-group form-group__flex">
-                                                        <select class="form-control course-choice" id="choice3"
-                                                            wire:model="course_choice_3" required="required">
-                                                            <option value="">Select Course</option>
-                                                            @foreach ($courseList as $course)
-                                                                <option value="{{ $course }}">
-                                                                    {{ $course }}</option>
-                                                            @endforeach
+                                                        <select class="form-control "
+                                                            wire:model="monthly_household_income" required="required">
+                                                            <option value="">Select Household Income</option>
+                                                            <option value="Below PKR 25,000">Below PKR 25,000</option>
+                                                            <option value="25,001 – 50,000">25,001 – 50,000</option>
+                                                            <option value="50,001 – 75,000">50,001 – 75,000</option>
+                                                            <option value="75,001 – 100,000">75,001 – 100,000</option>
+                                                            <option value="Above PKR 100,000">Above PKR 100,000
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">4th Choice *</h4>
+                                                    <h4 class="formify-forms__booking-title">Have you participated in
+                                                        PITP previously?</h4>
                                                     <div class="form-group form-group__flex">
-                                                        <select class="form-control course-choice" id="choice4"
-                                                            wire:model="course_choice_4" required="required">
-                                                            <option value="">Select Course</option>
-                                                            @foreach ($courseList as $course)
-                                                                <option value="{{ $course }}">
-                                                                    {{ $course }}</option>
-                                                            @endforeach
+                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                            <input class="" style="height:16px;width:16px;"
+                                                                type="radio" id="participated_yes"
+                                                                onclick="toggleFields(true)"
+                                                                name="participated_previously" value="yes"
+                                                                wire:model="participated_previously" required="">
+                                                            <label class="form-check-label m-0"
+                                                                for="participated_yes">Yes</label>
+                                                        </div>
+                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                            <input class="" style="height:16px;width:16px;"
+                                                                type="radio" id="participated_yes"
+                                                                onclick="toggleFields(false)"
+                                                                name="participated_previously" value="no"
+                                                                wire:model="participated_previously" required="">
+                                                            <label class="form-check-label m-0"
+                                                                for="participated_yes">No</label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div id="additionalFields" class="col-12" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="phase">Phase</label>
+                                                    <input wire:model="phase_if_participated" type="text"
+                                                        id="phase" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="course_name">Course Name</label>
+                                                    <input wire:model="course_if_participated" type="text"
+                                                        id="course_name" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="center">Center</label>
+                                                    <input wire:model="center_if_participated" type="text"
+                                                        id="center" name="center" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="formify-forms__booking-form--single formify-mg-top-20">
+                                                    <h4 class="formify-forms__booking-title">How did you hear about
+                                                        PITP?</h4>
+                                                    <div class="form-group form-group__flex">
+                                                        <select class="form-control " wire:model="from_source"
+                                                            required="required">
+                                                            <option value="">Select option</option>
+                                                            <option value="socail media">Social Media</option>
+                                                            <option value="friend/family">Friend/Family</option>
+                                                            <option value="university">University </option>
+                                                            <option value="post/banner">Poster/Banner </option>
+                                                            <option value="whatsapp group">WhatsApp Group</option>
+                                                            <option value="other">Other</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-12">
+                                                <div class="form-group form-group__flex">
+                                                    <div class=" d-flex align-items-start gap-2">
+                                                        <input class=""
+                                                            style="height:20px !important;width:60px !important; margin-top:3px;"
+                                                            type="checkbox" id="info_confirm"
+                                                            wire:model="info_confirm" required
+                                                            onclick="toggleButtonState()">
+                                                        <label class="form-check-label" for="info_confirm"
+                                                            style="line-height:1.4;">
+                                                            I confirm that all the information provided above is
+                                                            accurate and complete to the best of my knowledge.
+                                                            I understand that any false or misleading information may
+                                                            result in disqualification from the program.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="form-group formify-mg-top-20">
@@ -349,7 +515,8 @@
                                                 </svg>
                                                 Back
                                             </button>
-                                            <button type="submit" class="formify-btn">Submit</button>
+                                            <button id="submit_button" type="submit" class="formify-btn" disabled>
+                                                Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -364,18 +531,48 @@
         <script>
             const allCourses = [
                 'Certified Cloud Computing Professional',
-            'Certified Cyber Security and Ethical Hacking Professional',
-            'Certified Data Scientist',
-            'Certified Database Administrator',
-            'Certified Digital Marketing Professional',
-            'Certified E-Commerce Professional',
-            'Certified Graphic Designer',
-            'Certified Java Developer',
-            'Certified Mobile Application Developer',
-            'Certified Python Developer',
-            'Certified Social Media Manager',
-            'Certified Web Developer'
+                'Certified Cyber Security and Ethical Hacking Professional',
+                'Certified Data Scientist',
+                'Certified Database Administrator',
+                'Certified Digital Marketing Professional',
+                'Certified E-Commerce Professional',
+                'Certified Graphic Designer',
+                'Certified Java Developer',
+                'Certified Mobile Application Developer',
+                'Certified Python Developer',
+                'Certified Social Media Manager',
+                'Certified Web Developer'
             ];
+
+            function toggleButtonState() {
+                const checkbox = document.getElementById('info_confirm');
+                const submitButton = document.getElementById('submit_button');
+
+                // Enable the button if the checkbox is checked, disable it if unchecked
+                submitButton.disabled = !checkbox.checked;
+            }
+
+            function toggleFields(show) {
+                const additionalFields = document.getElementById('additionalFields');
+
+                // Show or hide the additional fields based on the radio button selection
+                if (show) {
+                    additionalFields.style.display = 'block';
+                } else {
+                    additionalFields.style.display = 'none';
+                }
+            }
+
+            function validateFileSize(inputElement) {
+                const maxSizeInKB = $(inputElement).data('max-size-kb'); // Get the max size from the data attribute
+                const maxSizeInBytes = maxSizeInKB * 1024; // Convert KB to bytes
+                const file = inputElement.files[0];
+
+                if (file && file.size > maxSizeInBytes) {
+                    alert(`File size exceeds ${maxSizeInKB}KB. Please upload a smaller file.`);
+                    $(inputElement).val(''); // Clear the input
+                }
+            }
 
             function rebuildDropdowns() {
                 let selected = [];
@@ -406,12 +603,7 @@
             });
 
             $(document).on('change', 'input[type="file"]', function() {
-                const maxSize = 1 * 1024 * 1024; // 1MB in bytes
-                const file = this.files[0];
-                if (file && file.size > maxSize) {
-                    alert('File size exceeds 1MB. Please upload a smaller file.');
-                    $(this).val(''); // Clear the input
-                }
+                validateFileSize(this);
             });
 
             document.addEventListener("livewire:load", function() {
