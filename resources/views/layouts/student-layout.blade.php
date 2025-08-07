@@ -39,244 +39,245 @@
                         {{ $slot }}
 
 
+                        <div class="col-lg-5 formify-booking-column-main2 formify-mg-top-30 pb-5">
+                            <div class="formify-booking-summary">
+                                <div class="formify-booking-summary__head">
+                                    <h4 class="formify-booking-summary__title">
+                                        People's Information Technology Programme (PITP) - Batch
+                                        4 - Registrations
+                                    </h4>
+                                </div>
+                                <div class="formify-booking-summary__content">
+                                    <p>
+                                        The People’s Information Technology Programme (PITP) is
+                                        an initiative by the Government of Sindh, in
+                                        collaboration with Mehran University of Engineering and
+                                        Technology, designed to empower youth by providing free
+                                        certifications in various IT disciplines.
+                                    </p>
+                                    <h4 class="formify-booking-summary__content-title pt-3">
+                                        Eligibility:
+                                    </h4>
+                                    <ul class="formify-booking-summary__list">
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Candidates from Hyderabad and Mirpurkhas
+                                                    Divisions (except Tharparkar District)</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <i class="fa fa-check-circle" style="color: green; margin-right: 5px"></i>Maximum age
+                                                limit:
+                                                22 years
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <i class="fa fa-check-circle" style="color: green; margin-right: 5px"></i>Minimum
+                                                education:
+                                                HSC or equivalent
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span><strong>NOT ENROLLED</strong> in any full-time
+                                                    degree program/university</span>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <h4 class="formify-booking-summary__content-title pt-3">
+                                        Courses Offered:
+                                    </h4>
+                                    <ul class="certification-list">
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Java Developer</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Python Developer</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Database Administrator</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Graphic Designer</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified E-Commerce Professional</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Digital Marketing Professional</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Web Developer</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Mobile Application Developer</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Certified Data Scientist</span>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <h4 class="formify-booking-summary__content-title pt-3">
+                                        Course Details:
+                                    </h4>
+                                    <ul class="course-info-list">
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Duration: 2 months</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Timings: 3 hours per day, Monday to Friday</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Attendance requirement: 90%</span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p style="display: flex; align-items: flex-start">
+                                                <i class="fa fa-check-circle"
+                                                    style="
+                                                color: green;
+                                                margin-right: 10px;
+                                                margin-top: 3px;
+                                              "></i>
+                                                <span>Locations: Jamshoro, Hyderabad, Mirpurkhas, Dadu,
+                                                    Thatta, Umerkot</span>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <h4 class="formify-booking-summary__content-title pt-3">
+                                        Registration Closes: 21st February 2025 (11:59 PM)
+                                    </h4>
+                                    <h4 class="formify-booking-summary__content-title">
+                                        For more information, visit:
+                                        <a href="https://pitp.muet.edu.pk"><u>https://pitp.muet.edu.pk</u></a>
+                                    </h4>
+                                    <p>
+                                        <strong class="formify-booking-summary__content-title">Note: </strong>Fill
+                                        accurate information, wrong information can
+                                        disqualify you from the programme.
+                                    </p>
 
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             <!-- End Form Area -->
         </div>
         </div>
         </div>
         </div>
 
-        <div class="col-lg-5 formify-booking-column-main2 formify-mg-top-30 pb-5">
-            <div class="formify-booking-summary">
-                <div class="formify-booking-summary__head">
-                    <h4 class="formify-booking-summary__title">
-                        People's Information Technology Programme (PITP) - Batch
-                        4 - Registrations
-                    </h4>
-                </div>
-                <div class="formify-booking-summary__content">
-                    <p>
-                        The People’s Information Technology Programme (PITP) is
-                        an initiative by the Government of Sindh, in
-                        collaboration with Mehran University of Engineering and
-                        Technology, designed to empower youth by providing free
-                        certifications in various IT disciplines.
-                    </p>
-                    <h4 class="formify-booking-summary__content-title pt-3">
-                        Eligibility:
-                    </h4>
-                    <ul class="formify-booking-summary__list">
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Candidates from Hyderabad and Mirpurkhas
-                                    Divisions (except Tharparkar District)</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-check-circle" style="color: green; margin-right: 5px"></i>Maximum age
-                                limit:
-                                22 years
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-check-circle" style="color: green; margin-right: 5px"></i>Minimum
-                                education:
-                                HSC or equivalent
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span><strong>NOT ENROLLED</strong> in any full-time
-                                    degree program/university</span>
-                            </p>
-                        </li>
-                    </ul>
-                    <h4 class="formify-booking-summary__content-title pt-3">
-                        Courses Offered:
-                    </h4>
-                    <ul class="certification-list">
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Java Developer</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Python Developer</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Database Administrator</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Graphic Designer</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified E-Commerce Professional</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Digital Marketing Professional</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Web Developer</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Mobile Application Developer</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Certified Data Scientist</span>
-                            </p>
-                        </li>
-                    </ul>
-                    <h4 class="formify-booking-summary__content-title pt-3">
-                        Course Details:
-                    </h4>
-                    <ul class="course-info-list">
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Duration: 2 months</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Timings: 3 hours per day, Monday to Friday</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Attendance requirement: 90%</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p style="display: flex; align-items: flex-start">
-                                <i class="fa fa-check-circle"
-                                    style="
-                                color: green;
-                                margin-right: 10px;
-                                margin-top: 3px;
-                              "></i>
-                                <span>Locations: Jamshoro, Hyderabad, Mirpurkhas, Dadu,
-                                    Thatta, Umerkot</span>
-                            </p>
-                        </li>
-                    </ul>
-                    <h4 class="formify-booking-summary__content-title pt-3">
-                        Registration Closes: 21st February 2025 (11:59 PM)
-                    </h4>
-                    <h4 class="formify-booking-summary__content-title">
-                        For more information, visit:
-                        <a href="https://pitp.muet.edu.pk"><u>https://pitp.muet.edu.pk</u></a>
-                    </h4>
-                    <p>
-                        <strong class="formify-booking-summary__content-title">Note: </strong>Fill
-                        accurate information, wrong information can
-                        disqualify you from the programme.
-                    </p>
 
-                </div>
-            </div>
-        </div>
     </div>
 
         </div>

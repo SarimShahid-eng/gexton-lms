@@ -10,18 +10,30 @@ class Student extends Component
 {
     use WithFileUploads;
 
-    public $full_name, $father_name, $gender, $cnic_number,$email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
+    public $full_name, $father_name, $gender, $cnic_number, $email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
+    public $activeTab = 'step1';
     public function render()
     {
         $this->courseList = [
-            'Web Development',
-            'Graphic Design',
-            'Digital Marketing',
-            'App Development',
-            'Cyber Security',
-            'Data Science',
+            'Certified Cloud Computing Professional',
+            'Certified Cyber Security and Ethical Hacking Professional',
+            'Certified Data Scientist',
+            'Certified Database Administrator',
+            'Certified Digital Marketing Professional',
+            'Certified E-Commerce Professional',
+            'Certified Graphic Designer',
+            'Certified Java Developer',
+            'Certified Mobile Application Developer',
+            'Certified Python Developer',
+            'Certified Social Media Manager',
+            'Certified Web Developer'
         ];
         return view('livewire.student')->layout('layouts.student-layout');
+    }
+    // Switch tabs
+    public function switchTab($tab)
+    {
+        $this->activeTab = $tab;
     }
     public function save()
     {
@@ -141,13 +153,8 @@ class Student extends Component
         }
         StudentRegister::create($validatedData);
         $this->reset();
-        $this->dispatch(
-            'student-saved',
-            title: 'Success!',
-            text: "Registeration Completed.",
-            icon: 'success',
-        );
-        $this->reset();
+        return redirect()->back()->with('message', 'Successfully Registered !');
 
     }
+
 }

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Batch;
 use App\Models\Campus;
 use App\Models\Course;
+use App\Models\Phase;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,19 +14,38 @@ class CreateCourses extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'tailwind';
-    public $campus_id, $batches= [], $user_id ,$title, $description, $id ,$batch_id, $courseIdToDelete;
+    public $campus_id, $batches = [], $campuses = [], $phase_id, $user_id, $title, $description, $id, $batch_id, $courseIdToDelete, $search = '', $editMode = false;
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
     public function render()
     {
-        $campuses = Campus::get();
+        $phases = Phase::get();
         $users = User::where('user_type', 'teacher')->get();
-        $courses = Course::with('campus','batch','user')->paginate(10);
-        return view('livewire.create-courses', compact('courses', 'campuses','users'));
+        $courses = Course::with('campus', 'batch', 'user')->where(function ($query) {
+            $query->where('title', 'like', '%' . $this->search . '%');
+        })
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return view('livewire.create-courses', compact('courses', 'phases', 'users'));
     }
+    public function updatedPhaseId($value)
+    {
+        $this->campuses = Campus::where('phase_id', $value)->get();
+        if ($this->campus_id && !Campus::where('id', $this->campus_id)->where('phase_id', $value)->exists()) {
+            $this->campus_id = null;
+            $this->batches = collect();
+            $this->batch_id = null;
+        }
+    }
+
     public function updatedCampusId($value)
     {
-        $this->batches = Batch::where('campus_id', $value)
-        ->where('status', 1)
-        ->get();
+        $this->batches = Batch::where('campus_id', $value)->where('status', 1)->get();
+        if ($this->batch_id && !Batch::where('id', $this->batch_id)->where('campus_id', $value)->where('status', 1)->exists()) {
+            $this->batch_id = null;
+        }
     }
     public function save()
     {
@@ -36,6 +56,7 @@ class CreateCourses extends Component
             'campus_id' => 'required',
             'user_id' => 'required',
             'batch_id' => 'required',
+            'phase_id' => 'required',
         ];
         $message = [
             'title.required' => 'Course title is required.',
@@ -45,6 +66,7 @@ class CreateCourses extends Component
             'campus_id.required' => 'Campus is required.',
             'batch_id.required' => 'Batch is required.',
             'user_id.required' => 'Teacher is required.',
+            'phase_id.required' => 'Phase is required.',
         ];
         $validated = $this->validate($rules, $message);
         Course::updateOrCreate(
@@ -73,6 +95,10 @@ class CreateCourses extends Component
         $this->campus_id = $course->campus_id;
         $this->batch_id = $course->batch_id;
         $this->user_id = $course->user_id;
+        $this->phase_id = $course->phase_id;
+        $this->editMode = true;
+        $this->campuses = Campus::where('phase_id', $this->phase_id)->get();
+        $this->batches = Batch::where('campus_id', $this->campus_id)->where('status', 1)->get();
     }
     public function delete($id)
     {

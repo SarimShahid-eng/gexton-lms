@@ -1,322 +1,325 @@
-<div class="grid grid-cols-12 gap-4 md:gap-6" x-data="{ showCourseForm: false }">
-    <div class="col-span-12 space-y-6 xl:col-span-12">
-        <div x-data="questionFormComponent(), { showCourseForm: false }" x-init="init()"
-            class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
-            <h5 class="flex justify-between items-center text-lg font-semibold dark:text-gray-200">
-                Create Question
-
-                <button @click="showCourseForm = !showCourseForm" class="transition-transform hover:rotate-90">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
+<div x-data="{ showCourseForm: false }" class="grid grid-cols-12 gap-4 md:gap-6 p-4">
+    <!-- Create Course Section -->
+    <div class="col-span-12 space-y-6">
+        <div
+            class="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800/50 p-4 sm:p-6 shadow-sm">
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white font-['Open_Sans']">
+                    Create Questions
+                </h3>
+                <button @click="showCourseForm = !showCourseForm"
+                    class="w-10 h-10 rounded-lg  bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 hover:from-gray-600 hover:to-gray-700 text-white flex items-center justify-center transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    aria-label="Toggle course creation form" title="Toggle Course Form">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5 transition-transform duration-200"
+                        :class="showCourseForm ? 'rotate-45' : ''">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                 </button>
-            </h5>
+            </div>
 
+            <!-- Form Section -->
             <form wire:submit.prevent="save">
-                <div x-show="showCourseForm" x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                    class="space-y-4 mt-4">
-                    <!-- Course Select -->
+                <div x-show="showCourseForm" x-transition class="space-y-6">
                     <!-- Title -->
-                    <div class="input-group">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Title
-                        </label>
-                        <input type="text" wire:model.defer="title" placeholder="Enter question title"
-                            class="h-11 w-full rounded-lg border px-4 py-2.5 text-sm dark:placeholder:text-white/30" />
+                    <div>
+                        <label class="block text-sm text-slate-600 dark:text-slate-300 mb-1">Title</label>
+                        <input type="text" wire:model.defer="title"
+                            class="w-full px-4 py-3 rounded-xl bg-white/30 dark:bg-slate-800/40 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" />
                         @error('title')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-
                     </div>
 
-                    <!-- Question Text -->
-                    <div class="input-group">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Question
-                        </label>
-                        <textarea wire:model.defer="question" placeholder="Enter the question here"
-                            class="h-32 w-full rounded-lg border px-4 py-2.5 text-sm dark:placeholder:text-white/30"></textarea>
+                    <!-- Question -->
+                    <div>
+                        <label class="block text-sm text-slate-600 dark:text-slate-300 mb-1">Question</label>
+                        <textarea wire:model.defer="question"
+                            class="w-full h-32 px-4 py-3 rounded-xl bg-white/30 dark:bg-slate-800/40 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm resize-none"></textarea>
                         @error('question')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-
                     </div>
 
+                    <!-- Options -->
+                    <div x-data="questionFormComponent()" x-init="init(); window.addEventListener('question-saved', () => resetForm());"
+                        x-on:edit-question-loaded.window="loadQuestion($event.detail)" class="space-y-4">
 
-                    <div x-data="questionFormComponent()" x-init="init();
-                    window.addEventListener('question-saved', () => resetForm());"
-                        x-on:edit-question-loaded.window="loadQuestion($event.detail)">
-
-                        <!-- Hidden inputs for Livewire sync -->
                         <input type="hidden" x-ref="optionsInput" wire:model.defer="options" />
                         <input type="hidden" x-ref="correctInput" wire:model.defer="correct_answer" />
 
-                        <!-- Dynamic Options -->
-                        <div class="space-y-6">
-                            <div class="flex items-center justify-between">
-                                <label class="text-base font-semibold text-gray-800 dark:text-gray-200">
-                                    Add your options
-                                </label>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">Mark one as correct</span>
-                            </div>
-
-                            <template x-for="(answer, index) in options" :key="index">
-                                <div class="group relative flex items-center gap-4 mb-4 p-3 border rounded-lg">
-                                    <div class="flex-1">
-                                        <input type="text" x-model.debounce.300ms="options[index]"
-                                            @input.debounce.300ms="updateLivewire()" placeholder="Enter answer option"
-                                            class="w-full px-4 py-3 rounded-lg border" />
-                                    </div>
-
-                                    <div class="flex items-center space-x-2">
-                                        <!-- Radio with value as index -->
-                                        <input type="radio" :value="index" x-model="correct_answer"
-                                            @change="updateLivewire()" />
-                                        <span>Correct</span>
-                                    </div>
-
-                                    <button type="button" @click="removeOption(index)" x-show="options.length > 1"
-                                        class="text-red-500 hover:bg-gray-100 rounded-full p-1.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" class="h-5 w-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </template>
-
-                            <button type="button" @click="addOption()"
-                                class="mt-4 px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
-                                + Add Answer
-                            </button>
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-base font-semibold text-slate-700 dark:text-slate-200">Options</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Mark one correct</span>
                         </div>
+
+                        <template x-for="(answer, index) in options" :key="index">
+                            <div class="flex items-center gap-4 p-3 bg-white/40 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-xl transition-all">
+                                <input type="text" x-model="options[index]" @input="updateLivewire()"
+                                    class="flex-1 px-4 py-2 rounded-lg bg-transparent text-slate-800 dark:text-white focus:outline-none" />
+                                <div class="flex items-center gap-2">
+                                    <input type="radio" :value="index" x-model="correct_answer" @change="updateLivewire()"
+                                        class="text-blue-600 focus:ring-blue-500" />
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Correct</span>
+                                </div>
+                                <button type="button" @click="removeOption(index)" x-show="options.length > 1"
+                                    class="text-red-500 hover:bg-red-100 dark:hover:bg-red-900 p-1.5 rounded-full transition-all">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </template>
+
+                        <button type="button" @click="addOption()"
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm text-blue-600 bg-blue-50 dark:bg-blue-900/40 dark:text-blue-300 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-800 transition">
+                            + Add Option
+                        </button>
                     </div>
 
-
                     <!-- Submit -->
-                    <div>
+                    <div class="pt-4">
                         <button type="submit"
-                            class="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600">
-                            Submit
+                            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-all shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg wire:loading wire:target="save" class="w-5 h-5 animate-spin"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                    stroke="currentColor" stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                            </svg>
+                            <span wire:loading.remove wire:target="save">Submit</span>
                         </button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="col-span-12 space-y-6 xl:col-span-12">
-        <div
-            class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
-            <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
-                        See All Questions
-                    </h3>
-                </div>
 
+    <!-- Courses List Section -->
+    <div class="col-span-12 space-y-6">
+        <div
+            class="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800/50 p-4 sm:p-6 shadow-sm">
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white font-['Open_Sans']">
+                        All Questions
+                    </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Manage and view all your questions here.
+                    </p>
+                </div>
+                <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                    <span class="text-sm font-medium text-blue-600 dark:text-blue-400 font-['Open_Sans']">
+                        {{ $questions->total() }} Questions
+                    </span>
+                </div>
             </div>
 
+            <!-- Table Container -->
             <div class="w-full overflow-x-auto">
-                <table class="min-w-full">
-                    <!-- table header start -->
-                    <thead>
-                        <tr class="border-gray-100 border-y dark:border-gray-800">
-                            <th class="py-3">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        Title
-                                    </p>
-                                </div>
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-800/30">
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                #
                             </th>
-
-                            <th class="py-3">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        Question
-                                    </p>
-                                </div>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                Title
                             </th>
-
-                            <th class="py-3">
-                                <div class="flex items-center col-span-2">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        Action
-                                    </p>
-                                </div>
+                            <th class="py-3 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
+                                Questions</th>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                Actions
                             </th>
                         </tr>
                     </thead>
-                    <!-- table header end -->
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @forelse ($questions as $question)
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200">
+                                <td class="py-4 px-3">
+                                    <span
+                                        class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-sm font-semibold text-blue-600 dark:text-blue-400 font-['Open_Sans']">
+                                        {{ $loop->iteration }}
+                                    </span>
+                                </td>
+                                <td class="py-4 px-3">
 
-                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                                    {{ $question->title }}
 
+                                </td>
 
-                        @foreach ($questions as $question)
+                                <!-- Questions -->
+                                <td class="py-4 px-3 text-gray-700 dark:text-gray-300 text-sm font-['Open_Sans']">
+                                    {!! $question->question !!}
+                                </td>
+                                <td class="py-4 px-3 text-gray-700 dark:text-gray-300 text-sm font-['Open_Sans']">
+                                    <button wire:click="edit({{ $question->id }})" @click="showCourseForm = true"
+                                        class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition"
+                                        title="Edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.125 1.125-4.5 12.737-12.45z" />
+                                        </svg>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                        @empty
                             <tr>
-
-
-                                <td class="py-3">
-                                    <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                                        {{ @$question->title }}
-                                    </p>
-                                </td>
-                                <td class="py-3">
-                                    <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                                        {!! $question->question !!}
-                                    </p>
-                                </td>
-                                <td class="py-3">
-                                    <div class="flex items-center gap-2">
-                                        <button wire:click="edit({{ $question->id }})" @click="showCourseForm = true"
-                                            class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600"
-                                            title="Edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.5">
+                                <td colspan="5" class="py-16 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <div
+                                            class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.125 1.125-4.5 12.737-12.45z" />
+                                                    stroke-width="1.5"
+                                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                             </svg>
-                                        </button>
-
-                                        {{-- <button wire:click="confirmDelete({{ $question->id }})"
-                                            class="inline-flex items-center text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600"
-                                            title="Delete">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                fill="currentColor" class="w-4 h-4">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-
-
-                                        </button> --}}
+                                        </div>
+                                        <h3
+                                            class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2 font-['Open_Sans']">
+                                            No Questions Found
+                                        </h3>
+                                        <p class="text-gray-500 dark:placeholder-gray-400 font-['Open_Sans']">
+                                            Get started by creating your first Question.
+                                        </p>
                                     </div>
                                 </td>
-
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                @if ($questions->hasPages())
+                    <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                        {{ $questions->links() }}
+                    </div>
+                @endif
             </div>
-            </tr>
-            @endforeach
-            <div x-data="{ open: false }" x-init="window.addEventListener('swal-confirm', () => {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'Do you really want to delete this course?',
-                    icon: 'warning',
-                    showCancelButton: true,
+        </div>
+    </div>
 
-                    confirmButtonText: 'Yes, Delete it',
-                    cancelButtonText: 'No, Cancel',
-                    confirmButtonColor: '#e11d48',
-                    cancelButtonColor: '#3b82f6',
-                    preConfirm: () => {
-                        @this.deleteCourse(); // Call Livewire method to delete the course
-                    }
-                });
-            })">
-            </div>
-            </tbody>
-            </table>
-        </div>
-        <div class="mt-3">
-            {{ $questions->links() }}
-        </div>
+    <!-- SweetAlert Confirmation -->
+    <div x-data="{ open: false }" x-init="window.addEventListener('swal-confirm', () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you really want to delete this course?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Delete it',
+            cancelButtonText: 'No, Cancel',
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#3b82f6',
+            preConfirm: () => {
+                @this.deleteCourse();
+            }
+        });
+    })">
     </div>
 </div>
 
-<script>
-    window.addEventListener('question-saved', event => {
-        let data = event.detail;
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
-        })
-        Toast.fire({
-            icon: "success",
-            title: data.text
-        });
-
-    });
-    window.addEventListener('question-deleted', event => {
-        let data = event.detail;
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
-        })
-        Toast.fire({
-            icon: "success",
-            title: data.text
-        });
-
-    });
-
-
-    function questionFormComponent() {
-        return {
-            options: [],
-            correct_answer: '',
-            //  showCourseForm: false, // colon, not equal sign
-
-            init() {
-                this.$watch('options', () => this.updateLivewire());
-                this.$watch('correct_answer', () => this.updateLivewire());
-            },
-
-            loadQuestion(data) {
-                this.options = (typeof data.options === 'string') ?
-                    JSON.parse(data.options).map(opt => opt.trim()) :
-                    (data.options || ['']);
-
-                this.correct_answer = this.options.indexOf((data.correct_answer || '').trim());
-                if (this.correct_answer === -1) this.correct_answer = ''; // no correct answer selected
-
-                this.updateLivewire();
-            },
-
-            updateLivewire() {
-                this.$refs.optionsInput.value = JSON.stringify(this.options);
-                // store correct answer text, not index
-                this.$refs.correctInput.value = this.options[this.correct_answer] || '';
-                this.$refs.optionsInput.dispatchEvent(new Event('input'));
-                this.$refs.correctInput.dispatchEvent(new Event('input'));
-            },
-
-            addOption() {
-                this.options.push('');
-                this.updateLivewire();
-            },
-
-            removeOption(index) {
-                if (index === this.correct_answer) {
-                    this.correct_answer = '';
-                } else if (index < this.correct_answer) {
-                    this.correct_answer -= 1; // adjust index if needed
+@push('script')
+    <script>
+        window.addEventListener('question-saved', event => {
+            let data = event.detail;
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
                 }
-                this.options.splice(index, 1);
-                this.updateLivewire();
-            },
-            resetForm() {
-                this.options = [''];
-                this.correct_answer = null;
-                this.updateLivewire();
+            })
+            Toast.fire({
+                icon: "success",
+                title: data.text
+            });
+
+        });
+        window.addEventListener('question-deleted', event => {
+            let data = event.detail;
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            })
+            Toast.fire({
+                icon: "success",
+                title: data.text
+            });
+
+        });
+
+
+        function questionFormComponent() {
+            return {
+                options: [],
+                correct_answer: '',
+                //  showCourseForm: false, // colon, not equal sign
+
+                init() {
+                    this.$watch('options', () => this.updateLivewire());
+                    this.$watch('correct_answer', () => this.updateLivewire());
+                },
+
+                loadQuestion(data) {
+                    this.options = (typeof data.options === 'string') ?
+                        JSON.parse(data.options).map(opt => opt.trim()) :
+                        (data.options || ['']);
+
+                    this.correct_answer = this.options.indexOf((data.correct_answer || '').trim());
+                    if (this.correct_answer === -1) this.correct_answer = ''; // no correct answer selected
+
+                    this.updateLivewire();
+                },
+
+                updateLivewire() {
+                    this.$refs.optionsInput.value = JSON.stringify(this.options);
+                    // store correct answer text, not index
+                    this.$refs.correctInput.value = this.options[this.correct_answer] || '';
+                    this.$refs.optionsInput.dispatchEvent(new Event('input'));
+                    this.$refs.correctInput.dispatchEvent(new Event('input'));
+                },
+
+                addOption() {
+                    this.options.push('');
+                    this.updateLivewire();
+                },
+
+                removeOption(index) {
+                    if (index === this.correct_answer) {
+                        this.correct_answer = '';
+                    } else if (index < this.correct_answer) {
+                        this.correct_answer -= 1; // adjust index if needed
+                    }
+                    this.options.splice(index, 1);
+                    this.updateLivewire();
+                },
+                resetForm() {
+                    this.options = [''];
+                    this.correct_answer = null;
+                    this.updateLivewire();
+                }
             }
         }
-    }
-</script>
+    </script>
+@endpush

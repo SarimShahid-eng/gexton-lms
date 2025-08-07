@@ -31,14 +31,18 @@
                     <!-- Teacher Name -->
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
                             </svg>
                             Teacher Name
                         </label>
                         <input type="text" wire:model="full_name" placeholder="Enter teacher name"
-                            class="w-full px-3 py-2.5 border rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500">
+                            class="w-full rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
                         @error('full_name')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
@@ -47,14 +51,18 @@
                     <!-- Email Address -->
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 12A4 4 0 1 0 8 12a4 4 0 0 0 8 0zm0 0v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-18 0v1.5a2.5 2.5 0 0 0 5 0V12" />
                             </svg>
                             Email Address
                         </label>
                         <input type="email" wire:model="email" placeholder="Enter email address"
-                            class="w-full px-3 py-2.5 border rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500">
+                            class="w-full rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
                         @error('email')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
@@ -63,14 +71,18 @@
                     <!-- Phone Number -->
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 5h2l.4 2M7 13h10l1.4-6H6.6M7 13l-1 5h12l-1-5M9 21h6" />
                             </svg>
                             Phone Number
                         </label>
                         <input type="text" wire:model="phone" maxlength="11" placeholder="Enter phone number"
-                            class="w-full px-3 py-2.5 border rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500"
+                            class="w-full rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11)">
                         @error('phone')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -80,7 +92,7 @@
                     <!-- Password -->
                     <div class="space-y-2" x-data="{ show: false }">
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 11c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm6 0c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
                             </svg>
@@ -88,7 +100,11 @@
                         </label>
                         <div class="relative">
                             <input :type="show ? 'text' : 'password'" wire:model="password" placeholder="Enter password"
-                                class="w-full px-3 py-2.5 pr-10 border rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500">
+                                class="w-full rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
                             <button type="button" @click="show = !show"
                                 class="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
                                 <svg x-show="!show" class="w-5 h-5" fill="none" stroke="currentColor"
@@ -141,20 +157,32 @@
         <div
             class="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800/50 p-4 sm:p-6 shadow-sm">
             <!-- Header Section -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                <!-- Title -->
                 <div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white font-['Open_Sans']">
-                        All Teacher
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white/90 font-['Open_Sans']">
+                        All Teachers
                     </h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        Manage and view all Teacher
+                        Manage teacher information, edit details, and perform actions.
                     </p>
                 </div>
-                <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-                    <span class="text-sm font-medium text-blue-600 dark:text-blue-400 font-['Open_Sans']">
-                        {{ $teachers->total() }} Teacher
-                    </span>
+
+                <!-- Total Count -->
+                <div class="mt-3 sm:mt-0">
+                    <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg inline-block">
+                        <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
+                            {{ $teachers->total() }} Teachers
+                        </span>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Search Box (Below Table Heading) -->
+            <div class="mt-6 mb-4">
+                <input type="text" wire:model.live="search" placeholder="Search by name ,email and phone"
+                    class="w-full sm:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+               focus:ring focus:ring-blue-200 focus:outline-none text-sm">
             </div>
 
             <!-- Table Container -->

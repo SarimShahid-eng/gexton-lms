@@ -289,12 +289,12 @@
                             <!-- Campus Selection -->
                             <div class="group">
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
-                                    Campus Selection
+                                Batch Selection
                                 </label>
                                 <div class="relative">
                                     <select wire:model.live="campus_id"
                                         class="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 dark:text-white focus:border-slate-500 focus:ring-4 focus:ring-slate-500/20 transition-all duration-300 hover:shadow-md appearance-none cursor-pointer font-['Open_Sans']">
-                                        <option value="">Select Campus</option>
+                                        <option value="">Select Batch</option>
                                         @foreach ($campuses as $campus)
                                             <option value="{{ $campus->id }}">{{ $campus->title }}</option>
                                         @endforeach
@@ -313,13 +313,13 @@
                             <!-- Batch Selection -->
                             <div class="group">
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
-                                    Batch Selection
+                                    Campus  Selection
                                 </label>
                                 <div class="relative">
                                     <select wire:model.live="batch_id"
                                         class="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 dark:text-white focus:border-slate-500 focus:ring-4 focus:ring-slate-500/20 transition-all duration-300 hover:shadow-md appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-['Open_Sans']"
                                         @if (empty($batches)) disabled @endif>
-                                        <option value="">Select Batch</option>
+                                        <option value="">Campus  Batch</option>
                                         @foreach ($batches as $batch)
                                             <option value="{{ $batch->id }}">{{ $batch->title }}</option>
                                         @endforeach

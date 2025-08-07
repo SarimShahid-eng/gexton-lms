@@ -3,8 +3,8 @@
         <div
             class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
 
-            <!-- Header Section -->
-            <div class="flex flex-col gap-2 mb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                <!-- Title -->
                 <div>
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white/90 font-['Open_Sans']">
                         Enrolled Students
@@ -14,15 +14,24 @@
                     </p>
                 </div>
 
-                <!-- Optional: Add search or filter here -->
-                <div class="flex items-center gap-3">
-                    <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <!-- Total Count -->
+                <div class="mt-3 sm:mt-0">
+                    <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg inline-block">
                         <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
                             {{ $students->total() }} Students
                         </span>
                     </div>
                 </div>
             </div>
+
+            <!-- Search Box (Below Table Heading) -->
+            <div class="mt-6 mb-4">
+                <input type="text" wire:model.live="search" placeholder="Search by name and email"
+                    class="w-full sm:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+               focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+            </div>
+
+
 
             <!-- Table Container -->
             <div class="w-full overflow-x-auto">
@@ -123,7 +132,24 @@
                                         </button>
 
                                         <!-- Enrollment Button/Status -->
+                                        <button wire:click="enroll_student({{ $student->id }})"
+                                            class="group relative inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-200"
+                                            title="Enroll Student">
 
+                                            <svg class="w-4 h-4 group-hover:rotate-12 transition-transform duration-200"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M18 9a3 3 0 11-6 0 3 3 0 016 0zM13.5 20.25h6M16.5 17.25v6M4.5 20.25v-1.5A4.5 4.5 0 019 14.25h3" />
+                                            </svg>
+
+                                            <span class="hidden sm:inline">Edit</span>
+
+                                            <!-- Loading Spinner -->
+                                            <div wire:loading wire:target="edit_student({{ $student->id }})"
+                                                class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin">
+                                            </div>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -165,7 +191,7 @@
         <!-- Toast Notification Script -->
         @push('script')
             <script>
-                window.addEventListener('student-saved', event => {
+                window.addEventListener('student-update', event => {
                     let data = event.detail;
                     const Toast = Swal.mixin({
                         toast: true,

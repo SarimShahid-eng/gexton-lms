@@ -30,7 +30,7 @@ class Quiz extends Component
     }
     public function updatedSelectedCampus($campus)
     {
-        $this->batches = Batch::where('status', 'active')->where('campus_id', $campus)->select('id', 'campus_id', 'title')->get();
+        $this->batches = Batch::where('status', '1')->where('campus_id', $campus)->select('id', 'campus_id', 'title')->get();
         $this->selectedBatch = null;
         $this->courses = null;
     }
@@ -40,7 +40,7 @@ class Quiz extends Component
             $this->courses = null;
             $this->selectedCampus = null;
         }
-        $this->courses = Course::where('batch_id', $batch)->select('id', 'course_title', 'batch_id')->get();
+        $this->courses = Course::where('batch_id', $batch)->select('id', 'title', 'batch_id')->get();
     }
     public function save()
     {

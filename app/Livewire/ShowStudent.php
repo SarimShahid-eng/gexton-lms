@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Exports\StudentsExport;
+use App\Imports\StudentsImport;
 use App\Models\Campus;
 use App\Models\Course;
 use App\Models\Batch;
@@ -9,18 +11,33 @@ use App\Models\EnrollStudent;
 use App\Models\EnrollStudentDetail;
 use App\Models\StudentRegister;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ShowStudent extends Component
 {
+    use WithPagination;
     protected $listeners = ['view_student'];
-    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status,$preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4;
+    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4,$search = '';
 
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
     public $campus_id, $batch_id, $course_id, $student_id;
     public $campuses = [], $batches = [], $courses = [];
     public function render()
     {
-        $students = StudentRegister::orderBy('id', 'desc')->paginate(10);
+        $students = StudentRegister::where(function ($query) {
+            $query->where('full_name', 'like', '%' . $this->search . '%')
+                  ->orWhere('email', 'like', '%' . $this->search . '%')
+                  ->orWhere('cnic_number', 'like', '%' . $this->search . '%')
+                  ->orWhere('contact_number', 'like', '%' . $this->search . '%');
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10);
         // dd($students);
         return view('livewire.show-student', compact('students'));
     }
@@ -93,7 +110,7 @@ class ShowStudent extends Component
 
         $student = StudentRegister::findOrFail($id);
         //User
-        $user= User::create([
+        $user = User::create([
             'full_name' => $student->full_name,
             'email' => $student->email,
             'phone' => $student->contact_number,
@@ -134,5 +151,31 @@ class ShowStudent extends Component
         );
 
     }
+    public function export()
+    {
+        return Excel::download(new StudentsExport, 'students.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv'
+        ]);
+            Excel::import(new StudentsImport, $request->file('file'));
+            $message = "Import Has Successfully.";
+
+
+        $this->dispatch(
+            'student-saved',
+            title: 'Success!',
+            text: $message,
+            icon: 'success',
+        );
+        sleep(1);
+
+        return redirect()->route('show_students');
+
+    }
+
 
 }

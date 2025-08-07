@@ -4,12 +4,15 @@ use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
 use App\Livewire\EnrollStudent;
+use App\Livewire\Phase;
 use App\Livewire\Question;
 use App\Livewire\Quiz;
 use App\Livewire\QuizStudent;
 use App\Livewire\ShowStudent;
 use App\Livewire\StartTest;
 use App\Livewire\StudentAttendance;
+use App\Livewire\StudentTask;
+use App\Livewire\StudentTaskUplode;
 use App\Livewire\StudentView;
 use App\Livewire\Teacher;
 use App\Livewire\TeacherTask;
@@ -28,20 +31,26 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/profile', EditProfile::class)->name('show_profile');
-        Route::get('/show-campus', Campus::class)->name('show_campus');
-        Route::get('/show-batches', Batch::class)->name('show_batches');
+        Route::get('/show-phases', Phase::class)->name('show_phase');
+        Route::get('/show-batches', Campus::class)->name('show_campus');
+        Route::get('/show-campus', Batch::class)->name('show_batches');
         Route::get('show-courses', CreateCourses::class)->name('courses_create');
-        Route::get('register-student', ShowStudent::class)->name('show_students');
+        Route::get('registered-student', ShowStudent::class)->name('show_students');
         Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
         Route::get('create-teacher', Teacher::class)->name('create_teacher');
+        Route::get('/students/export', [ShowStudent::class, 'export'])->name('students.export');
+        Route::post('/students/import', [ShowStudent::class, 'import'])->name('students.import');
+
 
     });
     Route::middleware(['role:student'])->prefix('students')->name('students.')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
-        Route::get('/tasks', Dashboard::class)->name('tasks');
+        Route::get('/tasks', StudentTask::class)->name('tasks');
+        Route::get('/uplode-tasks', StudentTaskUplode::class)->name('uplodetasks');
         Route::get('/show-', Question::class)->name('show_questions');
         Route::get('show-quiz', QuizStudent::class)->name('show_quiz');
         Route::get('start-test/{id}', StartTest::class)->name('start_test');
+
     });
     Route::middleware(['role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
@@ -51,14 +60,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/show-questions', Question::class)->name('show_questions');
         Route::get('show-quiz', Quiz::class)->name('show_quiz');
     });
+    Route::get('/profile', EditProfile::class)->name('show_profile');
+
 });
-Route::get('/student-register', Student::class)->name('student');
+Route::get('/student-register', Student::class)->name('student_registerd');
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('login_attemept', 'authenticate')
-        // login request 5 times in 1 minute per ip
-        // user can request only 5 times to login attempt in 1 minute then he will try after a minute
         ->middleware('throttle:5,1')
         ->name('login.attempt');
     Route::post('/logout', 'logout')->name('logout');

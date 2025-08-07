@@ -14,6 +14,6 @@ class QuizStudent extends Component
     }
     public function redirecToQuiz($id)
     {
-        return  redirect()->route('student.start_test', ['id' => $id]);
+        return  redirect()->route('students.start_test', ['id' => $id]);
     }
 }

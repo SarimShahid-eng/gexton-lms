@@ -17,12 +17,23 @@ use Illuminate\Support\Facades\Crypt;
 class Teacher extends Component
 {
     use WithPagination;
-    public $id, $full_name, $email, $phone, $password;
+    public $id, $full_name, $email, $phone, $password,$search = '';
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
         $teachers = User::where('user_type', 'teacher')
-            ->paginate(10);
+        ->where('is_active', '1')
+        ->where(function ($query) {
+            $query->where('full_name', 'like', '%' . $this->search . '%')
+                  ->orWhere('email', 'like', '%' . $this->search . '%')
+                  ->orWhere('phone', 'like', '%' . $this->search . '%');
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10);
         return view('livewire.teacher', compact('teachers', ));
     }
 

@@ -207,62 +207,63 @@
         </template>
 
 
-      <!-- Courses Tab -->
-<template x-if="tab === 'courses'">
-    <div x-transition:enter="transition-opacity ease-out duration-500" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-in duration-400"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute inset-0" x-cloak>
-        <h2 class="text-lg font-semibold mb-4">Courses</h2>
-        <form class="space-y-4">
-            <!-- 1st Choice -->
-            <div class="flex flex-col space-y-1">
-                <label class="text-sm font-medium">1st Choice <span class="text-red-500">*</span></label>
-                <select
-                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
-                    <option value="">Select Course</option>
-                    <option value="course1">Course 1</option>
-                    <option value="course2">Course 2</option>
-                    <option value="course3">Course 3</option>
-                </select>
-            </div>
+        <!-- Courses Tab -->
+        <template x-if="tab === 'courses'">
+            <div x-transition:enter="transition-opacity ease-out duration-500" x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-in duration-400"
+                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute inset-0"
+                x-cloak>
+                <h2 class="text-lg font-semibold mb-4">Courses</h2>
+                <form class="space-y-4">
+                    <!-- 1st Choice -->
+                    <div class="flex flex-col space-y-1">
+                        <label class="text-sm font-medium">1st Choice <span class="text-red-500">*</span></label>
+                        <select
+                            class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                            <option value="">Select Course</option>
+                            <option value="course1">Course 1</option>
+                            <option value="course2">Course 2</option>
+                            <option value="course3">Course 3</option>
+                        </select>
+                    </div>
 
-            <!-- 2nd Choice -->
-            <div class="flex flex-col space-y-1">
-                <label class="text-sm font-medium">2nd Choice <span class="text-red-500">*</span></label>
-                <select
-                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
-                    <option value="">Select Course</option>
-                    <option value="course1">Course 1</option>
-                    <option value="course2">Course 2</option>
-                    <option value="course3">Course 3</option>
-                </select>
-            </div>
+                    <!-- 2nd Choice -->
+                    <div class="flex flex-col space-y-1">
+                        <label class="text-sm font-medium">2nd Choice <span class="text-red-500">*</span></label>
+                        <select
+                            class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                            <option value="">Select Course</option>
+                            <option value="course1">Course 1</option>
+                            <option value="course2">Course 2</option>
+                            <option value="course3">Course 3</option>
+                        </select>
+                    </div>
 
-            <!-- 3rd Choice -->
-            <div class="flex flex-col space-y-1">
-                <label class="text-sm font-medium">3rd Choice <span class="text-red-500">*</span></label>
-                <select
-                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
-                    <option value="">Select Course</option>
-                    <option value="course1">Course 1</option>
-                    <option value="course2">Course 2</option>
-                    <option value="course3">Course 3</option>
-                </select>
-            </div>
+                    <!-- 3rd Choice -->
+                    <div class="flex flex-col space-y-1">
+                        <label class="text-sm font-medium">3rd Choice <span class="text-red-500">*</span></label>
+                        <select
+                            class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                            <option value="">Select Course</option>
+                            <option value="course1">Course 1</option>
+                            <option value="course2">Course 2</option>
+                            <option value="course3">Course 3</option>
+                        </select>
+                    </div>
 
-            <!-- 4th Choice -->
-            <div class="flex flex-col space-y-1">
-                <label class="text-sm font-medium">4th Choice <span class="text-red-500">*</span></label>
-                <select
-                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
-                    <option value="">Select Course</option>
-                    <option value="course1">Course 1</option>
-                    <option value="course2">Course 2</option>
-                    <option value="course3">Course 3</option>
-                </select>
+                    <!-- 4th Choice -->
+                    <div class="flex flex-col space-y-1">
+                        <label class="text-sm font-medium">4th Choice <span class="text-red-500">*</span></label>
+                        <select
+                            class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                            <option value="">Select Course</option>
+                            <option value="course1">Course 1</option>
+                            <option value="course2">Course 2</option>
+                            <option value="course3">Course 3</option>
+                        </select>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-</template>
+        </template>
     </div>
 </div>

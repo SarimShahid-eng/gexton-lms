@@ -54,18 +54,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(EnrollStudent::class, 'student_id');
     }
-    // public function session()
-    // {
-    //     return $this->belongsTo(CustomSession::class,'session_year_id');
-    // }
     public function hasRole($role)
     {
         // dd($role);
         return $this->user_type === $role;
     }
-    function enroll_student()
+    function std_details()
     {
-        return $this->hasOne(EnrollStudent::class, 'student_id');
+        return $this->hasMany(EnrollStudentDetail::class, 'student_id');
     }
     function courses()
     {

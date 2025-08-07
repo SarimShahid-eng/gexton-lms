@@ -157,7 +157,7 @@
                         <div wire:loading wire:target="save" class="flex items-center gap-2">
                             <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin">
                             </div>
-                            <span>Creating Course...</span>
+                            <span>Creating Task...</span>
                         </div>
                         <div wire:loading.remove wire:target="save" class="flex items-center gap-2">
                             <svg class="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
@@ -165,7 +165,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v16m8-8H4" />
                             </svg>
-                            <span>Create Course</span>
+                            <span>Create Task</span>
                         </div>
                     </button>
                 </div>
@@ -214,6 +214,8 @@
                                 Marks</th>
                             <th class="py-3 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
                                 Attachment</th>
+                            <th class="py-3 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
+                                Status</th>
                             <th scope="col"
                                 class="py-3.5 px-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
                                 Actions
@@ -274,10 +276,9 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="py-4 px-3">
-                                </td>
                                 <td>
-                                    <button wire:click="update_task({{ $teacherTask->id }})" @disabled($teacherTask->assigned_task == 1)
+                                    <button wire:click="update_task({{ $teacherTask->id }})"
+                                        @disabled($teacherTask->assigned_task == 1)
                                         class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full text-white shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100
                                             {{ $teacherTask->assigned_task == 1
                                                 ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
@@ -292,8 +293,8 @@
                                             </svg>
                                             Assigned
                                         @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M4 4l16 8-16 8V4z" />
                                             </svg>
@@ -320,9 +321,8 @@
                                     <button wire:click="edit({{ $teacherTask->id }})" @click="showCourseForm = true"
                                         class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600"
                                         title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                            stroke-width="1.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.125 1.125-4.5 12.737-12.45z" />
                                         </svg>
@@ -403,31 +403,31 @@
             class="fixed inset-0 flex items-center justify-center p-5 overflow-y-auto z-50" style="display: none;">
 
             <!-- Background Overlay -->
-            <div @click="showTaskViewModal = false" class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
+            <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
 
             <!-- Modal Content -->
-            <div @click.outside="showTaskViewModal = false"
-                class="relative z-10 w-full max-w-4xl bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-10 shadow-xl overflow-y-auto max-h-[80vh]">
+            <div
+                class="relative z-10 w-full max-w-4xl bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-10 shadow-xl max-h-[80vh] flex flex-col">
 
-                <!-- Header -->
-                <div class="flex justify-between items-center mb-6">
+                <!-- Header with Fixed Close Button -->
+                <div class="flex justify-between items-center mb-6 shrink-0">
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white/90">Students Tasks</h2>
-
                     <div class="flex items-center space-x-4">
                         <span class="text-sm text-gray-700 dark:text-gray-300">
-                            {{-- Total: <strong>{{ $submitedTasksCount }}</strong> --}}
+                            Total: <strong>{{ $submitedTasksCount }}</strong>
                         </span>
-                        <button @click="showTaskViewModal = false"
-                            class="text-gray-500 hover:text-black dark:hover:text-white text-xl font-bold">
-                            &times;
+                        <button @click="showTaskViewModal = false; window.location.reload();"
+                            class="text-gray-500 hover:text-black dark:hover:text-white text-xl font-bold z-20"
+                            style="position: absolute; top: 1rem; right: 1rem;">
+                            ×
                         </button>
                     </div>
                 </div>
 
-                <!-- Table -->
-                <div class="overflow-x-auto">
+                <!-- Scrollable Table Content -->
+                <div class="flex-1 overflow-y-auto p-0">
                     <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-300">
-                        <thead class="bg-gray-100 dark:bg-gray-800 text-xs uppercase">
+                        <thead class="bg-gray-100 dark:bg-gray-800 text-xs uppercase sticky top-0 z-10">
                             <tr>
                                 <th class="px-4 py-3">Students</th>
                                 <th class="px-4 py-3">Description</th>
@@ -435,22 +435,20 @@
                                 <th class="px-4 py-3">Students Marks</th>
                             </tr>
                         </thead>
-                        {{-- <tbody>
-                            @foreach ($submitedTasks as $teacherTask)
+                        <tbody>
+                            @foreach ($submitedTasks as $task)
                                 <tr class="border-b border-gray-200 dark:border-gray-700">
-                                    <td class="px-4 py-3">{{ $teacherTask->user->full_name }} </td>
+                                    <td class="px-4 py-3">{{ $task->user->full_name }}</td>
                                     <td class="px-4 py-3">
                                         @php
-                                            $showToggle = strlen($teacherTask->description) > 50; // or use 100/120 as per visual length
+                                            $showToggle = strlen($task->description) > 50;
                                         @endphp
-
                                         <div x-data="{ expanded: false }">
                                             <p class="text-sm text-gray-800 overflow-hidden text-ellipsis"
                                                 :class="expanded ? '' : 'line-clamp-style'"
                                                 style="display: -webkit-box; -webkit-box-orient: vertical;"
-                                                x-text="expanded ? @js($teacherTask->description) : @js(Str::limit($teacherTask->description, 50))">
+                                                x-text="expanded ? @js($task->description) : @js(Str::limit($task->description, 50))">
                                             </p>
-
                                             @if ($showToggle)
                                                 <button @click="expanded = !expanded"
                                                     class="mt-1 text-blue-600 hover:underline text-xs font-medium">
@@ -459,12 +457,10 @@
                                                 </button>
                                             @endif
                                         </div>
-
                                     </td>
-
                                     <td class="px-4 py-3">
-                                        @if ($teacherTask->attachment_link)
-                                            <a href="{{ asset('attachments/' . $teacherTask->attachment_link) }}"
+                                        @if ($task->attachment_link)
+                                            <a href="{{ asset('attachments/' . $task->attachment_link) }}"
                                                 class="text-blue-500 underline" target="_blank">
                                                 View
                                             </a>
@@ -473,40 +469,42 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">
-                                        <select wire:model.lazy="marks.{{ $teacherTask->id }}"
+                                        <select
+                                            x-on:change="$wire.marksUpdated($event.target.value, {{ $task->id }})"
                                             class="w-24 px-2 py-1 border rounded">
                                             <option value="">Select Marks</option>
                                             @for ($i = 0; $i <= 50; $i++)
-                                                <option value="{{ $i }}">{{ $i }} Marks
+                                                <option value="{{ $i }}" @selected($task->obtain_marks == $i)>
+                                                    {{ $i }} Marks
                                                 </option>
                                             @endfor
                                         </select>
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody> --}}
+                        </tbody>
                     </table>
                 </div>
 
                 <!-- Footer Buttons -->
-                <div class="mt-6 text-right">
-                    <button @click="showTaskViewModal = false"
+                <div class="mt-6 text-right shrink-0">
+                    <button @click="showTaskViewModal = false; window.location.reload();"
                         class="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                         Close
                     </button>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
 @push('script')
     <script>
         window.addEventListener('task-saved', event => {
+            let data = event.detail;
             const Toast = Swal.mixin({
                 toast: true,
-                position: 'top-end',
+                position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,
@@ -514,17 +512,18 @@
                     toast.onmouseenter = Swal.stopTimer;
                     toast.onmouseleave = Swal.resumeTimer;
                 }
-            });
+            })
             Toast.fire({
-                icon: event.detail.icon,
-                title: event.detail.text
+                icon: "success",
+                title: data.text
             });
-        });
 
+        });
         window.addEventListener('course-deleted', event => {
+            let data = event.detail;
             const Toast = Swal.mixin({
                 toast: true,
-                position: 'top-end',
+                position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,
@@ -532,11 +531,31 @@
                     toast.onmouseenter = Swal.stopTimer;
                     toast.onmouseleave = Swal.resumeTimer;
                 }
-            });
+            })
             Toast.fire({
-                icon: 'success',
-                title: event.detail.text
+                icon: "success",
+                title: data.text
             });
+
+        });
+        window.addEventListener('marks-saved', event => {
+            let data = event.detail;
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            })
+            Toast.fire({
+                icon: "success",
+                title: data.text
+            });
+
         });
     </script>
 @endpush

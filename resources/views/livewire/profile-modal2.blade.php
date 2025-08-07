@@ -24,30 +24,20 @@
         <form class="flex flex-col" method="POST" wire:submit="edit">
             <div class="px-2 overflow-y-auto custom-scrollbar">
                 <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                    <div>
+
+                    {{-- Full Name - Full Row --}}
+                    <div class="lg:col-span-2">
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Firstname
+                            Full Name
                         </label>
-                        <input type="text" wire:model="firstname"
+                        <input type="text" wire:model="full_name"
                             class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" />
-                        @error('firstname')
+                        @error('full_name')
                             <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div>
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Lastname
-                        </label>
-                        <input type="text" wire:model="lastname"
-                            class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" />
-                        @error('lastname')
-                            <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-
-
+                    {{-- Password --}}
                     <div>
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Password
@@ -59,6 +49,7 @@
                         @enderror
                     </div>
 
+                    {{-- Confirm Password --}}
                     <div>
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Confirm Password
@@ -71,6 +62,7 @@
                     </div>
 
                 </div>
+
             </div>
             <div class="flex items-center gap-3 mt-6 lg:justify-end">
                 <button @click="isProfileAddressModal = false" type="button"

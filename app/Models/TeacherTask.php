@@ -16,4 +16,8 @@ class TeacherTask extends Model
         'course_id',
         'assigned_task'
     ];
+    function update_task() {
+        return $this->hasOne(SubmitedTask::class, 'task_id')
+                ->where('user_id', auth()->user()->id);
+    }
 }

@@ -12,7 +12,7 @@
 
         <div class="mt-5 flex items-end justify-between">
             <div>
-                <span class="text-sm text-gray-500 dark:text-gray-400">Courses</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">Batches</span>
                 <h4 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
                    {{ $coursesCount??'0'}}
                 </h4>
@@ -35,7 +35,7 @@
 
         <div class="mt-5 flex items-end justify-between">
             <div>
-                <span class="text-sm text-gray-500 dark:text-gray-400">Groups</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">Courses</span>
                 <h4 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
                    {{ $groupsCount ?? '0'}}
                 </h4>

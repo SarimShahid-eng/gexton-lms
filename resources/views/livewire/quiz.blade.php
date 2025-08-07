@@ -1,18 +1,23 @@
-<div x-data="{ showQuizForm: false }" class="grid grid-cols-12 gap-4 md:gap-6">
-    <div class="col-span-12 space-y-6 xl:col-span-12">
+<div x-data="{ showQuizForm: false }" class="grid grid-cols-12 gap-4 md:gap-6 p-4">
+    <!-- Create Course Section -->
+    <div class="col-span-12 space-y-6">
         <div
-            class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
-            <h5 class="flex justify-between items-center text-lg font-semibold dark:text-gray-200">
-                Create Quiz
-
-                <!-- Toggle Button -->
-                <button @click="showQuizForm = !showQuizForm" class="transition-transform hover:rotate-90">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
+            class="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800/50 p-4 sm:p-6 shadow-sm">
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white font-['Open_Sans']">
+                    Create New Quiz
+                </h3>
+                <button @click="showQuizForm = !showQuizForm"
+                    class="w-10 h-10 rounded-lg  bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 hover:from-gray-600 hover:to-gray-700 text-white flex items-center justify-center transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    aria-label="Toggle course creation form" title="Toggle Course Form">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5 transition-transform duration-200"
+                        :class="showQuizForm ? 'rotate-45' : ''">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                 </button>
-            </h5>
+            </div>
 
             <!-- Form Section -->
             <form wire:submit.prevent="save">
@@ -57,7 +62,8 @@
                                 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400">
                                 <option value="">Select Campus</option>
                                 @foreach ($campuses as $campus)
-                                    <option @selected($campus->id === $updatedCampusId) value="{{ $campus->id }}">{{ $campus->title }}</option>
+                                    <option @selected($campus->id === $updatedCampusId) value="{{ $campus->id }}">
+                                        {{ $campus->title }}</option>
                                 @endforeach
                             </select>
                             @error('selectedCampus')
@@ -79,7 +85,7 @@
                                     @endforeach
                                 </select>
                                 @error('selectedBatch')
-                                    <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
+                                    {{-- <span class="text-red-500 ms-2 mt-1">{{ $message }}</span> --}}
                                 @enderror
                             </div>
                         @endif
@@ -96,12 +102,12 @@
                                     <option value="">Select Courses</option>
 
                                     @foreach ($courses as $course)
-                                        <option value="{{ $course->id }}">{{ $course->course_title }}</option>
+                                        <option value="{{ $course->id }}">{{ $course->title }}</option>
                                     @endforeach
 
-                                    @error('course_id')
+                                    {{-- @error('course_id')
                                         <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
-                                    @enderror
+                                    @enderror --}}
                                 </select>
                             </div>
                         @endif
@@ -249,181 +255,184 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 
-    <div class="col-span-12 space-y-6 xl:col-span-12">
+    <!-- Courses List Section -->
+    <div class="col-span-12 space-y-6">
         <div
-            class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
-            <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
+            class="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800/50 p-4 sm:p-6 shadow-sm">
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
-                        See All Quiz
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white font-['Open_Sans']">
+                        All Quizzes
                     </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Manage and view all courses
+                    </p>
                 </div>
-
+                <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                    <span class="text-sm font-medium text-blue-600 dark:text-blue-400 font-['Open_Sans']">
+                        {{ $quizes->total() }} Courses
+                    </span>
+                </div>
             </div>
 
+            <!-- Table Container -->
             <div class="w-full overflow-x-auto">
-                <table class="min-w-full">
-                    <!-- table header start -->
-                    <thead>
-                        <tr class="border-gray-100 border-y dark:border-gray-800">
-                            <th class="py-3">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        ID
-                                    </p>
-                                </div>
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-800/30">
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                #
                             </th>
-                            <th class="py-3">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        Quiz Title
-                                    </p>
-                                </div>
-                            </th class="py-3">
-                            <th class="py-3">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        Quiz Description
-                                    </p>
-                                </div>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                Quiz Title
                             </th>
-                            <th class="py-3">
-                                <div class="flex items-center col-span-2">
-                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                        Action
-                                    </p>
-                                </div>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                Quiz Description
+                            </th>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                Actions
                             </th>
                         </tr>
                     </thead>
-                    <!-- table header end -->
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @forelse($quizes as $quiz)
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200">
+                                <td class="py-4 px-3">
+                                    <span
+                                        class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-sm font-semibold text-blue-600 dark:text-blue-400 font-['Open_Sans']">
+                                        {{ $loop->iteration }}
+                                    </span>
+                                </td>
+                                <td class="py-4 px-3">
+                                    <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
+                                        {{ $quiz->title }}
+                                    </p>
+                                </td>
+                                <td class="py-4 px-3">
+                                    <p class="text-sm font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
+                                        {{ $quiz->description }}
+                                    </p>
+                                </td>
 
-                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                                <td class="py-4 px-3">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <!-- Edit Button with Tooltip -->
+                                        <div x-data="{ showTooltip: false }" class="relative">
+                                            <button wire:click="edit({{ $quiz->id }})" @click="showQuizForm = true"
+                                                class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition"
+                                                title="Edit Quiz">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.125 1.125-4.5 12.737-12.45z" />
+                                                </svg>
+                                            </button>
 
-
-                        @foreach ($quizes as $quiz)
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
                             <tr>
-                                <td class="py-3">
-                                    <div class="flex items-center">
-                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                            {{ $loop->iteration }}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td class="py-3">
-                                    <div class="flex items-center">
-                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                            {{ $quiz->title }}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td class="py-3">
-                                    <div class="flex items-center">
-                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                            {{ $quiz->description }}
-
-                                        </p>
-                                    </div>
-                                </td>
-
-
-                                <td class="py-3">
-                                    <div class="flex items-center gap-2">
-                                        <button wire:click="edit({{ $quiz->id }})" @click="showQuizForm = true"
-                                            class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600"
-                                            title="Edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.5">
+                                <td colspan="5" class="py-16 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <div
+                                            class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.125 1.125-4.5 12.737-12.45z" />
+                                                    stroke-width="1.5"
+                                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                             </svg>
-                                        </button>
-
-                                        {{-- <button wire:click="confirmDelete({{ $Quiz->id }})"
-                                            class="inline-flex items-center text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600"
-                                            title="Delete">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                fill="currentColor" class="w-4 h-4">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-
-
-                                        </button> --}}
+                                        </div>
+                                        <h3
+                                            class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2 font-['Open_Sans']">
+                                            No Courses Found
+                                        </h3>
+                                        <p class="text-gray-500 dark:placeholder-gray-400 font-['Open_Sans']">
+                                            Get started by creating your first course.
+                                        </p>
                                     </div>
                                 </td>
-                        @endforeach
-
-                        <div x-data="{ open: false }" x-init="window.addEventListener('swal-confirm', () => {
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                text: 'Do you really want to delete this course?',
-                                icon: 'warning',
-                                showCancelButton: true,
-
-                                confirmButtonText: 'Yes, Delete it',
-                                cancelButtonText: 'No, Cancel',
-                                confirmButtonColor: '#e11d48',
-                                cancelButtonColor: '#3b82f6',
-                                preConfirm: () => {
-                                    @this.deleteCourse(); // Call Livewire method to delete the course
-                                }
-                            });
-                        })">
-                        </div>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
-                {{ $quizes->links() }}
+                @if ($quizes->hasPages())
+                    <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                        {{ $quizes->links() }}
+                    </div>
+                @endif
             </div>
         </div>
-
-        @push('script')
-            <script>
-                window.addEventListener('quiz-saved', event => {
-                    let data = event.detail;
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        }
-                    })
-                    Toast.fire({
-                        icon: data.icon,
-                        title: data.text
-                    });
-
-                });
-                window.addEventListener('course-deleted', event => {
-                    let data = event.detail;
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        }
-                    })
-                    Toast.fire({
-                        icon: "success",
-                        title: data.text
-                    });
-
-                });
-            </script>
-        @endpush
-
     </div>
+
+    <!-- SweetAlert Confirmation -->
+    <div x-data="{ open: false }" x-init="window.addEventListener('swal-confirm', () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you really want to delete this course?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Delete it',
+            cancelButtonText: 'No, Cancel',
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#3b82f6',
+            preConfirm: () => {
+                @this.deleteCourse();
+            }
+        });
+    })">
+    </div>
+</div>
+
+@push('script')
+<script>
+    window.addEventListener('quiz-saved', event => {
+        let data = event.detail;
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        })
+        Toast.fire({
+            icon: data.icon,
+            title: data.text
+        });
+
+    });
+    window.addEventListener('course-deleted', event => {
+        let data = event.detail;
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        })
+        Toast.fire({
+            icon: "success",
+            title: data.text
+        });
+
+    });
+</script>
+@endpush

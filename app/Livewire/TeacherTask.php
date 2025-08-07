@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\SubmitedTask;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\TeacherTask as TeacherTaskModel;
@@ -15,7 +16,9 @@ class TeacherTask extends Component
     protected $paginationTheme = 'tailwind';
     use WithPagination;
 
-    public $id , $task_title, $task_description, $number_of_days, $total_marks, $attachment_link, $course_id, $assigned_task ;
+    public $id , $task_title, $task_description, $number_of_days, $total_marks, $attachment_link, $course_id, $assigned_task  ;
+    public $submitedTasks = [], $submitedTasksCount = 0, $marks = [];
+
     public function render()
     {
         $courses = Auth::user()->courses()->with('batch')->paginate(10);
@@ -112,26 +115,30 @@ class TeacherTask extends Component
     function view_task($id)
     {
         // dd($id);
-        // $this->submitedTasks = collect(
-        //     SubmitedTask::with('user')
-        //     ->where('task_id', $id)
-        //     ->get()
-        // );
-        // $this->submitedTasksCount = $this->submitedTasks->count();
+        $this->submitedTasks = collect(
+            SubmitedTask::with('user')
+            ->where('task_id', $id)
+            ->get()
+        );
+        $this->submitedTasksCount = $this->submitedTasks->count();
 
-        // foreach ($this->submitedTasks as $task) {
-        //     $this->marks[$task->id] = $task->obtain_marks;
-        // }
+        foreach ($this->submitedTasks as $task) {
+            $this->marks[$task->id] = $task->obtain_marks;
+        }
 
         $this->dispatch('open-task-view-modal');
     }
-    public function updatedMarks($value, $key)
+    public function marksUpdated($value, $key)
     {
-        // $task = SubmitedTask::find($key);
-        // if ($task) {
-        //     $task->obtain_marks = $value;
-        //     $task->save();
-        // }
+        if ($value === null) {
+            return;
+        }
+        $task = SubmitedTask::find($key);
+
+        if ($task) {
+            $task->obtain_marks = $value;
+            $task->save();
+        }
         $this->dispatch(
             'marks-saved',
             title: 'Success!',

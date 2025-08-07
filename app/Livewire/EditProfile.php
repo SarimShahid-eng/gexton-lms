@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class EditProfile extends Component
 {
-    public $firstnameText, $lastnameText, $firstname, $lastname, $password,$password_confirmation;
+    public $firstnameText, $lastnameText, $full_name, $lastname, $password,$password_confirmation;
 
     public function mount()
     {
-        $this->firstnameText = auth()->user()->firstname;
-        $this->lastnameText = auth()->user()->lastname;
+        $this->firstnameText = auth()->user()->full_name;
+        // $this->lastnameText = auth()->user()->lastname;
     }
     public function render()
     {
@@ -21,11 +21,10 @@ class EditProfile extends Component
     }
     public function edit()
     {
-
         $validated = $this->validate(
             [
-                'firstname' => 'required',
-                'lastname' => 'required',
+                'full_name' => 'required',
+                // 'lastname' => 'required',
                 'password' => 'nullable|confirmed',
             ]
         );
@@ -39,14 +38,14 @@ class EditProfile extends Component
             text: "Profile has been updated successfully.",
             icon: 'success',
         );
-        $this->firstnameText = $user->firstname;
+        $this->firstnameText = $user->full_name;
         $this->lastnameText = $user->lastname;
     }
     public function loadProfileData()
     {
         $user = User::find(auth()->user()->id);
-        $this->firstname = $user->firstname;
-        $this->lastname = $user->lastname;
+        $this->full_name = $user->full_name;
+        // $this->lastname = $user->lastname;
         $this->password='';
         $this->password_confirmation='';
 

@@ -67,9 +67,6 @@
                                         <label class="text-xs text-gray-600 dark:text-gray-300">
                                             <input type="radio" wire:click="markAll('absent')" name="mark_all"> Absent
                                         </label>
-                                        <label class="text-xs text-gray-600 dark:text-gray-300">
-                                            <input type="radio" wire:click="markAll('leave')" name="mark_all"> Leave
-                                        </label>
                                     </div>
                                 </th>
                             </tr>
@@ -78,8 +75,9 @@
                         <!-- Table Body -->
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @forelse($students as $student)
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition">
-                                    <td class="py-3 px-3">
+                                <tr
+                                    class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition duration-300 ease-in-out">
+                                    <td class="py-3 px-3 text-center">
                                         <span
                                             class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-sm font-semibold text-blue-600 dark:text-blue-400">
                                             {{ $loop->iteration }}
@@ -89,26 +87,38 @@
                                         {{ $student->full_name }}
                                     </td>
                                     <td class="py-3 px-3">
-                                        <div class="flex items-center space-x-3">
-                                            <label class="text-sm text-green-600 dark:text-green-400">
+                                        <div class="flex items-center space-x-4">
+                                            <!-- Present -->
+                                            <label
+                                                class="flex items-center space-x-1 cursor-pointer text-sm font-medium text-green-700 dark:text-green-400">
                                                 <input type="radio" wire:model.defer="attendances.{{ $student->id }}"
-                                                    value="present"> P
+                                                    value="present"
+                                                    class="appearance-none w-4 h-4 border border-green-500 rounded-full checked:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 transition" />
+                                                <span
+                                                    class="px-2 py-0.5 rounded-full text-xs bg-green-100 dark:bg-green-900/20">
+                                                    P
+                                                </span>
                                             </label>
-                                            <label class="text-sm text-red-600 dark:text-red-400">
+
+                                            <!-- Absent -->
+                                            <label
+                                                class="flex items-center space-x-1 cursor-pointer text-sm font-medium text-red-700 dark:text-red-400">
                                                 <input type="radio" wire:model.defer="attendances.{{ $student->id }}"
-                                                    value="absent"> A
+                                                    value="absent"
+                                                    class="appearance-none w-4 h-4 border border-red-500 rounded-full checked:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-300 transition" />
+                                                <span
+                                                    class="px-2 py-0.5 rounded-full text-xs bg-red-100 dark:bg-red-900/20">
+                                                    A
+                                                </span>
                                             </label>
-                                            <label class="text-sm text-yellow-500 dark:text-yellow-400">
-                                                <input type="radio" wire:model.defer="attendances.{{ $student->id }}"
-                                                    value="leave"> L
-                                            </label>
+
                                         </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
                                     <td colspan="3" class="py-16 text-center">
-                                        <div class="flex flex-col items-center">
+                                        <div class="flex flex-col items-center justify-center">
                                             <div
                                                 class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
                                                 <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
@@ -129,16 +139,30 @@
                                 </tr>
                             @endforelse
                         </tbody>
+
                     </table>
                 </div>
 
                 <!-- Submit Button -->
                 @if (count($students))
                     <div class="mt-6 text-right">
-                        <button type="submit"
-                            class="inline-flex items-center px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-all">
-                            Save Attendance
+                        <button type="submit" wire:loading.attr="disabled" wire:target="save"
+                            class="inline-flex items-center justify-center px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-all relative">
+
+                            <!-- Spinner (only during loading) -->
+                            <svg wire:loading wire:target="save"
+                                class="animate-spin h-5 w-5 mr-2 text-white absolute left-3 top-1/2 transform -translate-y-1/2"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                            </svg>
+
+                            <!-- Text change when loading -->
+                            <span wire:loading.remove wire:target="save">Save Attendance</span>
+                            <span wire:loading wire:target="save" class="opacity-80">Saving...</span>
                         </button>
+
                     </div>
                 @endif
             </form>

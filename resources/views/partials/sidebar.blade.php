@@ -7,15 +7,16 @@
         <a href="index.html" class="flex items-center gap-3">
             <div
                 class="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                    </path>
-                </svg>
+                <img src="https://www.muet.edu.pk/sites/default/files/favicon.ico">
+                <!--<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+                <!--    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+                <!--        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">-->
+                <!--    </path>-->
+                <!--</svg>-->
             </div>
             <span class="logo font-bold text-white text-lg tracking-wide font-['Open_Sans']"
                 :class="sidebarToggle ? 'hidden' : ''">
-                GEXTON LMS
+                MUET LMS
             </span>
         </a>
     </div>
@@ -67,8 +68,52 @@
                                 @endif
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('create_teacher') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+       {{ request()->routeIs('create_teacher') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                        <!-- Menu Item Campus -->
+                                <!-- Lucide Teacher Icon Alternative -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-300" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                </svg>
+
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Teachers
+                                </span>
+                                @if (request()->routeIs('create_teacher'))
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+                        <!-- Phases -->
+                        <li>
+                            <a href="{{ route('show_phase') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('show_phase') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                                </svg>
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Phases
+                                </span>
+                                @if (request()->routeIs('show_phase'))
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+                        <!-- Menu  Campus -->
                         <li>
                             <a href="{{ route('show_campus') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
@@ -81,7 +126,7 @@
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Campus
+                                    Batches
                                 </span>
                                 @if (request()->routeIs('show_campus'))
                                     <div
@@ -91,27 +136,7 @@
                             </a>
                         </li>
                         <!-- Menu Item Campus -->
-                        <li>
-                            <a href="{{ route('create_teacher') }}"
-                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-       {{ request()->routeIs('create_teacher') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-                                </svg>
-
-                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Teacher
-                                </span>
-                                @if (request()->routeIs('create_teacher'))
-                                    <div
-                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
-                                    </div>
-                                @endif
-                            </a>
-                        </li>
                         <!-- Menu Item Batches -->
                         <li>
                             <a href="{{ route('show_batches') }}"
@@ -125,7 +150,7 @@
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Batches
+                                    Campus
                                 </span>
                                 @if (request()->routeIs('show_batches'))
                                     <div
@@ -141,11 +166,12 @@
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
                                {{ request()->routeIs('courses_create') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-300" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        d="M12 6V4a2 2 0 00-2-2H5a2 2 0 00-2 2v16a2 2 0 002 2h5a2 2 0 002-2v-2m0-12h5a2 2 0 012 2v6m-7 8h5a2 2 0 002-2v-6" />
                                 </svg>
+
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
                                     Courses
@@ -216,7 +242,7 @@
                                         </svg>
                                     </div>
 
-                                    <span class="flex-1">Register Students</span>
+                                    <span class="flex-1">Registered Students</span>
 
                                     <!-- Active Indicator -->
                                     @if (request()->routeIs('show_students'))
@@ -240,7 +266,7 @@
                                         </svg>
                                     </div>
 
-                                    <span class="flex-1">Enroll Students</span>
+                                    <span class="flex-1">Enrolled Students</span>
 
                                     <!-- Active Indicator -->
                                     @if (request()->routeIs('enroll_students'))
@@ -260,11 +286,11 @@
                             <a href="{{ route('teacher.dashboard') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
                            {{ request()->routeIs('teacher.dashboard') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
-
+                                <!-- Dashboard Icon -->
                                 <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                        d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z" />
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -278,15 +304,16 @@
                                 @endif
                             </a>
                         </li>
+
                         <li>
                             <a href="{{ route('teacher.students') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('teacher.students') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
-
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
+                           {{ request()->routeIs('teacher.students') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                                <!-- Students Icon -->
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        d="M15 12a3 3 0 100-6 3 3 0 000 6zm-6 0a3 3 0 100-6 3 3 0 000 6zM4.5 21a7.5 7.5 0 0115 0M4.5 21h15" />
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -294,7 +321,8 @@
                                 </span>
 
                                 @if (request()->routeIs('teacher.students'))
-                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
                                     </div>
                                 @endif
                             </a>
@@ -303,33 +331,35 @@
                         <li>
                             <a href="{{ route('teacher.attendace') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('teacher.attendace') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
-
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
+                           {{ request()->routeIs('teacher.attendace') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                                <!-- Attendance Icon -->
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Attendace
+                                    Attendance
                                 </span>
 
                                 @if (request()->routeIs('teacher.attendace'))
-                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
                                     </div>
                                 @endif
                             </a>
                         </li>
+
                         <li>
                             <a href="{{ route('teacher.task') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('teacher.task') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
-
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
+                           {{ request()->routeIs('teacher.task') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                                <!-- Task Icon -->
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                        d="M9 12h6m-6 4h6M7.5 4.5h9a1.5 1.5 0 011.5 1.5v12a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 016 18V6a1.5 1.5 0 011.5-1.5z" />
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -337,7 +367,8 @@
                                 </span>
 
                                 @if (request()->routeIs('teacher.task'))
-                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
                                     </div>
                                 @endif
                             </a>
@@ -346,12 +377,12 @@
                         <li>
                             <a href="{{ route('teacher.show_questions') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('teacher.show_questions') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
-
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
+                           {{ request()->routeIs('teacher.show_questions') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                                <!-- Questions Icon -->
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                        d="M8 10h.01M12 10h.01M16 10h.01M9 16h6M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -359,20 +390,22 @@
                                 </span>
 
                                 @if (request()->routeIs('teacher.show_questions'))
-                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
                                     </div>
                                 @endif
                             </a>
                         </li>
+
                         <li>
                             <a href="{{ route('teacher.show_quiz') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('teacher.show_quiz') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
-
-                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
+                           {{ request()->routeIs('teacher.show_quiz') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                                <!-- Quiz Icon -->
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                        d="M12 6v6l4 2m-4-8a9 9 0 110 18 9 9 0 010-18z" />
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -380,28 +413,31 @@
                                 </span>
 
                                 @if (request()->routeIs('teacher.show_quiz'))
-                                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
                                     </div>
                                 @endif
                             </a>
                         </li>
+
                     @endrole
 
                     @role('student')
                         <li>
                             <a href="{{ route('students.dashboard') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('students.dashboard') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                            {{ request()->routeIs('students.dashboard') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
+                                {{-- Dashboard Icon --}}
                                 <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0 .515.045.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                        d="M4.5 4.5h6v6h-6v-6zM13.5 4.5h6v6h-6v-6zM4.5 13.5h6v6h-6v-6zM13.5 13.5h6v6h-6v-6z" />
                                 </svg>
 
-                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Dashboard
-                                </span>
+
+                                <span class="menu-item-text font-medium"
+                                    :class="sidebarToggle ? 'lg:hidden' : ''">Dashboard</span>
 
                                 @if (request()->routeIs('students.dashboard'))
                                     <div
@@ -410,21 +446,22 @@
                                 @endif
                             </a>
                         </li>
+
                         <li>
                             <a href="{{ route('students.tasks') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('students.tasks') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+                            {{ request()->routeIs('students.tasks') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                                {{-- New Icon: Clipboard --}}
+                                {{-- Tasks Icon (Clipboard List) --}}
                                 <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 2.25h6M9 2.25a2.25 2.25 0 0 0-2.25 2.25h10.5A2.25 2.25 0 0 0 15 2.25m-6 0v1.5m6 0V2.25m3 3.75H6a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 6 21h12a2.25 2.25 0 0 0 2.25-2.25V8.25A2.25 2.25 0 0 0 18 6z" />
+                                        d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
-                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    My Tasks
-                                </span>
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">My
+                                    Tasks</span>
 
                                 @if (request()->routeIs('students.tasks'))
                                     <div
@@ -433,21 +470,46 @@
                                 @endif
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ route('students.show_quiz') }}"
-                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
-                               {{ request()->routeIs('students.show_quiz') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                                {{-- New Icon: Clipboard --}}
+                        <li>
+                            <a href="{{ route('students.uplodetasks') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                            {{ request()->routeIs('students.uplodetasks') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                                {{-- Upload Icon (Arrow Up Tray) --}}
                                 <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 2.25h6M9 2.25a2.25 2.25 0 0 0-2.25 2.25h10.5A2.25 2.25 0 0 0 15 2.25m-6 0v1.5m6 0V2.25m3 3.75H6a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 6 21h12a2.25 2.25 0 0 0 2.25-2.25V8.25A2.25 2.25 0 0 0 18 6z" />
+                                        d="M12 16v-8m0 0l-3.5 3.5M12 8l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
-                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Quiz
-                                </span>
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">Upload
+                                    Tasks</span>
+
+                                @if (request()->routeIs('students.uplodetasks'))
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('students.show_quiz') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                            {{ request()->routeIs('students.show_quiz') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                                {{-- Quiz Icon (Clipboard Check / Pencil) --}}
+                                <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6 12h12M6 16h8M9 8h6M4 6a2 2 0 012-2h8.586A2 2 0 0116 4.586l3.414 3.414A2 2 0 0120 9.414V18a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
+                                </svg>
+
+
+                                <span class="menu-item-text font-medium"
+                                    :class="sidebarToggle ? 'lg:hidden' : ''">Quiz</span>
 
                                 @if (request()->routeIs('students.show_quiz'))
                                     <div
@@ -456,6 +518,7 @@
                                 @endif
                             </a>
                         </li>
+
 
                     @endrole
                 </ul>

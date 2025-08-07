@@ -4,7 +4,7 @@
             class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
 
             <!-- Header Section -->
-            <div class="flex flex-col gap-2 mb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white/90 font-['Open_Sans']">
                         Registered Students
@@ -14,15 +14,82 @@
                     </p>
                 </div>
 
-                <!-- Optional: Add search or filter here -->
-                <div class="flex items-center gap-3">
-                    <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                        <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
-                            {{ $students->total() }} Students
-                        </span>
-                    </div>
+                <!-- Total Count -->
+                <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg self-start sm:self-center">
+                    <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
+                        {{ $students->total() }} Students
+                    </span>
                 </div>
             </div>
+            <div class="mb-6">
+                <input type="text" wire:model.live="search"
+                    placeholder="Search by name, email, CNIC or contact number..."
+                    class="w-full sm:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+            </div>
+            <!-- Divider Line -->
+            <hr class="mb-4 border-slate-200 dark:border-slate-700">
+
+            <!-- Action Section (Export & Import) -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+                <div>
+                    <a href="{{ route('students.export') }}"
+                        class="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 4v16h16V4H4zm4 8l4 4 4-4m-4-4v8" />
+                        </svg>
+                        Export Students
+                    </a>
+                    <a href="{{ asset('file/demo.xlsx') }}"
+                        class="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 4v16h16V4H4zm4 8l4 4 4-4m-4-4v8" />
+                        </svg>
+                        Demo
+                    </a>
+                </div>
+
+                <!-- Import Form -->
+                <form action="{{ route('students.import') }}" method="POST" enctype="multipart/form-data"
+                    class="flex items-center gap-3">
+                    @csrf
+                    <label
+                        class="inline-flex items-center gap-2 cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-semibold px-4 py-2 rounded-lg shadow transition">
+                        <!-- Upload Icon -->
+                        <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+                        </svg>
+                        <input type="file" name="file" accept=".xlsx,.xls,.csv" class="hidden" required>
+                    </label>
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold
+           text-white bg-green-600 hover:bg-green-700
+           dark:bg-green-600 dark:hover:bg-green-700 rounded-xl shadow transition">
+
+                        <!-- Icon -->
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 4v12m0 0l-4-4m4 4l4-4M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1" />
+                        </svg>
+
+                        Import Students
+                    </button>
+
+
+                </form>
+            </div>
+
+
+            @if (session('success'))
+                <div class="p-3 mt-4 text-sm text-green-700 bg-green-100 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
 
             <!-- Table Container -->
             <div class="w-full overflow-x-auto">
@@ -83,6 +150,8 @@
                                             Father: {{ $student->father_name }}
                                         </p>
                                         <p class="text-xs text-gray-400 dark:text-gray-500">
+                                            Email: {{ $student->email }}
+                                        </p><p class="text-xs text-gray-400 dark:text-gray-500">
                                             CNIC: {{ $student->cnic_number }}
                                         </p>
                                     </div>
@@ -185,7 +254,8 @@
                                             class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5"
                                                     d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                                             </svg>
                                         </div>

@@ -32,8 +32,6 @@ class StudentAttendance extends Component
             $attendance = AttendanceModel::where('student_id', $student->id)
                 ->whereDate('date', $this->attendanceDate)
                 ->first();
-
-            // Set attendance status: present / absent / leave
             $this->attendances[$student->id] = $attendance ? $attendance->is_present  : null;
         }
     }
@@ -70,9 +68,9 @@ class StudentAttendance extends Component
             icon: 'success',
         );
 
-        sleep(1);
+        // sleep(1);
 
-        return redirect()->route('teacher.attendace');
+        // return redirect()->route('teacher.attendace');
     }
     public function markAll($status)
     {

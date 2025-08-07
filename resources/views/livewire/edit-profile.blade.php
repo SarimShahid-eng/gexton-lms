@@ -21,24 +21,18 @@
                         </h4>
 
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-                            <div>
-                                <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                    First Name
-                                </p>
-                                <p  class="text-sm font-medium text-gray-800 dark:text-white/90">
-                                    {{ $firstnameText }}
-                            </div>
 
-                            <div>
+                            {{-- Full Name - Full Row --}}
+                            <div class="lg:col-span-2">
                                 <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                    Last Name
+                                    Full Name
                                 </p>
                                 <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                                  {{ $lastnameText }}
-
+                                    {{ $firstnameText }}
                                 </p>
                             </div>
 
+                            {{-- Email --}}
                             <div>
                                 <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
                                     Email address
@@ -48,6 +42,7 @@
                                 </p>
                             </div>
 
+                            {{-- Phone --}}
                             <div>
                                 <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
                                     Phone
@@ -56,26 +51,31 @@
                                     {{ auth()->user()->phone }}
                                 </p>
                             </div>
+
                             @if (auth()->user()->user_type === 'student')
+                                {{-- CNIC --}}
                                 <div>
                                     <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                        Group
+                                        CNIC
                                     </p>
                                     <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                                        {{ auth()->user()->student_details->group->name }}
+                                        {{ auth()->user()->student_detail->cnic_number }}
                                     </p>
                                 </div>
+
+                                {{-- Date of Birth --}}
                                 <div>
                                     <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                        Course
+                                        Date Of Birth
                                     </p>
                                     <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                                        {{ auth()->user()->student_details->course->name }}
+                                        {{ auth()->user()->student_detail->date_of_birth }}
                                     </p>
                                 </div>
                             @endif
 
                         </div>
+
                     </div>
 
                     <button wire:click="loadProfileData" {{-- @click="isProfileAddressModal = true" --}}

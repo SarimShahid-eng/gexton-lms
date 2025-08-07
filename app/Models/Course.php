@@ -13,6 +13,7 @@ class Course extends Model
         'user_id',
         'campus_id',
         'batch_id',
+        'phase_id',
         'description'
     ];
 
