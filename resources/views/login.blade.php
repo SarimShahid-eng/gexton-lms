@@ -60,7 +60,20 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     :class="{ 'dark bg-gray-900': darkMode === true }">
 
     <!-- ===== Preloader Start ===== -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+   {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+{{-- when its completed properly will remove tailwind cdn and js as well --}}
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {},
+        },
+        safelist: [
+            // Add any dynamic class names here to prevent purge removal
+            'bg-red-500', 'text-green-600'
+        ]
+    }
+</script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
     @include('partials.preloader')
     {{-- <include src="./partials/preloader.html"></include> --}}
