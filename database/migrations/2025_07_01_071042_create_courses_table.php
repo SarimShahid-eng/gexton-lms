@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('campus_id')->nullable();
             $table->unsignedBigInteger('batch_id')->nullable();
+            $table->foreign('phase_id')->references('id')->on('phases')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('campus_id')->references('id')->on('campuses')->onDelete('set null');
             $table->foreign('batch_id')->references('id')->on('batches')->onDelete('set null');

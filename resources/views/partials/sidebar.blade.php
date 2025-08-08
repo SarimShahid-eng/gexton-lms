@@ -92,7 +92,7 @@
                             </a>
                         </li>
                         <!-- Programme -->
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('show_programme') }}"
                                 class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
                                {{ request()->routeIs('show_programme') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
@@ -113,7 +113,7 @@
                                     </div>
                                 @endif
                             </a>
-                        </li>
+                        </li> --}}
                         <!-- Phases -->
                         <li>
                             <a href="{{ route('show_phase') }}"

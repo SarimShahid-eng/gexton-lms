@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms_new/public/livewire/update', $handle);
+    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
 });
 
 Route::middleware('auth')->group(function () {
@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/profile', EditProfile::class)->name('show_profile');
         Route::get('/show-phases', Phase::class)->name('show_phase');
-        Route::get('/show-programmes', ProgrammeCreate::class)->name('show_programme');
+        // Route::get('/show-programmes', ProgrammeCreate::class)->name('show_programme');
         Route::get('/show-batches', Campus::class)->name('show_campus');
         Route::get('/show-campus', Batch::class)->name('show_batches');
         Route::get('show-courses', CreateCourses::class)->name('courses_create');

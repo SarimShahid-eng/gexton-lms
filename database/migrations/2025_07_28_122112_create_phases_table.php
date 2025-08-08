@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('phases', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->foreignId('programme_id')->constrained('programmes')->onDelete('cascade');
+            // $table->foreignId('programme_id')->constrained('programmes')->onDelete('cascade');
             $table->string('description')->nullable();
             $table->timestamps();
         });

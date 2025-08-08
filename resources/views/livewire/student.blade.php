@@ -48,7 +48,7 @@
                                                 <label>Name (as written on CNIC/B Form/Marksheet) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="text" wire:model="full_name"
-                                                        placeholder="Enter name" required="required">
+                                                        placeholder="Enter name" >
                                                 </div>
                                             </div>
                                         </div>
@@ -57,14 +57,14 @@
                                                 <label>Father's Name *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="text" wire:model="father_name"
-                                                        placeholder="Enter Father Name" required="required">
+                                                        placeholder="Enter Father Name" >
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="formify-forms__booking-form--single formify-mg-top-20">
                                             <h4 class="formify-forms__booking-title">Gender *</h4>
                                             <div class="form-group form-group__flex">
-                                                <select class="form-select" wire:model="gender" required="required">
+                                                <select class="form-select" wire:model="gender" >
                                                     <option value="">Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -76,8 +76,7 @@
                                             <div class="form-group">
                                                 <div class="formify-forms__input">
                                                     <input type="number" wire:model="cnic_number"
-                                                        placeholder="Your CNIC" required="required"
-                                                        id="cnic-number">
+                                                        placeholder="Your CNIC"  id="cnic-number">
                                                     @error('cnic_number')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -89,7 +88,7 @@
                                                 <label>Email *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="email" wire:model="email" placeholder="Your Email"
-                                                        required="required">
+                                                        >
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +97,7 @@
                                                 <label> WhatsApp Contact Number (e.g., 03xxxxxxxxx) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="number" wire:model="contact_number"
-                                                        placeholder="Your Contact" required="required">
+                                                        placeholder="Your Contact" >
                                                 </div>
                                             </div>
                                         </div>
@@ -107,7 +106,7 @@
                                                 <label> Highest Qualification</label>
                                                 <div class="formify-forms__input">
                                                     <select class="form-select" wire:model="highest_qualification"
-                                                        required="required">
+                                                       >
                                                         <option value="">Select Gender</option>
                                                         <option value="Matric">Matric</option>
                                                         <option value="Intermediate">Intermediate</option>
@@ -121,7 +120,7 @@
                                                 <label>Date of Birth (as written on CNIC) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="date" wire:model="date_of_birth"
-                                                        required="required">
+                                                       >
                                                 </div>
                                             </div>
                                         </div>
@@ -204,7 +203,7 @@
                                                 in university? *</h4>
                                             <div class="form-group form-group__flex">
                                                 <select class="form-select" wire:model="is_enrolled"
-                                                    required="required">
+                                                   >
                                                     <option value="">Select Option</option>
                                                     <option value="1">Yes</option>
                                                     <option value="0">No</option>
@@ -227,7 +226,7 @@
                                             </h4>
                                             <div class="form-group form-group__flex">
                                                 <select class="form-select" wire:model="preferred_study_center"
-                                                    required="required">
+                                                   >
                                                     <option value="">Select Center</option>
                                                     <option value="MUET Jamshoro">MUET, Jamshoro</option>
                                                     <option value="Hyderabad">Hyderabad</option>
@@ -236,7 +235,8 @@
                                                     <option value="Thatta">Thatta</option>
                                                     <option value="Badin">Badin</option>
                                                     <option value="Tando Muhammad khan">Tando Muhammad khan</option>
-                                                    {{-- <option value="Umerkot">Umerkot</option> --}}
+                                                    <option value="Hala">Hala</option>
+                                                    <option value="Umerkot">Umerkot</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -244,7 +244,7 @@
                                             <h4 class="formify-forms__booking-title">Your preferred time slot *</h4>
                                             <div class="form-group form-group__flex">
                                                 <select class="form-select" wire:model="preferred_time_slot"
-                                                    required="required">
+                                                   >
                                                     <option value="">Select Time Slot</option>
                                                     <option value="9 AM to 12 PM">9 AM - 12 PM (Morning)</option>
                                                     <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>

@@ -252,6 +252,10 @@
                             </th>
                             <th scope="col"
                                 class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
+                                Phase
+                            </th>
+                            <th scope="col"
+                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
                                 Teacher
                             </th>
                             <th scope="col"
@@ -276,6 +280,11 @@
                                         class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-sm font-semibold text-blue-600 dark:text-blue-400 font-['Open_Sans']">
                                         {{ $loop->iteration }}
                                     </span>
+                                </td>
+                                <td class="py-4 px-3">
+                                    <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
+                                        {{ $course->title }}
+                                    </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
