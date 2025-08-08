@@ -75,6 +75,7 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="formify-forms__input">
+                                                        <label>CNIC Number</label>
                                                     <input type="number" wire:model="cnic_number"
                                                         placeholder="Your CNIC"  id="cnic-number">
                                                     @error('cnic_number')
