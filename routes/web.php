@@ -24,9 +24,9 @@ use App\Livewire\EditProfile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
-Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
-});
+// Livewire::setUpdateRoute(function ($handle) {
+//     return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
+// });
 
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {

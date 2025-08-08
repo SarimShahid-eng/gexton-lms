@@ -49,6 +49,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+       Livewire::setUpdateRoute(function ($handle) {
+        $prefix = trim(env('LIVEWIRE_PREFIX', ''), '/');
+        $uri = ($prefix ? "/{$prefix}" : '') . '/livewire/update';
+
+        return Route::post($uri, $handle)
+            ->middleware(['web', 'throttle:120,1'])
+            ->name('livewire.update');
+    });
         Livewire::setScriptRoute(function ($handle) {
             return Route::get('/custom/livewire/livewire.js', $handle);
         });
