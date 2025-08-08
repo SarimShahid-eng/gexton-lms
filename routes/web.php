@@ -5,6 +5,7 @@ use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
 use App\Livewire\EnrollStudent;
 use App\Livewire\Phase;
+use App\Livewire\ProgrammeCreate;
 use App\Livewire\Question;
 use App\Livewire\Quiz;
 use App\Livewire\QuizStudent;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
+    return Route::post('/gexton-lms_new/public/livewire/update', $handle);
 });
 
 Route::middleware('auth')->group(function () {
@@ -32,12 +33,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/profile', EditProfile::class)->name('show_profile');
         Route::get('/show-phases', Phase::class)->name('show_phase');
+        Route::get('/show-programmes', ProgrammeCreate::class)->name('show_programme');
         Route::get('/show-batches', Campus::class)->name('show_campus');
         Route::get('/show-campus', Batch::class)->name('show_batches');
         Route::get('show-courses', CreateCourses::class)->name('courses_create');
         Route::get('registered-student', ShowStudent::class)->name('show_students');
         Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
-        Route::get('create-teacher', Teacher::class)->name('create_teacher');
+        Route::get('create-trainer', Teacher::class)->name('create_teacher');
         Route::get('/students/export', [ShowStudent::class, 'export'])->name('students.export');
         Route::post('/students/import', [ShowStudent::class, 'import'])->name('students.import');
 
@@ -45,14 +47,14 @@ Route::middleware('auth')->group(function () {
     });
     Route::middleware(['role:student'])->prefix('students')->name('students.')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
-        Route::get('/tasks', StudentTask::class)->name('tasks');
+        Route::get('/assignments', StudentTask::class)->name('tasks');
         Route::get('/uplode-tasks', StudentTaskUplode::class)->name('uplodetasks');
         Route::get('/show-', Question::class)->name('show_questions');
         Route::get('show-quiz', QuizStudent::class)->name('show_quiz');
         Route::get('start-test/{id}', StartTest::class)->name('start_test');
 
     });
-    Route::middleware(['role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+    Route::middleware(['role:teacher'])->prefix('trainer')->name('teacher.')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
         Route::get('/students', StudentView::class)->name('students');
         Route::get('/attendace', StudentAttendance::class)->name('attendace');

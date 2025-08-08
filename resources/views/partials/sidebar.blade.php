@@ -82,9 +82,32 @@
 
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Teachers
+                                    Trainers
                                 </span>
                                 @if (request()->routeIs('create_teacher'))
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+                        <!-- Programme -->
+                        <li>
+                            <a href="{{ route('show_programme') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('show_programme') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                               <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 7.5h6m-6 3h6m-6 3h6M4.5 4.5h15v15h-15z" />
+                              </svg>
+
+
+
+
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Programmes
+                                </span>
+                                @if (request()->routeIs('show_programme'))
                                     <div
                                         class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
                                     </div>
@@ -363,7 +386,7 @@
                                 </svg>
 
                                 <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                    Task
+                                    Assignments
                                 </span>
 
                                 @if (request()->routeIs('teacher.task'))

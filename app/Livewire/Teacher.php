@@ -80,11 +80,11 @@ class Teacher extends Component
                 unset($validatedData['password']); // Agar password empty hai to skip
             }
             User::where('id', $this->id)->update($validatedData);
-            $message = 'Teacher Updated Successfully';
+            $message = 'Trainer Updated Successfully';
         } else {
             // Create new user
             $user = User::create($validatedData);
-            $message = 'Teacher Created Successfully';
+            $message = 'Trainer Created Successfully';
         }
 
         // Reset form

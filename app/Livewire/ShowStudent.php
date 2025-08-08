@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Batch;
 use App\Models\EnrollStudent;
 use App\Models\EnrollStudentDetail;
+use App\Models\Phase;
 use App\Models\StudentRegister;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ShowStudent extends Component
 {
     use WithPagination;
     protected $listeners = ['view_student'];
-    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4,$search = '';
+    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $search = '', $phases = [];
 
     public function updatingSearch()
     {
@@ -32,19 +33,20 @@ class ShowStudent extends Component
     {
         $students = StudentRegister::where(function ($query) {
             $query->where('full_name', 'like', '%' . $this->search . '%')
-                  ->orWhere('email', 'like', '%' . $this->search . '%')
-                  ->orWhere('cnic_number', 'like', '%' . $this->search . '%')
-                  ->orWhere('contact_number', 'like', '%' . $this->search . '%');
+                ->orWhere('email', 'like', '%' . $this->search . '%')
+                ->orWhere('cnic_number', 'like', '%' . $this->search . '%')
+                ->orWhere('contact_number', 'like', '%' . $this->search . '%');
         })
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+            ->orderBy('id', 'desc')
+            ->paginate(10);
         // dd($students);
         return view('livewire.show-student', compact('students'));
     }
-    public function mount()
-    {
-        $this->campuses = Campus::get();
-    }
+    // public function mount()
+    // {
+
+    //     // dd($this->phases);
+    // }
     public function view_student($id)
     {
         $student = StudentRegister::find($id);
@@ -70,6 +72,15 @@ class ShowStudent extends Component
         $this->dispatch('open-task-view-modal');
 
     }
+    public function updatedPhaseId($value)
+    {
+        $this->campuses = Campus::where('phase_id', $value)->get();
+        $this->campus_id = null;
+        $this->batches = [];
+        $this->batch_id = null;
+        $this->courses = [];
+        $this->course_id = null;
+    }
     public function updatedCampusId($value)
     {
         $this->batches = Batch::where('campus_id', $value)->where('status', 1)->get();
@@ -87,9 +98,8 @@ class ShowStudent extends Component
     {
         $this->reset(['campus_id', 'batch_id', 'course_id', 'batches', 'courses']);
         $this->reset();
-        $this->campuses = Campus::get();
+        $this->phases = Phase::get();
         $student = StudentRegister::find($id);
-        // dd($student);
         $this->full_name = $student->full_name;
         $this->father_name = $student->father_name;
         $this->cnic_number = $student->cnic_number;
@@ -161,8 +171,8 @@ class ShowStudent extends Component
         $request->validate([
             'file' => 'required|file|mimes:xlsx,xls,csv'
         ]);
-            Excel::import(new StudentsImport, $request->file('file'));
-            $message = "Import Has Successfully.";
+        Excel::import(new StudentsImport, $request->file('file'));
+        $message = "Import Has Successfully.";
 
 
         $this->dispatch(
