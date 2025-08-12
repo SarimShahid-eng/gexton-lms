@@ -12,4 +12,8 @@ class Campus extends Model
     {
         return $this->belongsTo(Phase::class, 'phase_id');
     }
+    function campus()
+    {
+        return $this->hasOne(Batch::class,'campus_id','id');
+    }
 }

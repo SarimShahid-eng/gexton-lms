@@ -2,14 +2,16 @@
 
 namespace App\Livewire;
 
-use App\Models\Batch as BatchGroup;
-use App\Models\Campus;
+use App\Models\Campus as BatchGroup;
+// Batch acting as campus
+use App\Models\Batch as Campus;
 use App\Models\Phase;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Batch extends Component
 {
+    // Notes Campus Everuwhere denotes batch
     use WithPagination;
     protected $paginationTheme = 'tailwind';
 
@@ -21,7 +23,8 @@ class Batch extends Component
     public function render()
     {
         $phases = Phase::get();
-        $batches = BatchGroup::with('campus','phase' )->where(function ($query) {
+        // campus are batches and
+        $batches = Campus::with(['campus.phase','campus'])->where(function ($query) {
             $query->where('title', 'like', '%' . $this->search . '%');
         })
             ->orderBy('id', 'desc')
@@ -30,7 +33,7 @@ class Batch extends Component
     }
     public function updatedPhaseId($value)
     {
-        $this->campuses = Campus::where('phase_id', $value)->get();
+        $this->campuses = BatchGroup::where('phase_id', $value)->get();
         $this->campus_id = null; // reset selected campus
     }
     public function save()
@@ -49,7 +52,9 @@ class Batch extends Component
         ];
         // Validate the data
         $validatedData = $this->validate($rules);
-        BatchGroup::updateOrCreate(
+        unset($validatedData['phase_id']);
+    //    $validatedData
+        Campus::updateOrCreate(
             ['id' => $this->id],
             $validatedData
         );
@@ -67,31 +72,28 @@ class Batch extends Component
     }
     public function edit($id)
     {
-        $batch = BatchGroup::find($id);
+        $batch = Campus::find($id);
         $this->title = $batch->title;
         $this->description = $batch->description;
         $this->campus_id = $batch->campus_id;
-        $this->phase_id = $batch->phase_id;
+        $this->phase_id = $batch->campus->phase->id;
         $this->id = $id;
-
-        $this->campuses = Campus::where('phase_id', $this->phase_id)->get();
-
+        $this->campuses = BatchGroup::where('phase_id', $this->phase_id)->get();
     }
-    public function toggleStatus($id)
-    {
-        // dd($id);
-        $batch = BatchGroup::findOrFail($id);
-        // dd($batch);
-        $batch->status = !$batch->status;
-        $batch->save();
+    // public function toggleStatus($id)
+    // {
 
-        $statusText = $batch->status ? 'activated' : 'deactivated';
+    //     $batch = BatchGroup::findOrFail($id);
+    //     $batch->status = !$batch->status;
+    //     $batch->save();
 
-        $this->dispatch(
-            'batches-saved',
-            title: 'Success!',
-            text: "Campus has been $statusText successfully.",
-            icon: 'success',
-        );
-    }
+    //     $statusText = $batch->status ? 'activated' : 'deactivated';
+
+    //     $this->dispatch(
+    //         'batches-saved',
+    //         title: 'Success!',
+    //         text: "Campus has been $statusText successfully.",
+    //         icon: 'success',
+    //     );
+    // }
 }

@@ -17,26 +17,26 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('father_name');
 
-            $table->string('gender'); // e.g. Male/Female/Transgender
+            $table->enum('gender', ['male', 'female', 'transgender']);
             $table->string('cnic_number')->unique();      // 13 digits (validated)
             $table->string('email')->unique();
             $table->string('contact_number');             // 11 digits (validated)
             $table->string('date_of_birth');              // keep as string per your current data
 
             // Files (store relative paths)
-            $table->string('profile_picture')->nullable();
-            $table->string('intermediate_marksheet')->nullable();
-            $table->string('domicile_form_c')->nullable();
+            $table->string('profile_picture');
+            $table->string('intermediate_marksheet');
+            $table->enum('domicile_category', ['urban', 'rural']);
+            $table->string('domicile_form_c');
 
             $table->string('domicile_district');
 
             // Enrollment flags
-            $table->boolean('is_enrolled');                  // "0"/"1" in UI; bool in DB
-            $table->boolean('enrolled_status')->default(false);
+            // $table->boolean('enrolled_status')->default(false);
 
             // Education / University
-            $table->string('university_name');               // you’re treating as required now
-            $table->string('highest_qualification');         // NEW (e.g., Matric/Intermediate/etc.)
+            $table->string('most_recent_institution');               // you’re treating as required now
+            $table->enum('highest_qualification', ['matric', 'intermediate', 'graduate']);       // NEW (e.g., Matric/Intermediate/etc.)
 
             // Preferences
             $table->string('preferred_study_center');

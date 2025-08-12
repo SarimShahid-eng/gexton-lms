@@ -184,10 +184,11 @@
                                 class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
                                 Description
                             </th>
-                            <th scope="col"
+                            {{-- will remove it if not needed  --}}
+                            {{-- <th scope="col"
                                 class="py-3.5 px-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
                                 Status
-                            </th>
+                            </th> --}}
 
                             <th scope="col"
                                 class="py-3.5 px-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-300 font-['Open_Sans']">
@@ -196,7 +197,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                        @forelse ($batches as $batch)
+                        @forelse ($batches as $campus)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200">
                                 <td class="py-4 px-3">
                                     <span
@@ -206,51 +207,51 @@
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $batch->phase->title }}
+                                        {{ $campus->campus->phase->title }}
+                                    </p>
+                                </td>
+                                <td class="py-4 px-3">
+                                    <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
+                                        {{ @$campus->campus->title }}
+                                    </p>
+                                </td>
+                                <td class="py-4 px-3">
+                                    <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
+                                        {{ $campus->title }}
                                     </p>
                                 </td>
 
+
+
                                 <td class="py-4 px-3">
                                     <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $batch->campus->title }}
-                                    </p>
-                                </td>
-                                <td class="py-4 px-3">
-                                    <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $batch->title }}
-                                    </p>
-                                </td>
-                                <td class="py-4 px-3">
-                                    <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $batch->description }}
+                                        {{ $campus->description }}
                                     </p>
                                 </td>
 
-                                <td class="py-4 px-3">
-                                    <div x-data="{ status: @entangle('campuses.' . $batch->id . '.status').defer }">
-                                        <button
-                                            @click="$wire.toggleStatus({{ $batch->id }})"
-                                            type="button"
+                                {{-- <td class="py-4 px-3">
+                                    <div x-data="{ status: @entangle('campuses.' . $campus->id . '.status').defer }">
+                                        <button @click="$wire.toggleStatus({{ $campus->id }})" type="button"
                                             class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none
-                                            {{ $batch->status ? 'bg-green-500' : 'bg-gray-300' }}">
+                                            {{ $campus->status ? 'bg-green-500' : 'bg-gray-300' }}">
                                             <span
                                                 class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300
-                                                {{ $batch->status ? 'translate-x-6' : 'translate-x-1' }}">
+                                                {{ $campus->status ? 'translate-x-6' : 'translate-x-1' }}">
                                             </span>
                                         </button>
                                     </div>
-                                </td>
+                                </td> --}}
 
 
                                 <td class="py-4 px-3">
                                     <div class="flex items-center justify-center gap-3">
                                         <!-- Edit Button with Tooltip -->
                                         <div x-data="{ showTooltip: false }" class="relative">
-                                            <button wire:click="edit({{ $batch->id }})"
+                                            <button wire:click="edit({{ $campus->id }})"
                                                 @click="showbatchForm = true" @mouseenter="showTooltip = true"
                                                 @mouseleave="showTooltip = false"
                                                 class="group relative inline-flex items-center justify-center w-9 h-9  text-blue-500 hover:bg-blue-500/10 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                                aria-label="Edit Batch {{ $batch->title }}">
+                                                aria-label="Edit Batch {{ $campus->title }}">
                                                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
                                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"

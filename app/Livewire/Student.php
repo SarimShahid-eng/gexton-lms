@@ -12,9 +12,74 @@ class Student extends Component
 {
     use WithFileUploads;
 
-    public $full_name, $father_name, $gender, $cnic_number, $email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_form_c, $is_enrolled = false, $university_name, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $courseList = [];
+    public $full_name, $father_name, $gender, $cnic_number, $email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_category, $domicile_form_c,  $most_recent_institution, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4;
     public $highest_qualification, $have_disability, $monthly_household_income, $course_if_participated, $phase_if_participated, $center_if_participated, $from_source, $participated_previously, $info_confirm = false;
     public $activeTab = 'step1';
+    // public string $highestQualification = '';
+    public array $courseList = [];
+    // course Setup
+    // Master list
+    protected array $allCourses = [
+        'Certified Cloud Computing Professional',
+        'Certified Cyber Security and Ethical Hacking Professional',
+        'Certified Data Scientist',
+        'Certified Database Administrator',
+        'Certified Digital Marketing Professional',
+        'Certified E-Commerce Professional',
+        'Certified Graphic Designer',
+        'Certified Java Developer',
+        'Certified Mobile Application Developer',
+        'Certified Python Developer',
+        'Certified Social Media Manager',
+        'Certified Web Developer',
+    ];
+
+    // Matric courses
+    protected array $matricCourses = [
+        'Certified Digital Marketing Professional',
+        'Certified E-Commerce Professional',
+        'Certified Graphic Designer',
+        'Certified Python Developer',
+        'Certified Social Media Manager',
+        'Certified Web Developer',
+    ];
+
+    // Graduate courses
+    protected array $graduateCourses = [
+        'Certified Cloud Computing Professional',
+        'Certified Cyber Security and Ethical Hacking Professional',
+        'Certified Data Scientist',
+        'Certified Database Administrator',
+        'Certified Java Developer',
+        'Certified Mobile Application Developer',
+    ];
+    public function mount()
+    {
+        $this->refreshCourseList();
+    }
+    public function updatedHighestQualification($value)
+    {
+        $this->refreshCourseList();
+    }
+    private function refreshCourseList(): void
+    {
+        switch ($this->highest_qualification) {
+            case 'matric':
+                $this->courseList = $this->matricCourses;
+                break;
+
+            case 'intermediate':
+                $this->courseList = $this->allCourses;
+                break;
+
+            case 'graduate':
+                $this->courseList = $this->graduateCourses;
+                break;
+
+            default:
+                $this->courseList = [];
+        }
+    }
 
     protected function rules()
     {
@@ -40,12 +105,11 @@ class Student extends Component
                 // 'dimensions:min_width=350,min_height=450,ratio=7/9', // ~35x45 mm
             ],
             'intermediate_marksheet'  => ['required', 'file', 'max:256'],
-
+            'domicile_category'             => ['required', 'string', 'min:2', 'max:150'],
             'domicile_form_c'         => ['required', 'file', 'max:1024'],
 
             'domicile_district'       => ['required', 'string', 'max:100'],
-            'is_enrolled'             => ['required', Rule::in(['0', '1'])],
-            'university_name'         => ['required', 'string', 'max:150'],
+            'most_recent_institution'   => ['required', 'string', 'max:150'],
             'preferred_study_center'  => ['required', 'string', 'max:120'],
             'preferred_time_slot'     => ['required', 'string', 'max:50'],
 
@@ -97,22 +161,9 @@ class Student extends Component
         'cnic_number.digits'       => 'CNIC must be exactly 13 digits.',
         'contact_number.digits'    => 'Contact number must be exactly 11 digits.',
     ];
+
     public function render()
     {
-        $this->courseList = [
-            'Certified Cloud Computing Professional',
-            'Certified Cyber Security and Ethical Hacking Professional',
-            'Certified Data Scientist',
-            'Certified Database Administrator',
-            'Certified Digital Marketing Professional',
-            'Certified E-Commerce Professional',
-            'Certified Graphic Designer',
-            'Certified Java Developer',
-            'Certified Mobile Application Developer',
-            'Certified Python Developer',
-            'Certified Social Media Manager',
-            'Certified Web Developer'
-        ];
         return view('livewire.student')->layout('layouts.student-layout');
     }
     // Switch tabs

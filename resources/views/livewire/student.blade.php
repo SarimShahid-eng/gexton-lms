@@ -48,7 +48,7 @@
                                                 <label>Name (as written on CNIC/B Form/Marksheet) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="text" wire:model="full_name"
-                                                        placeholder="Enter name" >
+                                                        placeholder="Enter name">
                                                 </div>
                                             </div>
                                         </div>
@@ -57,14 +57,14 @@
                                                 <label>Father's Name *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="text" wire:model="father_name"
-                                                        placeholder="Enter Father Name" >
+                                                        placeholder="Enter Father Name">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                            <h4 class="formify-forms__booking-title">Gender *</h4>
-                                            <div class="form-group form-group__flex">
-                                                <select class="form-select" wire:model="gender" >
+                                        <div class="formify-mg-top-20">
+                                            <label>Gender *</label>
+                                            <div class="">
+                                                <select class="form-select" wire:model="gender">
                                                     <option value="">Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -75,9 +75,9 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="formify-forms__input">
-                                                        <label>CNIC Number</label>
+                                                    <label>CNIC Number *</label>
                                                     <input type="number" wire:model="cnic_number"
-                                                        placeholder="Your CNIC"  id="cnic-number">
+                                                        placeholder="Your CNIC" id="cnic-number">
                                                     @error('cnic_number')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -88,8 +88,7 @@
                                             <div class="form-group">
                                                 <label>Email *</label>
                                                 <div class="formify-forms__input">
-                                                    <input type="email" wire:model="email" placeholder="Your Email"
-                                                        >
+                                                    <input type="email" wire:model="email" placeholder="Your Email">
                                                 </div>
                                             </div>
                                         </div>
@@ -98,45 +97,43 @@
                                                 <label> WhatsApp Contact Number (e.g., 03xxxxxxxxx) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="number" wire:model="contact_number"
-                                                        placeholder="Your Contact" >
+                                                        placeholder="Your Contact">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label> Highest Qualification</label>
-                                                <div class="formify-forms__input">
-                                                    <select class="form-select" wire:model="highest_qualification"
-                                                       >
-                                                        <option value="">Select Gender</option>
-                                                        <option value="Matric">Matric</option>
-                                                        <option value="Intermediate">Intermediate</option>
-                                                        <option value="Graduate">Graduate</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label>Date of Birth (as written on CNIC) *</label>
                                                 <div class="formify-forms__input">
-                                                    <input type="date" wire:model="date_of_birth"
-                                                       >
+                                                    <input type="date" wire:model="date_of_birth">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Profile Picture (passport size, max file size 1 mb) *</label>
+                                                <label>Profile Picture (passport size, max file size 256 kb) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="profile_picture"
-                                                        name="profile_picture" accept="image/*"
-                                                        data-max-size-kb="1000"
+                                                        name="profile_picture" accept="image/*" data-max-size-kb="256"
                                                         style="padding-top: 13px; font-size: 12px;">
                                                 </div>
                                             </div>
                                         </div>
                                         <h3 class="text-center bg-light p-2 mt-3">Education</h3>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label> Highest Qualification</label>
+                                                <div class="formify-forms__input">
+                                                    <select class="form-select" wire:model.live="highest_qualification">
+                                                        <option selected>Select Qualification</option>
+                                                        <option value="matric">Matric</option>
+                                                        <option value="intermediate">Intermediate</option>
+                                                        <option value="graduate">Graduate</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label>Upload Latest Marksheet/Certificate (Max 256 KB)</label>
@@ -149,19 +146,34 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Upload Your Domicile or Form C (maximum file size is 1 mb)
+                                               <div class="form-grouping">
+                                                <label>Domicile Category</label>
+                                                <select wire:model="domicile_category" class="form-select"
+                                                    required="required">
+                                                    <option selected>Select category</option>
+                                                    <option value="urban">Urban</option>
+                                                    <option value="rural">Rural</option>
+
+                                                </select>
+
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Upload Your Domicile or Form C (maximum file size is 256kb)
                                                     *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="domicile_form_c"
                                                         name="domicile_form_c" accept="image/*"
-                                                        data-max-size-kb="1000"
+                                                        data-max-size-kb="256"
                                                         style="padding-top: 13px; font-size: 12px;">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                            <h4 class="formify-forms__booking-title">Domicile District *</h4>
-                                            <div class="form-group form-group__flex">
+                                        <div class=" formify-mg-top-20">
+                                            <label>Domicile District *</label>
+                                            <div class="form-grouping">
                                                 <select wire:model="domicile_district" class="form-select"
                                                     required="required">
                                                     <option value="badin">Badin</option>
@@ -193,41 +205,24 @@
                                                     <option value="sujawal">Sujawal</option>
                                                     <option value="korangi">Korangi</option>
                                                     <option value="malir">Malir</option>
-                                                    {{-- <option value="other">Other (please specify)</option> --}}
+
                                                 </select>
 
                                             </div>
                                         </div>
-                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                            <h4 class="formify-forms__booking-title">Are you currently
-                                                admitted/enrolled/studying
-                                                in university? *</h4>
-                                            <div class="form-group form-group__flex">
-                                                <select class="form-select" wire:model="is_enrolled"
-                                                   >
-                                                    <option value="">Select Option</option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="0">No</option>
-                                                </select>
+
+                                        <div class="formify-mg-top-20">
+                                            <label>Name of Last Attended Institution? *</label>
+                                            <div class="form-grouping form-group__flex">
+                                                <input type="text" wire:model="most_recent_institution"
+                                                    placeholder="Most recent institution name">
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label>If yes, write the name of the university/institute in which you
-                                                    are currently
-                                                    studying?</label>
-                                                <div class="formify-forms__input">
-                                                    <input type="text" wire:model="university_name"
-                                                        placeholder="University Name">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                            <h4 class="formify-forms__booking-title">Your preferred center for study? *
-                                            </h4>
-                                            <div class="form-group form-group__flex">
-                                                <select class="form-select" wire:model="preferred_study_center"
-                                                   >
+
+                                        <div class="formify-mg-top-20">
+                                            <label>Your preferred center for study? *</label>
+                                            <div class="form-grouping form-group__flex">
+                                                <select class="form-select" wire:model="preferred_study_center">
                                                     <option value="">Select Center</option>
                                                     <option value="MUET Jamshoro">MUET, Jamshoro</option>
                                                     <option value="Hyderabad">Hyderabad</option>
@@ -241,11 +236,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                            <h4 class="formify-forms__booking-title">Your preferred time slot *</h4>
-                                            <div class="form-group form-group__flex">
-                                                <select class="form-select" wire:model="preferred_time_slot"
-                                                   >
+                                        <div class="formify-mg-top-20">
+                                            <label>Your preferred time slot *</label>
+                                            <div class="form-grouping form-group__flex">
+                                                <select class="form-select" wire:model="preferred_time_slot">
                                                     <option value="">Select Time Slot</option>
                                                     <option value="9 AM to 12 PM">9 AM - 12 PM (Morning)</option>
                                                     <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>
@@ -281,8 +275,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                        <h4 class="formify-forms__booking-title">1st Choice *</h4>
-                                        <div class="form-group">
+                                        <label>1st Choice *</label>
+                                        <div class="form-grouping">
                                             {{-- enable course-choice it will reset course everytime tab changes --}}
                                             <select name="course_choice_1" wire:model="course_choice_1"
                                                 class="form-control course-choice" id="choice1">
@@ -300,8 +294,9 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                        <h4 class="formify-forms__booking-title">2nd Choice *</h4>
-                                        <div class="form-group form-group__flex">
+                                        <label>2nd Choice *</label>
+
+                                        <div class="form-grouping form-group__flex">
                                             <select class="form-control course-choice" id="choice2"
                                                 name="course_choice_2" wire:model="course_choice_2">
                                                 <option value="">Select Course</option>
@@ -315,8 +310,9 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                        <h4 class="formify-forms__booking-title">3rd Choice *</h4>
-                                        <div class="form-group form-group__flex">
+                                        <label>3rd Choice *</label>
+
+                                        <div class="form-grouping form-group__flex">
                                             <select class="form-control course-choice" id="choice3"
                                                 name="course_choice_3" wire:model="course_choice_3">
                                                 <option value="">Select Course</option>
@@ -330,8 +326,9 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                        <h4 class="formify-forms__booking-title">4th Choice *</h4>
-                                        <div class="form-group form-group__flex">
+                                        <label>4th Choice *</label>
+
+                                        <div class="form-grouping form-group__flex">
                                             <select class="form-control course-choice" id="choice4"
                                                 name="course_choice_4" wire:model="course_choice_4">
                                                 <option value="">Select Course</option>
@@ -343,6 +340,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h5 class="mb-0 mt-3 pb-0 ms-2"><i class="fa-solid fa-triangle-exclamation"></i> The
+                                    availability of course, center, and time slot depends on seat capacity and total
+                                    registrations.</h5>
+
                             </div>
 
 
@@ -379,10 +380,9 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">Do you have a disability?
-                                                    </h4>
-                                                    <div class="form-group form-group__flex">
-                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                    <label>Do you have a disability?</label>
+                                                    <div class="form-grouping d-flex gap-2 form-group__flex">
+                                                        <div class="form-check d-flex align-items-center gap-2 ">
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" name="participated_yes"
                                                                 id="participated_yes" value="yes"
@@ -390,7 +390,7 @@
                                                             <label class="form-check-label m-0"
                                                                 for="participated_yes">Yes</label>
                                                         </div>
-                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                        <div class="form-check d-flex align-items-center gap-2 ">
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" name="participated_yes"
                                                                 id="participated_yes" value="yes"
@@ -405,9 +405,10 @@
 
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">Monthly Household Income*
-                                                    </h4>
-                                                    <div class="form-group form-group__flex">
+
+                                                    <label>Monthly Household Income*</label>
+
+                                                    <div class="form-grouping d-flex form-group__flex">
                                                         <select class="form-control "
                                                             wire:model="monthly_household_income" required="required">
                                                             <option value="">Select Household Income</option>
@@ -423,10 +424,11 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">Have you participated in
-                                                        PITP previously?</h4>
-                                                    <div class="form-group form-group__flex">
-                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                    <label>Have you participated in
+                                                        PITP previously?</label>
+
+                                                    <div class="form-grouping d-flex gap-2 form-group__flex">
+                                                        <div class="form-check d-flex align-items-center gap-2 ">
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" id="participated_yes"
                                                                 onclick="toggleFields(true)"
@@ -435,7 +437,7 @@
                                                             <label class="form-check-label m-0"
                                                                 for="participated_yes">Yes</label>
                                                         </div>
-                                                        <div class="form-check d-flex align-items-center gap-2 me-3">
+                                                        <div class="form-check d-flex align-items-center gap-2 ">
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" id="participated_yes"
                                                                 onclick="toggleFields(false)"
@@ -468,9 +470,10 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-                                                    <h4 class="formify-forms__booking-title">How did you hear about
-                                                        PITP?</h4>
-                                                    <div class="form-group form-group__flex">
+                                                    <label>How did you hear about
+                                                        PITP?</label>
+
+                                                    <div class="form-grouping form-group__flex">
                                                         <select class="form-control " wire:model="from_source"
                                                             required="required">
                                                             <option value="">Select option</option>

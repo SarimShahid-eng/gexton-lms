@@ -20,7 +20,7 @@ class StudentRegister extends Model
         'domicile_district',
         'is_enrolled',
         'enrolled_status',
-        'university_name',
+        'most_recent_institution',
         'highest_qualification',
         'preferred_study_center',
         'preferred_time_slot',
