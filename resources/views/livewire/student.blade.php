@@ -176,6 +176,7 @@
                                             <div class="form-grouping">
                                                 <select wire:model="domicile_district" class="form-select"
                                                     required="required">
+                                                    <option >Select District</option>
                                                     <option value="badin">Badin</option>
                                                     <option value="dadu">Dadu</option>
                                                     <option value="ghotki">Ghotki</option>
