@@ -1,4 +1,4 @@
-    <div class="col-lg-7 formify-booking-column-main formify-mg-top-30">
+    <div class="col-lg-12 w-100 formify-booking-column-main formify-mg-top-30">
         <form wire:submit.prevent="save" id="multiStepForm" enctype="multipart/form-data"
             class="formify-forms formify-forms__booking formify-form-shadow" action="#">
             @csrf
@@ -492,7 +492,7 @@
                                                 <div class="form-group form-group__flex">
                                                     <div class=" d-flex align-items-start gap-2">
                                                         <input class=""
-                                                            style="height:20px !important;width:60px !important; margin-top:3px;"
+                                                            style="height:26px !important;width:45px !important; margin-top:3px;"
                                                             type="checkbox" id="info_confirm"
                                                             wire:model="info_confirm" required
                                                             onclick="toggleButtonState()">
