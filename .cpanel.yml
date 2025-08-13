@@ -1,22 +1,21 @@
 deployment:
   tasks:
-    # 0) Ensure we’re on the correct branch (change 'main' if needed)
+    # 1) Make sure we’re on the correct branch (change 'main' if needed)
     - /bin/bash -lc 'git fetch --all --prune'
     - /bin/bash -lc 'git checkout main'
 
-    # 1) FORCE override local edits with remote state
+    # 2) Force override local edits with remote state,
+    #    but keep .env and storage/ intact
     - /bin/bash -lc 'git reset --hard origin/main'
-    - /bin/bash -lc 'git clean -fd'  # remove untracked files/dirs
+    - /bin/bash -lc 'git clean -fd -e .env -e storage'  # -e excludes
 
-    # 2) (Optional) Submodules
+    # 3) If you use Git submodules
     - /bin/bash -lc 'git submodule update --init --recursive'
 
-    # 3) (Optional) PHP/Laravel build steps — adjust paths as needed
-    # Composer path varies by server; try one of these:
-    # /opt/cpanel/composer/bin/composer OR ~/.composer/vendor/bin/composer
+    # 4) Laravel build steps (skip if not needed)
     - /bin/bash -lc 'which composer || echo "composer not found, skipping"'
     - /bin/bash -lc 'composer install --no-dev --prefer-dist --optimize-autoloader || true'
     - /bin/bash -lc 'php artisan config:cache || true'
     - /bin/bash -lc 'php artisan route:cache || true'
     - /bin/bash -lc 'php artisan view:cache || true'
-    # - /bin/bash -lc 'php artisan migrate --force'  # uncomment if you want auto-migrations
+    # - /bin/bash -lc 'php artisan migrate --force'  # Uncomment if you want DB migrations to run automatically
