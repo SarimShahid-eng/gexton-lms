@@ -36,12 +36,12 @@ class Student extends Component
 
     // Matric courses
     protected array $matricCourses = [
+        'Certified Graphic Designer',
         'Certified Digital Marketing Professional',
         'Certified E-Commerce Professional',
-        'Certified Graphic Designer',
-        'Certified Python Developer',
         'Certified Social Media Manager',
         'Certified Web Developer',
+        'Certified Python Developer',
     ];
 
     // Graduate courses
@@ -55,14 +55,25 @@ class Student extends Component
     ];
     public function mount()
     {
+        // Optional: set a default
+        $this->highest_qualification = $this->highest_qualification ?? null;
         $this->refreshCourseList();
     }
     public function updatedHighestQualification($value)
     {
+        // dd($value);
+        $this->highest_qualification = $value;
         $this->refreshCourseList();
+        $this->reset([
+            'course_choice_1',
+            'course_choice_2',
+            'course_choice_3',
+            'course_choice_4',
+        ]);
     }
     private function refreshCourseList(): void
     {
+        // dd($this->highestQualification);
         switch ($this->highest_qualification) {
             case 'matric':
                 $this->courseList = $this->matricCourses;
@@ -114,10 +125,10 @@ class Student extends Component
             'preferred_time_slot'     => ['required', 'string', 'max:50'],
 
             // Course choices: all required & distinct & must be from list (if you want to lock to known list)
-            'course_choice_1'         => ['required', Rule::in($this->courseList)],
-            'course_choice_2'         => ['required', 'different:course_choice_1', Rule::in($this->courseList)],
-            'course_choice_3'         => ['required', 'different:course_choice_1', 'different:course_choice_2', Rule::in($this->courseList)],
-            'course_choice_4'         => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3', Rule::in($this->courseList)],
+            'course_choice_1' => ['required', Rule::in(array_values($this->courseList))],
+            'course_choice_2' => ['required', 'different:course_choice_1', Rule::in(array_values($this->courseList))],
+            'course_choice_3' => ['required', 'different:course_choice_1', 'different:course_choice_2', Rule::in(array_values($this->courseList))],
+            'course_choice_4' => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3', Rule::in(array_values($this->courseList))],
 
             'highest_qualification'   => ['required', 'string', 'max:100'],
             'have_disability'         => ['required', Rule::in(['yes', 'no'])],
@@ -164,16 +175,19 @@ class Student extends Component
 
     public function render()
     {
+        // $this->refreshCourseList();
         return view('livewire.student')->layout('layouts.student-layout');
     }
     // Switch tabs
     public function switchTab($tab)
     {
+
         $this->activeTab = $tab;
     }
     public function save()
     {
-
+        // dd($this->all());
+        $this->refreshCourseList();
         // Validate all input fields according to your rules
         $validatedData = $this->validate();
 

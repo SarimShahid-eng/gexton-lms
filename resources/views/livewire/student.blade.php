@@ -280,7 +280,7 @@
                                         <div class="form-grouping">
                                             {{-- enable course-choice it will reset course everytime tab changes --}}
                                             <select name="course_choice_1" wire:model="course_choice_1"
-                                                class="form-control course-choice" id="choice1">
+                                                class="form-control">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
                                                     <option value="{{ $course }}">
@@ -298,7 +298,7 @@
                                         <label>2nd Choice *</label>
 
                                         <div class="form-grouping form-group__flex">
-                                            <select class="form-control course-choice" id="choice2"
+                                            <select class="form-control"
                                                 name="course_choice_2" wire:model="course_choice_2">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
@@ -314,7 +314,7 @@
                                         <label>3rd Choice *</label>
 
                                         <div class="form-grouping form-group__flex">
-                                            <select class="form-control course-choice" id="choice3"
+                                            <select class="form-control"
                                                 name="course_choice_3" wire:model="course_choice_3">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
@@ -330,7 +330,7 @@
                                         <label>4th Choice *</label>
 
                                         <div class="form-grouping form-group__flex">
-                                            <select class="form-control course-choice" id="choice4"
+                                            <select class="form-control"
                                                 name="course_choice_4" wire:model="course_choice_4">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
@@ -578,34 +578,34 @@
                     $(inputElement).val(''); // Clear the input
                 }
             }
+// remove later
+            // function rebuildDropdowns() {
+            //     let selected = [];
+            //     $('.course-choice').each(function() {
+            //         const val = $(this).val();
+            //         if (val) selected.push(val);
+            //     });
 
-            function rebuildDropdowns() {
-                let selected = [];
-                $('.course-choice').each(function() {
-                    const val = $(this).val();
-                    if (val) selected.push(val);
-                });
+            //     $('.course-choice').each(function() {
+            //         const currentSelect = $(this);
+            //         const currentValue = currentSelect.val();
 
-                $('.course-choice').each(function() {
-                    const currentSelect = $(this);
-                    const currentValue = currentSelect.val();
+            //         currentSelect.empty();
+            //         currentSelect.append('<option value="">Select Course</option>');
 
-                    currentSelect.empty();
-                    currentSelect.append('<option value="">Select Course</option>');
+            //         allCourses.forEach(course => {
+            //             if (!selected.includes(course) || course === currentValue) {
+            //                 const selectedAttr = (course === currentValue) ? 'selected' : '';
+            //                 currentSelect.append(
+            //                     `<option value="${course}" ${selectedAttr}>${course}</option>`);
+            //             }
+            //         });
+            //     });
+            // }
 
-                    allCourses.forEach(course => {
-                        if (!selected.includes(course) || course === currentValue) {
-                            const selectedAttr = (course === currentValue) ? 'selected' : '';
-                            currentSelect.append(
-                                `<option value="${course}" ${selectedAttr}>${course}</option>`);
-                        }
-                    });
-                });
-            }
-
-            $(document).on('change', '.course-choice', function() {
-                rebuildDropdowns();
-            });
+          //  $(document).on('change', '.course-choice', function() {
+           //     rebuildDropdowns();
+            //});
 
             $(document).on('change', 'input[type="file"]', function() {
                 validateFileSize(this);
