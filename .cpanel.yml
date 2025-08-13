@@ -1,0 +1,22 @@
+deployment:
+  tasks:
+    # 0) Ensure we’re on the correct branch (change 'main' if needed)
+    - /bin/bash -lc 'git fetch --all --prune'
+    - /bin/bash -lc 'git checkout main'
+
+    # 1) FORCE override local edits with remote state
+    - /bin/bash -lc 'git reset --hard origin/main'
+    - /bin/bash -lc 'git clean -fd'  # remove untracked files/dirs
+
+    # 2) (Optional) Submodules
+    - /bin/bash -lc 'git submodule update --init --recursive'
+
+    # 3) (Optional) PHP/Laravel build steps — adjust paths as needed
+    # Composer path varies by server; try one of these:
+    # /opt/cpanel/composer/bin/composer OR ~/.composer/vendor/bin/composer
+    - /bin/bash -lc 'which composer || echo "composer not found, skipping"'
+    - /bin/bash -lc 'composer install --no-dev --prefer-dist --optimize-autoloader || true'
+    - /bin/bash -lc 'php artisan config:cache || true'
+    - /bin/bash -lc 'php artisan route:cache || true'
+    - /bin/bash -lc 'php artisan view:cache || true'
+    # - /bin/bash -lc 'php artisan migrate --force'  # uncomment if you want auto-migrations
