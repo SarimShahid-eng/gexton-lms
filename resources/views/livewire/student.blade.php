@@ -45,7 +45,7 @@
                                     <div class="formify-forms__booking-form--single">
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Name (as written on CNIC/B Form/Marksheet) *</label>
+                                                <label>Full Name (as per CNIC/B-Form/Marksheet) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="text" wire:model="full_name"
                                                         placeholder="Enter name">
@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
                                         <div class="formify-mg-top-20">
-                                            <label>Gender *</label>
+                                            <label>Gender (as per CNIC) *</label>
                                             <div class="">
                                                 <select class="form-select" wire:model="gender">
                                                     <option value="">Select Gender</option>
@@ -74,7 +74,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Date of Birth (as written on CNIC) *</label>
+                                                <label>Date of Birth</label>
                                                 <div class="formify-forms__input">
                                                     <input type="date" wire:model="date_of_birth">
                                                 </div>
@@ -83,7 +83,7 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="formify-forms__input">
-                                                    <label>CNIC Number *</label>
+                                                    <label>CNIC Number (without dashes) *</label>
                                                     <input type="number" wire:model="cnic_number"
                                                         placeholder="Your CNIC" id="cnic-number">
                                                     @error('cnic_number')
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Email *</label>
+                                                <label>Email Address*</label>
                                                 <div class="formify-forms__input">
                                                     <input type="email" wire:model="email" placeholder="Your Email">
                                                 </div>
@@ -113,10 +113,10 @@
 
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Profile Picture (passport size, max file size 256 kb) *</label>
+                                                <label>Upload Profile Picture (passport size, max file size 256 kb) *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="profile_picture"
-                                                        name="profile_picture" accept="image/*" data-max-size-kb="256"
+                                                        name="profile_picture" accept=".jpg,.png,.pdf" data-max-size-kb="256"
                                                         style="padding-top: 13px; font-size: 12px;">
                                                 </div>
                                             </div>
@@ -149,7 +149,7 @@
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="intermediate_marksheet"
                                                         name="intermediate_marksheet" data-max-size-kb="256"
-                                                        accept="image/*" style="padding-top: 13px; font-size: 12px;">
+                                                        accept=".jpg,.png,.pdf" style="padding-top: 13px; font-size: 12px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -159,35 +159,10 @@
                                                 <select wire:model="domicile_district" class="form-select"
                                                     required="required">
                                                     <option>Select District</option>
-                                                    <option value="badin">Badin</option>
-                                                    <option value="dadu">Dadu</option>
-                                                    <option value="ghotki">Ghotki</option>
-                                                    <option value="hyderabad">Hyderabad</option>
-                                                    <option value="jacobabad">Jacobabad</option>
-                                                    <option value="jamshoro">Jamshoro</option>
-                                                    <option value="karachi-central">Karachi Central</option>
-                                                    <option value="karachi-east">Karachi East</option>
-                                                    <option value="karachi-south">Karachi South</option>
-                                                    <option value="karachi-west">Karachi West</option>
-                                                    <option value="kashmore">Kashmore</option>
-                                                    <option value="khairpur">Khairpur</option>
-                                                    <option value="larkana">Larkana</option>
-                                                    <option value="matiari">Matiari</option>
-                                                    <option value="mirpurkhas">Mirpurkhas</option>
-                                                    <option value="naushahro-feroze">Naushahro Feroze</option>
-                                                    <option value="shaheed-benazirabad">Shaheed Benazirabad</option>
-                                                    <option value="qambar-shahdadkot">Qambar Shahdadkot</option>
-                                                    <option value="sanghar">Sanghar</option>
-                                                    <option value="shikarpur">Shikarpur</option>
-                                                    <option value="sukkur">Sukkur</option>
-                                                    <option value="tando-allahyar">Tando Allahyar</option>
-                                                    <option value="tando-muhammad-khan">Tando Muhammad Khan</option>
-                                                    <option value="tharparkar">Tharparkar</option>
-                                                    <option value="thatta">Thatta</option>
-                                                    <option value="umerkot">Umerkot</option>
-                                                    <option value="sujawal">Sujawal</option>
-                                                    <option value="korangi">Korangi</option>
-                                                    <option value="malir">Malir</option>
+                                                    @foreach ($districts as $key => $label)
+                                                        <option value="{{ $key }}">{{ $label }}
+                                                        </option>
+                                                    @endforeach
 
                                                 </select>
 
@@ -214,7 +189,7 @@
                                                     *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="domicile_form_c"
-                                                        name="domicile_form_c" accept="image/*"
+                                                        name="domicile_form_c" accept=".jpg,.png,.pdf"
                                                         data-max-size-kb="256"
                                                         style="padding-top: 13px; font-size: 12px;">
                                                 </div>
@@ -246,7 +221,7 @@
 
 
                             <div class="formify-mg-top-20">
-                                <label>Your preferred center for study? *</label>
+                                <label>Preferred Center for Study? *</label>
                                 <div class="form-grouping form-group__flex">
                                     <select class="form-select" wire:model="preferred_study_center">
                                         <option value="">Select Center</option>
@@ -263,7 +238,7 @@
                                 </div>
                             </div>
                             <div class="formify-mg-top-20">
-                                <label>Your preferred time slot *</label>
+                                <label>Preferred Time Slot *</label>
                                 <div class="form-grouping form-group__flex">
                                     <select class="form-select" wire:model="preferred_time_slot">
                                         <option value="">Select Time Slot</option>

@@ -53,6 +53,39 @@ class Student extends Component
         'Certified Java Developer',
         'Certified Mobile Application Developer',
     ];
+    // districts
+    public array $districts = [
+        'badin'               => 'Badin',
+        'dadu'                => 'Dadu',
+        'ghotki'              => 'Ghotki',
+        'hyderabad'           => 'Hyderabad',
+        'jacobabad'           => 'Jacobabad',
+        'jamshoro'            => 'Jamshoro',
+        'karachi-central'     => 'Karachi Central',
+        'karachi-east'        => 'Karachi East',
+        'karachi-south'       => 'Karachi South',
+        'karachi-west'        => 'Karachi West',
+        'kashmore'            => 'Kashmore',
+        'khairpur'            => 'Khairpur',
+        'larkana'             => 'Larkana',
+        'matiari'             => 'Matiari',
+        'mirpurkhas'          => 'Mirpurkhas',
+        'naushahro-feroze'    => 'Naushahro Feroze',
+        'shaheed-benazirabad' => 'Shaheed Benazirabad',
+        'qambar-shahdadkot'   => 'Qambar Shahdadkot',
+        'sanghar'             => 'Sanghar',
+        'shikarpur'           => 'Shikarpur',
+        'sukkur'              => 'Sukkur',
+        'tando-allahyar'      => 'Tando Allahyar',
+        'tando-muhammad-khan' => 'Tando Muhammad Khan',
+        'tharparkar'          => 'Tharparkar',
+        'thatta'              => 'Thatta',
+        'umerkot'             => 'Umerkot',
+        'sujawal'             => 'Sujawal',
+        'korangi'             => 'Korangi',
+        'malir'               => 'Malir',
+    ];
+    //
     public function mount()
     {
         // Optional: set a default
@@ -108,16 +141,16 @@ class Student extends Component
             // FILES (Laravel's max is in KB)
             'profile_picture' => [
                 'required',
-                'image',
-                'mimes:jpg,jpeg,png',
-                'max:1024',                        // ≈ 1 MB
+                'file',
+                'mimes:jpg,png,pdf',
+                'max:256',                        // ≈ 1 MB
                 // 'dimensions:min_width=350,min_height=450,ratio=7/9', // ~35x45 mm
             ],
-            'intermediate_marksheet'  => ['required', 'file', 'max:256'],
-            'domicile_category'             => ['required', 'string', 'min:2', 'max:150'],
-            'domicile_form_c'         => ['required', 'file', 'max:1024'],
+            'intermediate_marksheet'  => ['required', 'file', 'max:256','mimes:jpg,png,pdf'],
+            'domicile_category'             => ['required', 'string', 'min:2', 'max:150', Rule::in(['urban', 'rural'])],
+            'domicile_form_c'         => ['required', 'file', 'max:256','mimes:jpg,png,pdf'],
 
-            'domicile_district'       => ['required', 'string', 'max:100'],
+            'domicile_district'       => ['required', 'string', 'max:100', Rule::in(array_keys($this->districts))],
             'most_recent_institution'   => ['required', 'string', 'max:150'],
             'preferred_study_center'  => ['required', 'string', 'max:120'],
             'preferred_time_slot'     => ['required', 'string', 'max:50'],
@@ -128,7 +161,7 @@ class Student extends Component
             'course_choice_3' => ['required', 'different:course_choice_1', 'different:course_choice_2', Rule::in(array_values($this->courseList))],
             'course_choice_4' => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3', Rule::in(array_values($this->courseList))],
 
-            'highest_qualification'   => ['required', 'string', 'max:100'],
+            'highest_qualification'   => ['required', 'string', 'max:100', Rule::in(['matric', 'intermediate', 'graduate'])],
             'have_disability'         => ['required', Rule::in(['yes', 'no'])],
 
             // Participated previously → require details
@@ -152,8 +185,8 @@ class Student extends Component
                 'max:150'
             ],
 
-            'from_source'             => ['required', 'string', 'max:50'],
-            'info_confirm'            => ['accepted'],  // checkbox must be checked
+            'from_source'  => ['required', 'string', 'max:50', Rule::in(['socail media', 'friend/family', 'university', 'post/banner', 'whatsapp group', 'other'])],
+            'info_confirm' => ['accepted'],  // checkbox must be checked
         ];
     }
 
@@ -173,7 +206,6 @@ class Student extends Component
 
     public function render()
     {
-        // $this->refreshCourseList();
         return view('livewire.student')->layout('layouts.student-layout');
     }
     // Switch tabs
