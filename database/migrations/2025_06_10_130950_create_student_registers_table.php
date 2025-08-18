@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('domicile_district');
 
             // Enrollment flags
-            // $table->boolean('enrolled_status')->default(false);
+            $table->boolean('enrolled_status')->default(false);
 
             // Education / University
             $table->string('most_recent_institution');               // you’re treating as required now

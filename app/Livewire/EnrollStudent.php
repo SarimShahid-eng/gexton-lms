@@ -100,7 +100,6 @@ class EnrollStudent extends Component
 
         $student_data = EnrollStudentModel::with('student')->where('student_id', $id)->first();
         $this->student_details = EnrollStudentDetail::where('student_id', $id)->get()->toArray();
-        // dd($student_data);
         if ($student_data) {
             $this->full_name = $student_data->student->full_name;
             $this->father_name = $student_data->father_name;

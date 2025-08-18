@@ -17,7 +17,8 @@
             class="relative z-10 w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] border border-slate-200 dark:border-slate-700">
 
             <!-- Gradient Header -->
-            <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 p-6 text-white relative overflow-hidden">
+            <div
+                class="bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 p-6 text-white relative overflow-hidden">
                 <div class="absolute inset-0 bg-black/10"></div>
                 <div class="relative flex justify-between items-center">
                     <div>
@@ -42,7 +43,8 @@
                             <img src="{{ asset('attachments/' . $profile_picture) }}"
                                 class="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl dark:border-slate-700 group-hover:scale-105 transition-transform duration-300">
                         @else
-                            <div class="w-36 h-36 flex items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 text-slate-500 shadow-2xl group-hover:scale-105 transition-transform duration-300">
+                            <div
+                                class="w-36 h-36 flex items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 text-slate-500 shadow-2xl group-hover:scale-105 transition-transform duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-slate-400"
                                     viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -57,23 +59,25 @@
                 <!-- Enhanced Info Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-sm mb-8">
                     @foreach ([
-                        'Full Name' => ['value' => $full_name, 'icon' => '👤', 'color' => 'slate'],
-                        'Father Name' => ['value' => $father_name, 'icon' => '👨‍👦', 'color' => 'slate'],
-                        'Gender' => ['value' => $gender, 'icon' => '⚧', 'color' => 'slate'],
-                        'CNIC Number' => ['value' => $cnic_number, 'icon' => '🆔', 'color' => 'slate'],
-                        'Contact Number' => ['value' => $contact_number, 'icon' => '📱', 'color' => 'slate'],
-                        'Date of Birth' => ['value' => $date_of_birth, 'icon' => '🎂', 'color' => 'slate'],
-                        'Domicile District' => ['value' => $domicile_district, 'icon' => '🏘️', 'color' => 'slate'],
-                        'University Name' => ['value' => $university_name, 'icon' => '🎓', 'color' => 'slate'],
-                    ] as $label => $data)
+        'Full Name' => ['value' => $full_name, 'icon' => '👤', 'color' => 'slate'],
+        'Father Name' => ['value' => $father_name, 'icon' => '👨‍👦', 'color' => 'slate'],
+        'Gender' => ['value' => $gender, 'icon' => '⚧', 'color' => 'slate'],
+        'CNIC Number' => ['value' => $cnic_number, 'icon' => '🆔', 'color' => 'slate'],
+        'Contact Number' => ['value' => $contact_number, 'icon' => '📱', 'color' => 'slate'],
+        'Date of Birth' => ['value' => $date_of_birth, 'icon' => '🎂', 'color' => 'slate'],
+        'Domicile District' => ['value' => $domicile_district, 'icon' => '🏘️', 'color' => 'slate'],
+        'University Name' => ['value' => $university_name, 'icon' => '🎓', 'color' => 'slate'],
+    ] as $label => $data)
                         <div class="group hover:scale-105 transition-all duration-300">
-                            <div class="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 p-5 rounded-2xl border border-slate-200 dark:border-slate-600 hover:shadow-lg hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-300">
+                            <div
+                                class="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 p-5 rounded-2xl border border-slate-200 dark:border-slate-600 hover:shadow-lg hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-300">
                                 <div class="flex items-start gap-3">
                                     <div class="text-2xl bg-slate-100 dark:bg-slate-700 p-2 rounded-xl">
                                         {{ $data['icon'] }}
                                     </div>
                                     <div class="flex-1">
-                                        <div class="font-semibold text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wide mb-1 font-['Open_Sans']">
+                                        <div
+                                            class="font-semibold text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wide mb-1 font-['Open_Sans']">
                                             {{ $label }}
                                         </div>
                                         <div class="text-slate-800 dark:text-slate-200 font-medium font-['Open_Sans']">
@@ -88,7 +92,8 @@
 
                 <!-- Enhanced Documents Section -->
                 <div class="mb-8">
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2 font-['Open_Sans']">
+                    <h3
+                        class="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2 font-['Open_Sans']">
                         <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
@@ -100,27 +105,33 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Intermediate Marksheet -->
                         <div class="group hover:scale-105 transition-all duration-300">
-                            <div class="flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 border border-slate-300 dark:border-slate-600 hover:shadow-lg transition-all duration-300">
-                                <div class="w-14 h-14 bg-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
+                            <div
+                                class="flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 border border-slate-300 dark:border-slate-600 hover:shadow-lg transition-all duration-300">
+                                <div
+                                    class="w-14 h-14 bg-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
                                     📄
                                 </div>
                                 <div class="flex-1">
-                                    <div class="font-bold text-slate-800 dark:text-slate-200 mb-1 font-['Open_Sans']">Intermediate Marksheet</div>
+                                    <div class="font-bold text-slate-800 dark:text-slate-200 mb-1 font-['Open_Sans']">
+                                        Latest Marksheet</div>
                                     @if ($intermediate_marksheet)
-                                        <a href="{{ asset('attachments/' . $intermediate_marksheet) }}" target="_blank"
+                                        <a href="{{ asset('attachments/marksheets/' . $intermediate_marksheet) }}"
+                                            target="_blank" download
                                             class="inline-flex items-center gap-2 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 font-medium text-sm transition-colors duration-200 font-['Open_Sans']">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                </path>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                             </svg>
-                                            View Document
+
+                                            Click to download
                                         </a>
                                     @else
                                         <span class="text-slate-500 text-sm flex items-center gap-2 font-['Open_Sans']">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
                                             </svg>
                                             No file uploaded
                                         </span>
@@ -131,27 +142,33 @@
 
                         <!-- Domicile Form C -->
                         <div class="group hover:scale-105 transition-all duration-300">
-                            <div class="flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 border border-slate-300 dark:border-slate-600 hover:shadow-lg transition-all duration-300">
-                                <div class="w-14 h-14 bg-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
+                            <div
+                                class="flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 border border-slate-300 dark:border-slate-600 hover:shadow-lg transition-all duration-300">
+                                <div
+                                    class="w-14 h-14 bg-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
                                     📋
                                 </div>
                                 <div class="flex-1">
-                                    <div class="font-bold text-slate-800 dark:text-slate-200 mb-1 font-['Open_Sans']">Domicile Form C</div>
+                                    <div class="font-bold text-slate-800 dark:text-slate-200 mb-1 font-['Open_Sans']">
+                                        Domicile Form C</div>
                                     @if ($domicile_form_c)
-                                        <a href="{{ asset('attachments/' . $domicile_form_c) }}" target="_blank"
+                                        <a href="{{ asset('attachments/domicile_form_c/' . $domicile_form_c) }}"
+                                            target="_blank" download
                                             class="inline-flex items-center gap-2 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 font-medium text-sm transition-colors duration-200 font-['Open_Sans']">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                </path>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                             </svg>
-                                            View Document
+                                            Click to download
                                         </a>
                                     @else
-                                        <span class="text-slate-500 text-sm flex items-center gap-2 font-['Open_Sans']">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        <span
+                                            class="text-slate-500 text-sm flex items-center gap-2 font-['Open_Sans']">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
                                             </svg>
                                             No file uploaded
                                         </span>
@@ -196,7 +213,8 @@
             class="relative z-10 w-full max-w-4xl h-[80vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 flex flex-col">
 
             <!-- Fixed Header with Dark Blue Theme -->
-            <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 p-6 text-white relative overflow-hidden flex-shrink-0">
+            <div
+                class="bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 p-6 text-white relative overflow-hidden flex-shrink-0">
                 <div class="absolute inset-0 bg-black/10"></div>
                 <!-- Decorative Elements -->
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16">
@@ -206,8 +224,10 @@
 
                 <div class="relative flex justify-between items-center">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/30">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div
+                            class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/30">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
                                 </path>
@@ -233,38 +253,51 @@
                 <div class="space-y-8">
 
                     <!-- Student Information Display Block -->
-                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 p-6 rounded-3xl border-2 border-slate-300 dark:border-slate-600 shadow-lg backdrop-blur-sm">
+                    <div
+                        class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 p-6 rounded-3xl border-2 border-slate-300 dark:border-slate-600 shadow-lg backdrop-blur-sm">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-lg">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 font-['Open_Sans']">Student Information</h3>
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 font-['Open_Sans']">Student
+                                Information</h3>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Student Name Display -->
-                            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 hover:shadow-md transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
-                                <div class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 font-['Open_Sans']">Student Name</div>
+                            <div
+                                class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 hover:shadow-md transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
+                                <div
+                                    class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 font-['Open_Sans']">
+                                    Student Name</div>
                                 <div class="text-lg font-bold text-slate-800 dark:text-white font-['Open_Sans']">
                                     {{ $this->full_name ?: 'Not Available' }}
                                 </div>
                             </div>
 
                             <!-- Father Name Display -->
-                            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 hover:shadow-md transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
-                                <div class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 font-['Open_Sans']">Father Name</div>
+                            <div
+                                class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 hover:shadow-md transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
+                                <div
+                                    class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 font-['Open_Sans']">
+                                    Father Name</div>
                                 <div class="text-lg font-bold text-slate-800 dark:text-white font-['Open_Sans']">
                                     {{ $this->father_name ?: 'Not Available' }}
                                 </div>
                             </div>
 
                             <!-- CNIC Number Display -->
-                            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 hover:shadow-md transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
-                                <div class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 font-['Open_Sans']">CNIC Number</div>
+                            <div
+                                class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 hover:shadow-md transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
+                                <div
+                                    class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2 font-['Open_Sans']">
+                                    CNIC Number</div>
                                 <div class="text-lg font-bold text-slate-800 dark:text-white font-mono">
                                     {{ $this->cnic_number ?: 'Not Available' }}
                                 </div>
@@ -273,23 +306,55 @@
                     </div>
 
                     <!-- Enrollment Details Block -->
-                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 p-6 rounded-3xl border-2 border-slate-300 dark:border-slate-600 shadow-lg backdrop-blur-sm">
+                    <div
+                        class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 p-6 rounded-3xl border-2 border-slate-300 dark:border-slate-600 shadow-lg backdrop-blur-sm">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-lg">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
                                     </path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 font-['Open_Sans']">Enroll in Course</h3>
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 font-['Open_Sans']">Enroll
+                                in Course</h3>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <!-- Campus Selection -->
                             <div class="group">
-                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
-                                Batch Selection
+                                <label
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
+                                    Phase Selection
+                                </label>
+                                <div class="relative">
+                                    <select wire:model.live="phase_id"
+                                        class="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 dark:text-white focus:border-slate-500 focus:ring-4 focus:ring-slate-500/20 transition-all duration-300 hover:shadow-md appearance-none cursor-pointer font-['Open_Sans']">
+                                        <option value="">Select Phase</option>
+                                        @foreach ($phases as $phase)
+                                            <option value="{{ $phase->id }}">{{ $phase->title }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                @error('phase_id')
+                                    <div class="mt-1 text-red-500 text-sm font-['Open_Sans']">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <!-- Campus Selection -->
+                            <div class="group">
+                                <label
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
+                                    Batch Selection
                                 </label>
                                 <div class="relative">
                                     <select wire:model.live="campus_id"
@@ -299,9 +364,12 @@
                                             <option value="{{ $campus->id }}">{{ $campus->title }}</option>
                                         @endforeach
                                     </select>
-                                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <div
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     </div>
                                 </div>
@@ -312,21 +380,25 @@
 
                             <!-- Batch Selection -->
                             <div class="group">
-                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
-                                    Campus  Selection
+                                <label
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
+                                    Campus Selection
                                 </label>
                                 <div class="relative">
                                     <select wire:model.live="batch_id"
                                         class="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 dark:text-white focus:border-slate-500 focus:ring-4 focus:ring-slate-500/20 transition-all duration-300 hover:shadow-md appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-['Open_Sans']"
                                         @if (empty($batches)) disabled @endif>
-                                        <option value="">Campus  Batch</option>
+                                        <option value="">Select Campus</option>
                                         @foreach ($batches as $batch)
                                             <option value="{{ $batch->id }}">{{ $batch->title }}</option>
                                         @endforeach
                                     </select>
-                                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <div
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     </div>
                                 </div>
@@ -337,7 +409,8 @@
 
                             <!-- Course Selection -->
                             <div class="group">
-                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
+                                <label
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
                                     Course Selection
                                 </label>
                                 <div class="relative">
@@ -349,9 +422,12 @@
                                             <option value="{{ $course->id }}">{{ $course->title }}</option>
                                         @endforeach
                                     </select>
-                                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <div
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     </div>
                                 </div>
@@ -363,17 +439,23 @@
                     </div>
 
                     <!-- Info Card -->
-                    <div class="bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800/30 dark:to-slate-700/30 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 backdrop-blur-sm">
+                    <div
+                        class="bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800/30 dark:to-slate-700/30 p-4 rounded-2xl border border-slate-300 dark:border-slate-600 backdrop-blur-sm">
                         <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-slate-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <div
+                                class="w-8 h-8 bg-slate-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-slate-800 dark:text-slate-200 mb-1 font-['Open_Sans']">Enrollment Process</h4>
+                                <h4 class="font-semibold text-slate-800 dark:text-slate-200 mb-1 font-['Open_Sans']">
+                                    Enrollment Process</h4>
                                 <p class="text-sm text-slate-600 dark:text-slate-300 font-['Open_Sans']">
-                                    Student information is displayed above. Select campus, batch and course for enrollment.
+                                    Student information is displayed above. Select campus, batch and course for
+                                    enrollment.
                                 </p>
                             </div>
                         </div>

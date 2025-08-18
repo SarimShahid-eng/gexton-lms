@@ -21,7 +21,7 @@ class ShowStudent extends Component
 {
     use WithPagination;
     protected $listeners = ['view_student'];
-    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $search = '', $phases = [];
+    public $full_name, $father_name, $gender, $cnic_number, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $search = '', $phases = [],$phase_id;
 
     public function updatingSearch()
     {
@@ -39,14 +39,10 @@ class ShowStudent extends Component
         })
             ->orderBy('id', 'desc')
             ->paginate(10);
-        // dd($students);
-        return view('livewire.show-student', compact('students'));
+        $phases = Phase::all();
+        return view('livewire.show-student', compact('students', 'phases'));
     }
-    // public function mount()
-    // {
 
-    //     // dd($this->phases);
-    // }
     public function view_student($id)
     {
         $student = StudentRegister::find($id);
@@ -70,7 +66,6 @@ class ShowStudent extends Component
         $this->course_choice_4 = $student->course_choice_4;
 
         $this->dispatch('open-task-view-modal');
-
     }
     public function updatedPhaseId($value)
     {
@@ -91,6 +86,7 @@ class ShowStudent extends Component
 
     public function updatedBatchId($value)
     {
+        // dd
         $this->courses = Course::where('batch_id', $value)->get();
         $this->course_id = null;
     }
@@ -108,13 +104,15 @@ class ShowStudent extends Component
     }
     public function enrollStudent($id)
     {
-        $validated = $this->validate([
+        $this->validate([
+            'phase_id' => 'required',
             'campus_id' => 'required',
             'batch_id' => 'required',
             'course_id' => 'required',
         ], [
-            'campus_id.required' => 'Campus field is required.',
-            'batch_id.required' => 'Batch field is required.',
+            'phase_id.required' => 'Phase field is required.',
+            'campus_id.required' => 'Batch field is required.',
+            'batch_id.required' => 'Campus field is required.',
             'course_id.required' => 'Course field is required.',
         ]);
 
@@ -124,6 +122,7 @@ class ShowStudent extends Component
             'full_name' => $student->full_name,
             'email' => $student->email,
             'phone' => $student->contact_number,
+            // cncic is student password
             'password' => bcrypt($student->cnic_number),
             'is_active' => '1',
             'user_type' => 'student',
@@ -159,7 +158,6 @@ class ShowStudent extends Component
             text: "User Enrolled Successfully.",
             icon: 'success',
         );
-
     }
     public function export()
     {
@@ -184,8 +182,5 @@ class ShowStudent extends Component
         sleep(1);
 
         return redirect()->route('show_students');
-
     }
-
-
 }

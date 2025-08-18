@@ -61,7 +61,6 @@ class Student extends Component
     }
     public function updatedHighestQualification($value)
     {
-        // dd($value);
         $this->highest_qualification = $value;
         $this->refreshCourseList();
         $this->reset([
@@ -73,7 +72,6 @@ class Student extends Component
     }
     private function refreshCourseList(): void
     {
-        // dd($this->highestQualification);
         switch ($this->highest_qualification) {
             case 'matric':
                 $this->courseList = $this->matricCourses;
@@ -186,7 +184,6 @@ class Student extends Component
     }
     public function save()
     {
-        // dd($this->all());
         $this->refreshCourseList();
         // Validate all input fields according to your rules
         $validatedData = $this->validate();

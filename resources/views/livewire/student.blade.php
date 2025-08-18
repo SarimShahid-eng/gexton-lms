@@ -28,7 +28,7 @@
                         <a class="list-group-item {{ $activeTab === 'step2' ? 'active' : '' }}"
                             wire:click="switchTab('step2')" data-bs-toggle="list" href="#step2" role="tab">
                             <span class="fstp-count"><span>2</span> <i class="fas fa-check"></i></span>
-                            <span class="fstp-text">Select Courses</span>
+                            <span class="fstp-text">Course Preferences</span>
                         </a>
                         <a class="list-group-item {{ $activeTab === 'step3' ? 'active' : '' }}"
                             wire:click="switchTab('step3')" data-bs-toggle="list" href="#step3" role="tab">
@@ -74,6 +74,14 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
+                                                <label>Date of Birth (as written on CNIC) *</label>
+                                                <div class="formify-forms__input">
+                                                    <input type="date" wire:model="date_of_birth">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
                                                 <div class="formify-forms__input">
                                                     <label>CNIC Number *</label>
                                                     <input type="number" wire:model="cnic_number"
@@ -102,14 +110,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label>Date of Birth (as written on CNIC) *</label>
-                                                <div class="formify-forms__input">
-                                                    <input type="date" wire:model="date_of_birth">
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label>Profile Picture (passport size, max file size 256 kb) *</label>
@@ -125,13 +126,21 @@
                                             <div class="form-group">
                                                 <label> Highest Qualification</label>
                                                 <div class="formify-forms__input">
-                                                    <select class="form-select" wire:model.live="highest_qualification">
+                                                    <select class="form-select"
+                                                        wire:model.live="highest_qualification">
                                                         <option selected>Select Qualification</option>
                                                         <option value="matric">Matric</option>
                                                         <option value="intermediate">Intermediate</option>
                                                         <option value="graduate">Graduate</option>
                                                     </select>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="formify-mg-top-20">
+                                            <label>Name of Last Attended Institution? *</label>
+                                            <div class="form-grouping form-group__flex">
+                                                <input type="text" wire:model="most_recent_institution"
+                                                    placeholder="Most recent institution name">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -144,39 +153,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                               <div class="form-grouping">
-                                                <label>Domicile Category</label>
-                                                <select wire:model="domicile_category" class="form-select"
-                                                    required="required">
-                                                    <option selected>Select category</option>
-                                                    <option value="urban">Urban</option>
-                                                    <option value="rural">Rural</option>
-
-                                                </select>
-
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label>Upload Your Domicile or Form C (maximum file size is 256kb)
-                                                    *</label>
-                                                <div class="formify-forms__input">
-                                                    <input type="file" wire:model="domicile_form_c"
-                                                        name="domicile_form_c" accept="image/*"
-                                                        data-max-size-kb="256"
-                                                        style="padding-top: 13px; font-size: 12px;">
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class=" formify-mg-top-20">
                                             <label>Domicile District *</label>
                                             <div class="form-grouping">
                                                 <select wire:model="domicile_district" class="form-select"
                                                     required="required">
-                                                    <option >Select District</option>
+                                                    <option>Select District</option>
                                                     <option value="badin">Badin</option>
                                                     <option value="dadu">Dadu</option>
                                                     <option value="ghotki">Ghotki</option>
@@ -211,44 +193,36 @@
 
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="form-grouping">
+                                                    <label>Domicile Category</label>
+                                                    <select wire:model="domicile_category" class="form-select"
+                                                        required="required">
+                                                        <option selected>Select category</option>
+                                                        <option value="urban">Urban</option>
+                                                        <option value="rural">Rural</option>
 
-                                        <div class="formify-mg-top-20">
-                                            <label>Name of Last Attended Institution? *</label>
-                                            <div class="form-grouping form-group__flex">
-                                                <input type="text" wire:model="most_recent_institution"
-                                                    placeholder="Most recent institution name">
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Upload Your Domicile or Form C (maximum file size is 256kb)
+                                                    *</label>
+                                                <div class="formify-forms__input">
+                                                    <input type="file" wire:model="domicile_form_c"
+                                                        name="domicile_form_c" accept="image/*"
+                                                        data-max-size-kb="256"
+                                                        style="padding-top: 13px; font-size: 12px;">
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="formify-mg-top-20">
-                                            <label>Your preferred center for study? *</label>
-                                            <div class="form-grouping form-group__flex">
-                                                <select class="form-select" wire:model="preferred_study_center">
-                                                    <option value="">Select Center</option>
-                                                    <option value="MUET Jamshoro">MUET, Jamshoro</option>
-                                                    <option value="Hyderabad">Hyderabad</option>
-                                                    <option value="Mirpurkhas">Mirpurkhas</option>
-                                                    <option value="Dadu">Dadu</option>
-                                                    <option value="Thatta">Thatta</option>
-                                                    <option value="Badin">Badin</option>
-                                                    <option value="Tando Muhammad khan">Tando Muhammad khan</option>
-                                                    <option value="Hala">Hala</option>
-                                                    <option value="Umerkot">Umerkot</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="formify-mg-top-20">
-                                            <label>Your preferred time slot *</label>
-                                            <div class="form-grouping form-group__flex">
-                                                <select class="form-select" wire:model="preferred_time_slot">
-                                                    <option value="">Select Time Slot</option>
-                                                    <option value="9 AM to 12 PM">9 AM - 12 PM (Morning)</option>
-                                                    <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>
-                                                    <option value="3 PM to 6 PM">3 PM - 6 PM (Evening)</option>
-                                                    <option value="6 PM to 9 PM">6 PM - 9 PM (Evening)</option>
-                                                </select>
-                                            </div>
-                                        </div>
+
+
                                         <div class="form-group formify-mg-top-20">
                                             <div class="formify-forms__button formify-forms__button-between">
                                                 <button class="formify-btn next-step" wire:click="switchTab('step2')">
@@ -267,12 +241,39 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Step 2: Education -->
+                        {{-- course preferences --}}
                         <div class="tab-pane fade {{ $activeTab === 'step2' ? 'show active' : '' }}" id="step2">
 
 
-
+                            <div class="formify-mg-top-20">
+                                <label>Your preferred center for study? *</label>
+                                <div class="form-grouping form-group__flex">
+                                    <select class="form-select" wire:model="preferred_study_center">
+                                        <option value="">Select Center</option>
+                                        <option value="MUET Jamshoro">MUET, Jamshoro</option>
+                                        <option value="Hyderabad">Hyderabad</option>
+                                        <option value="Mirpurkhas">Mirpurkhas</option>
+                                        <option value="Dadu">Dadu</option>
+                                        <option value="Thatta">Thatta</option>
+                                        <option value="Badin">Badin</option>
+                                        <option value="Tando Muhammad khan">Tando Muhammad khan</option>
+                                        <option value="Hala">Hala</option>
+                                        <option value="Umerkot">Umerkot</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="formify-mg-top-20">
+                                <label>Your preferred time slot *</label>
+                                <div class="form-grouping form-group__flex">
+                                    <select class="form-select" wire:model="preferred_time_slot">
+                                        <option value="">Select Time Slot</option>
+                                        <option value="9 AM to 12 PM">9 AM - 12 PM (Morning)</option>
+                                        <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>
+                                        <option value="3 PM to 6 PM">3 PM - 6 PM (Evening)</option>
+                                        <option value="6 PM to 9 PM">6 PM - 9 PM (Evening)</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="formify-forms__booking-form--single formify-mg-top-20">
@@ -298,8 +299,8 @@
                                         <label>2nd Choice *</label>
 
                                         <div class="form-grouping form-group__flex">
-                                            <select class="form-control"
-                                                name="course_choice_2" wire:model="course_choice_2">
+                                            <select class="form-control" name="course_choice_2"
+                                                wire:model="course_choice_2">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
                                                     <option value="{{ $course }}">
@@ -314,8 +315,8 @@
                                         <label>3rd Choice *</label>
 
                                         <div class="form-grouping form-group__flex">
-                                            <select class="form-control"
-                                                name="course_choice_3" wire:model="course_choice_3">
+                                            <select class="form-control" name="course_choice_3"
+                                                wire:model="course_choice_3">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
                                                     <option value="{{ $course }}">
@@ -330,8 +331,8 @@
                                         <label>4th Choice *</label>
 
                                         <div class="form-grouping form-group__flex">
-                                            <select class="form-control"
-                                                name="course_choice_4" wire:model="course_choice_4">
+                                            <select class="form-control" name="course_choice_4"
+                                                wire:model="course_choice_4">
                                                 <option value="">Select Course</option>
                                                 @foreach ($courseList as $course)
                                                     <option value="{{ $course }}">
@@ -406,12 +407,11 @@
 
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
-
                                                     <label>Monthly Household Income*</label>
 
                                                     <div class="form-grouping d-flex form-group__flex">
                                                         <select class="form-control "
-                                                            wire:model="monthly_household_income" required="required">
+                                                            wire:model="monthly_household_income">
                                                             <option value="">Select Household Income</option>
                                                             <option value="Below PKR 25,000">Below PKR 25,000</option>
                                                             <option value="25,001 – 50,000">25,001 – 50,000</option>
@@ -578,7 +578,7 @@
                     $(inputElement).val(''); // Clear the input
                 }
             }
-// remove later
+            // remove later
             // function rebuildDropdowns() {
             //     let selected = [];
             //     $('.course-choice').each(function() {
@@ -603,8 +603,8 @@
             //     });
             // }
 
-          //  $(document).on('change', '.course-choice', function() {
-           //     rebuildDropdowns();
+            //  $(document).on('change', '.course-choice', function() {
+            //     rebuildDropdowns();
             //});
 
             $(document).on('change', 'input[type="file"]', function() {

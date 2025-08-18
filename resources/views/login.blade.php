@@ -60,20 +60,20 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     :class="{ 'dark bg-gray-900': darkMode === true }">
 
     <!-- ===== Preloader Start ===== -->
-   {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-{{-- when its completed properly will remove tailwind cdn and js as well --}}
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-    tailwind.config = {
-        theme: {
-            extend: {},
-        },
-        safelist: [
-            // Add any dynamic class names here to prevent purge removal
-            'bg-red-500', 'text-green-600'
-        ]
-    }
-</script>
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    {{-- when its completed properly will remove tailwind cdn and js as well --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {},
+            },
+            safelist: [
+                // Add any dynamic class names here to prevent purge removal
+                'bg-red-500', 'text-green-600'
+            ]
+        }
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
     @include('partials.preloader')
     {{-- <include src="./partials/preloader.html"></include> --}}
@@ -93,20 +93,20 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 <div class="w-full lg:w-8/12 items-center justify-center px-8" style="max-width:500px">
                     <h2 class="text-4xl text-center font-semibold py-6">Instruction</h2>
                     <ol type="list-decimal" style="list-style:auto">
-                        <li>Before logging in, make sure you have your Student ID and Password provided by the
-                            university.</li>
-                        <li>If you are logging in for the first time, you may be required to change your password after
-                            successful login.</li>
-                        <li>For any login issues or queries, please contact the IT Help Desk.
+                        <li>Before logging in, ensure you have approved email ID and password.
+                            <p> <i>Note: The default password provided by university works only for the first-time
+                                    login.</i></p>
+                        </li>
+                        <li>After logging in for the first time, you will be prompted to change your password.</li>
+                        <li>For any login issues or queries, please contact our office:
                             <br>
-                            ðŸ“§ Email: <a class="text-blue-800"
-                                href="mailto:support@muet.edu.pk">support@muet.edu.pk</a>
+                            Email: <a class="text-blue-800" href="mailto:pitp@admin.muet.edu.pk">pitp@admin.muet.edu.pk</a>
                             <br>
-                            ðŸ“ž Phone: <a class="text-blue-800" href="tel:+92-22-2772250-73">+92-22-2772250-73</a>
-                            (Ext. IT Support)
+                            Phone: <a class="text-blue-800" href="tel:+92-22-2772250-73">+92-22-2772250-73</a>
+                            (Ext. 8325)
                             <br>
-                            Note: <em class="text-blue-800">Include your CNIC and Registration Number when contacting
-                                support.</em>
+                            Note: <em class="text-blue-800"> Please include your CNIC number when contacting support.
+</em>
                         </li>
                     </ol>
                 </div>
