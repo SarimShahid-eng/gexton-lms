@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Models\StudentRegister;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\RateLimiter;
 
 class Student extends Component
 {
@@ -146,9 +147,9 @@ class Student extends Component
                 'max:256',                        // ≈ 1 MB
                 // 'dimensions:min_width=350,min_height=450,ratio=7/9', // ~35x45 mm
             ],
-            'intermediate_marksheet'  => ['required', 'file', 'max:256','mimes:jpg,png,pdf'],
+            'intermediate_marksheet'  => ['required', 'file', 'max:256', 'mimes:jpg,png,pdf'],
             'domicile_category'             => ['required', 'string', 'min:2', 'max:150', Rule::in(['urban', 'rural'])],
-            'domicile_form_c'         => ['required', 'file', 'max:256','mimes:jpg,png,pdf'],
+            'domicile_form_c'         => ['required', 'file', 'max:256', 'mimes:jpg,png,pdf'],
 
             'domicile_district'       => ['required', 'string', 'max:100', Rule::in(array_keys($this->districts))],
             'most_recent_institution'   => ['required', 'string', 'max:150'],
@@ -216,6 +217,20 @@ class Student extends Component
     }
     public function save()
     {
+        // Build a unique key (per IP or per user). Here: per IP.
+        $key = 'student-register:' . request()->ip();
+        $max = 5;          // 5 attempts
+        $decay = 60;       // per 60 seconds
+
+        // If over the limit, show an error and stop
+        if (RateLimiter::tooManyAttempts($key, $max)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('rate', "Too many attempts. Please try again in {$seconds} seconds.");
+            return;
+        }
+
+        // Count this attempt (expires after $decay seconds)
+        RateLimiter::hit($key, $decay);
         $this->refreshCourseList();
         // Validate all input fields according to your rules
         $validatedData = $this->validate();
