@@ -18,6 +18,7 @@ class StudentView extends Component
     public function render()
     {
         $courses = Auth::user()->courses()->with('batch')->get();
+        // dd($courses);
         $students = [];
 
         if ($this->course_id != null) {

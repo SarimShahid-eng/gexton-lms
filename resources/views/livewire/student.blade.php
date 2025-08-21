@@ -66,9 +66,9 @@
                                             <div class="">
                                                 <select class="form-select" wire:model="gender">
                                                     <option value="">Select Gender</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                    <option value="Transgender">Transgender</option>
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="transgender">Transgender</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -113,10 +113,12 @@
 
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Upload Profile Picture (passport size, max file size 256 kb) *</label>
+                                                <label>Upload Profile Picture (passport size, max file size 256 kb)
+                                                    *</label>
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="profile_picture"
-                                                        name="profile_picture" accept=".jpg,.png,.pdf" data-max-size-kb="256"
+                                                        name="profile_picture" accept=".jpg,.png,.pdf"
+                                                        data-max-size-kb="256"
                                                         style="padding-top: 13px; font-size: 12px;">
                                                 </div>
                                             </div>
@@ -149,7 +151,8 @@
                                                 <div class="formify-forms__input">
                                                     <input type="file" wire:model="intermediate_marksheet"
                                                         name="intermediate_marksheet" data-max-size-kb="256"
-                                                        accept=".jpg,.png,.pdf" style="padding-top: 13px; font-size: 12px;">
+                                                        accept=".jpg,.png,.pdf"
+                                                        style="padding-top: 13px; font-size: 12px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -255,10 +258,11 @@
                                         <label>1st Choice *</label>
                                         <div class="form-grouping">
                                             {{-- enable course-choice it will reset course everytime tab changes --}}
-                                            <select name="course_choice_1" wire:model="course_choice_1"
+                                            <select name="course_choice_1" wire:model.change="course_choice_1"
+                                                wire:key="choice1-{{ md5(json_encode($this->courseList)) }}"
                                                 class="form-control">
                                                 <option value="">Select Course</option>
-                                                @foreach ($courseList as $course)
+                                                @foreach ($this->availableCoursesForChoice1 as $course)
                                                     <option value="{{ $course }}">
                                                         {{ $course }}</option>
                                                 @endforeach
@@ -275,9 +279,10 @@
 
                                         <div class="form-grouping form-group__flex">
                                             <select class="form-control" name="course_choice_2"
-                                                wire:model="course_choice_2">
+                                                wire:key="choice2-{{ md5($this->course_choice_1) }}"
+                                                wire:model.change="course_choice_2">
                                                 <option value="">Select Course</option>
-                                                @foreach ($courseList as $course)
+                                                @foreach ($this->availableCoursesForChoice2 as $course)
                                                     <option value="{{ $course }}">
                                                         {{ $course }}</option>
                                                 @endforeach
@@ -291,9 +296,10 @@
 
                                         <div class="form-grouping form-group__flex">
                                             <select class="form-control" name="course_choice_3"
-                                                wire:model="course_choice_3">
+                                                wire:key="choice3-{{ md5($this->course_choice_1 . '|' . $this->course_choice_2) }}"
+                                                wire:model.change="course_choice_3">
                                                 <option value="">Select Course</option>
-                                                @foreach ($courseList as $course)
+                                                @foreach ($this->availableCoursesForChoice3 as $course)
                                                     <option value="{{ $course }}">
                                                         {{ $course }}</option>
                                                 @endforeach
@@ -307,9 +313,10 @@
 
                                         <div class="form-grouping form-group__flex">
                                             <select class="form-control" name="course_choice_4"
-                                                wire:model="course_choice_4">
+                                                wire:key="choice4-{{ md5($this->course_choice_1 . '|' . $this->course_choice_2 . '|' . $this->course_choice_3) }}""
+                                                wire:model.change="course_choice_4">
                                                 <option value="">Select Course</option>
-                                                @foreach ($courseList as $course)
+                                                @foreach ($this->availableCoursesForChoice4 as $course)
                                                     <option value="{{ $course }}">
                                                         {{ $course }}</option>
                                                 @endforeach
@@ -407,18 +414,17 @@
                                                         <div class="form-check d-flex align-items-center gap-2 ">
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" id="participated_yes"
-                                                                onclick="toggleFields(true)"
+                                                                wire:model.change="participated_previously"
                                                                 name="participated_previously" value="yes"
-                                                                wire:model="participated_previously" required="">
+                                                                 required="">
                                                             <label class="form-check-label m-0"
                                                                 for="participated_yes">Yes</label>
                                                         </div>
                                                         <div class="form-check d-flex align-items-center gap-2 ">
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" id="participated_yes"
-                                                                onclick="toggleFields(false)"
                                                                 name="participated_previously" value="no"
-                                                                wire:model="participated_previously" required="">
+                                                                wire:model.change="participated_previously" required="">
                                                             <label class="form-check-label m-0"
                                                                 for="participated_yes">No</label>
                                                         </div>
@@ -427,23 +433,25 @@
                                                 </div>
 
                                             </div>
-                                            <div id="additionalFields" class="col-12" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="phase">Phase</label>
-                                                    <input wire:model="phase_if_participated" type="text"
-                                                        id="phase" class="form-control">
+                                            @if ($participated_previously === 'yes')
+                                                <div id="additionalFields" class="col-12" >
+                                                    <div class="form-group">
+                                                        <label for="phase">Phase</label>
+                                                        <input wire:model="phase_if_participated" type="text"
+                                                            id="phase" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="course_name">Course Name</label>
+                                                        <input wire:model="course_if_participated" type="text"
+                                                            id="course_name" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="center">Center</label>
+                                                        <input wire:model="center_if_participated" type="text"
+                                                            id="center" name="center" class="form-control">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="course_name">Course Name</label>
-                                                    <input wire:model="course_if_participated" type="text"
-                                                        id="course_name" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="center">Center</label>
-                                                    <input wire:model="center_if_participated" type="text"
-                                                        id="center" name="center" class="form-control">
-                                                </div>
-                                            </div>
+                                            @endif
                                             <div class="col-12">
                                                 <div class="formify-forms__booking-form--single formify-mg-top-20">
                                                     <label>How did you hear about
@@ -469,8 +477,7 @@
                                                         <input class=""
                                                             style="height:26px !important;width:45px !important; margin-top:3px;"
                                                             type="checkbox" id="info_confirm"
-                                                            wire:model="info_confirm" required
-                                                            onclick="toggleButtonState()">
+                                                            wire:model.change="info_confirm" required>
                                                         <label class="form-check-label" for="info_confirm"
                                                             style="line-height:1.4;">
                                                             I confirm that all the information provided above is
@@ -495,7 +502,8 @@
                                                 </svg>
                                                 Back
                                             </button>
-                                            <button id="submit_button" type="submit" class="formify-btn" disabled>
+                                            <button @disabled(!$info_confirm) id="submit_button" type="submit"
+                                                class="formify-btn">
                                                 Submit</button>
                                         </div>
                                     </div>
@@ -509,39 +517,15 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            const allCourses = [
-                'Certified Cloud Computing Professional',
-                'Certified Cyber Security and Ethical Hacking Professional',
-                'Certified Data Scientist',
-                'Certified Database Administrator',
-                'Certified Digital Marketing Professional',
-                'Certified E-Commerce Professional',
-                'Certified Graphic Designer',
-                'Certified Java Developer',
-                'Certified Mobile Application Developer',
-                'Certified Python Developer',
-                'Certified Social Media Manager',
-                'Certified Web Developer'
-            ];
-
-            function toggleButtonState() {
-                const checkbox = document.getElementById('info_confirm');
-                const submitButton = document.getElementById('submit_button');
-
-                // Enable the button if the checkbox is checked, disable it if unchecked
-                submitButton.disabled = !checkbox.checked;
-            }
-
-            function toggleFields(show) {
-                const additionalFields = document.getElementById('additionalFields');
-
-                // Show or hide the additional fields based on the radio button selection
-                if (show) {
-                    additionalFields.style.display = 'block';
-                } else {
-                    additionalFields.style.display = 'none';
-                }
-            }
+            // function toggleFields(show) {
+            //     const additionalFields = document.getElementById('additionalFields');
+            //     // Show or hide the additional fields based on the radio button selection
+            //     if (show) {
+            //         additionalFields.style.display = 'block';
+            //     } else {
+            //         additionalFields.style.display = 'none';
+            //     }
+            // }
 
             function validateFileSize(inputElement) {
                 const maxSizeInKB = $(inputElement).data('max-size-kb'); // Get the max size from the data attribute
@@ -553,34 +537,7 @@
                     $(inputElement).val(''); // Clear the input
                 }
             }
-            // remove later
-            // function rebuildDropdowns() {
-            //     let selected = [];
-            //     $('.course-choice').each(function() {
-            //         const val = $(this).val();
-            //         if (val) selected.push(val);
-            //     });
 
-            //     $('.course-choice').each(function() {
-            //         const currentSelect = $(this);
-            //         const currentValue = currentSelect.val();
-
-            //         currentSelect.empty();
-            //         currentSelect.append('<option value="">Select Course</option>');
-
-            //         allCourses.forEach(course => {
-            //             if (!selected.includes(course) || course === currentValue) {
-            //                 const selectedAttr = (course === currentValue) ? 'selected' : '';
-            //                 currentSelect.append(
-            //                     `<option value="${course}" ${selectedAttr}>${course}</option>`);
-            //             }
-            //         });
-            //     });
-            // }
-
-            //  $(document).on('change', '.course-choice', function() {
-            //     rebuildDropdowns();
-            //});
 
             $(document).on('change', 'input[type="file"]', function() {
                 validateFileSize(this);

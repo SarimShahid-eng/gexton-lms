@@ -58,7 +58,7 @@
                                 Campus
                             </label>
                             <select id="selcted_campus" wire:model.live="selectedCampus"
-                                class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800
                                 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400">
                                 <option value="">Select Campus</option>
                                 @foreach ($campuses as $campus)
@@ -110,7 +110,7 @@
                                     @enderror --}}
                                 </select>
                             </div>
-                        @endif
+                            @endif
 
 
                     </div>
@@ -122,7 +122,7 @@
                                 Quiz Duration
                             </label>
                             <input type="number" placeholder="Enter in Minutes" wire:model="duration"
-                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                             @error('duration')
                                 <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                             @enderror
@@ -133,7 +133,7 @@
                                 Marks
                             </label>
                             <input type="number" placeholder="Marks" wire:model="marks"
-                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                             @error('marks')
                                 <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                             @enderror
@@ -143,10 +143,10 @@
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Date
                             </label>
-                            <input type="date" wire:model="date"
-                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            {{-- <input type="date" wire:model="date"
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" /> --}}
                             @error('date')
-                                <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
+                            <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -166,9 +166,11 @@
                             @enderror
                         </p>
                     </div>
+
                     {{-- show teachers added questions  only --}}
-                    <div x-data="{ showGrabbedQuestion }" window.show-question-grab-complete="showGrabbedQuestion = true">
+                    <div x-data="{ showGrabbedQuestion:false }" window.show-question-grab-complete="showGrabbedQuestion = true">
                         <div x-show="showGrabbedQuestion">
+
                             @if ($teachersAddedQuestion)
                                 <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
@@ -215,6 +217,7 @@
                                         <!-- table header end -->
 
                                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+
 
                                             @foreach ($teachersAddedQuestion as $question)
                                                 <tr wire:key="row-{{ $question->id }}">

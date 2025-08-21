@@ -9,6 +9,7 @@ class QuizStudent extends Component
 {
     public function render()
     {
+        // dd('ss');
         $quizes = Quiz::all();
         return view('livewire.quiz-student', compact('quizes'));
     }

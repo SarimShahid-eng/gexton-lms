@@ -3,18 +3,21 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Models\StudentRegister;
+use App\Rules\UniqueAcrossTables;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\RateLimiter;
 
 class Student extends Component
 {
     use WithFileUploads;
+    public bool $info_confirm = false;
 
     public $full_name, $father_name, $gender, $cnic_number, $email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_category, $domicile_form_c,  $most_recent_institution, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4;
-    public $highest_qualification, $have_disability, $monthly_household_income, $course_if_participated, $phase_if_participated, $center_if_participated, $from_source, $participated_previously, $info_confirm = false;
+    public $highest_qualification, $have_disability, $monthly_household_income, $course_if_participated, $phase_if_participated, $center_if_participated, $from_source, $participated_previously;
     public $activeTab = 'step1';
     // public string $highestQualification = '';
     public array $courseList = [];
@@ -93,6 +96,7 @@ class Student extends Component
         $this->highest_qualification = $this->highest_qualification ?? null;
         $this->refreshCourseList();
     }
+    // from changing qualification wise to on course choices change option exclusion section = mainQualifSec
     public function updatedHighestQualification($value)
     {
         $this->highest_qualification = $value;
@@ -106,46 +110,102 @@ class Student extends Component
     }
     private function refreshCourseList(): void
     {
-        switch ($this->highest_qualification) {
-            case 'matric':
-                $this->courseList = $this->matricCourses;
-                break;
-
-            case 'intermediate':
-                $this->courseList = $this->allCourses;
-                break;
-
-            case 'graduate':
-                $this->courseList = $this->graduateCourses;
-                break;
-
-            default:
-                $this->courseList = [];
-        }
+        $list = match ($this->highest_qualification) {
+            'matric'        => $this->matricCourses,
+            'intermediate'  => $this->allCourses,
+            'graduate'      => $this->graduateCourses,
+            default         => [],
+        };
+        $this->courseList = array_map(fn($s) => trim($s), $list);
+    }
+    /* === Helpers === */
+    private function selectedClean(array $items): array
+    {
+        // keep only non-empty + trimmed
+        return array_values(array_filter(array_map(
+            fn($s) => $s === null ? null : trim($s),
+            $items
+        )));
     }
 
+    #[Computed]
+    public function availableCoursesForChoice1(): array
+    {
+        // dd($this->courseList);
+        return $this->courseList;
+    }
+    #[Computed]
+    public function availableCoursesForChoice2(): array
+    {
+        $exclude = $this->selectedClean([$this->course_choice_1]);
+        return array_values(array_diff($this->courseList, $exclude));
+    }
+
+    #[Computed]
+    public function availableCoursesForChoice3(): array
+    {
+        $exclude = $this->selectedClean([$this->course_choice_1, $this->course_choice_2]);
+        return array_values(array_diff($this->courseList, $exclude));
+    }
+
+    #[Computed]
+    public function availableCoursesForChoice4(): array
+    {
+        $exclude = $this->selectedClean([
+            $this->course_choice_1,
+            $this->course_choice_2,
+            $this->course_choice_3
+        ]);
+        return array_values(array_diff($this->courseList, $exclude));
+    }
+
+    public function updatedCourseChoice1(): void
+    {
+        $this->reset(['course_choice_2', 'course_choice_3', 'course_choice_4']);
+        $this->dispatch('$refresh'); // force DOM to reconcile
+    }
+
+    public function updatedCourseChoice2(): void
+    {
+        $this->reset(['course_choice_3', 'course_choice_4']);
+        $this->dispatch('$refresh');
+    }
+
+    public function updatedCourseChoice3(): void
+    {
+        $this->reset('course_choice_4');
+        $this->dispatch('$refresh');
+    }
+    // selected Course Ends
+    // mainQualifSec End
+
+    // When user selects "no", clear the extra fields
+    public function updatedParticipatedPreviously($val): void
+    {
+        if ($val === 'no') {
+            $this->reset(['phase_if_participated', 'course_if_participated', 'center_if_participated']);
+        }
+    }
     protected function rules()
     {
         return [
             'full_name'               => ['required', 'string', 'min:2', 'max:150'],
             'monthly_household_income' => ['required', 'string', 'min:2', 'max:150'],
             'father_name'             => ['required', 'string', 'min:2', 'max:150'],
-            'gender'                  => ['required', Rule::in(['Male', 'Female', 'Transgender'])],
+            'gender'                  => ['required', Rule::in(['male', 'female', 'transgender'])],
 
-            'cnic_number'    => ['required', 'integer', 'digits:13'],
+            'cnic_number'    => ['required', 'integer', 'digits:13', new UniqueAcrossTables(['student_registers'], 'cnic_number')],
             'contact_number' => ['required', 'integer', 'digits:11'],
 
-            'email'                   => ['required', 'email', 'max:100', 'unique:student_registers,email'],
+            'email'                   => ['required', 'email', 'max:100',   new UniqueAcrossTables(['student_registers', 'users'], 'email')],
             'contact_number'          => ['required', 'string', 'min:11', 'max:11'], // adjust pattern if needed
             'date_of_birth'           => ['required', 'date'],
 
-            // FILES (Laravel's max is in KB)
             'profile_picture' => [
                 'required',
                 'file',
                 'mimes:jpg,png,pdf',
                 'max:256',                        // ≈ 1 MB
-                // 'dimensions:min_width=350,min_height=450,ratio=7/9', // ~35x45 mm
             ],
             'intermediate_marksheet'  => ['required', 'file', 'max:256', 'mimes:jpg,png,pdf'],
             'domicile_category'             => ['required', 'string', 'min:2', 'max:150', Rule::in(['urban', 'rural'])],
@@ -203,6 +263,12 @@ class Student extends Component
         'course_choice_4.different' => 'Course choices must be different.',
         'cnic_number.digits'       => 'CNIC must be exactly 13 digits.',
         'contact_number.digits'    => 'Contact number must be exactly 11 digits.',
+        'course_if_participated.exclude_unless' => 'previous course required if you have participated before',
+        'course_if_participated.required' => 'course required if you have participated before',
+        'phase_if_participated.exclude_unless' => 'previous phase required if you have participated before',
+        'phase_if_participated.required' => 'phase required if you have participated before',
+        'center_if_participated.exclude_unless' => 'previous center required if you have participated before',
+        'center_if_participated.required' => 'center required if you have participated before',
     ];
 
     public function render()

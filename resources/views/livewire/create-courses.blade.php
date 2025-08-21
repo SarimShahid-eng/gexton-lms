@@ -288,7 +288,7 @@
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->title }}
+                                        {{ $course->campus->phase->title }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
@@ -298,12 +298,12 @@
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="text-sm font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->campus->title ?? 'N/A' }}
+                                        {{ $course->batch->title ?? 'N/A' }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="text-sm font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->batch->title ?? 'N/A' }}
+                                        {{ $course->campus->title ?? 'N/A' }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">

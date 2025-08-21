@@ -11,8 +11,11 @@
     </title>
     <link rel="icon" href="{{ asset('https://www.muet.edu.pk/sites/default/files/favicon.ico') }}" type="image/png" />
     @livewireStyles
+    <script src="h+ttps://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdn.tailwindcss.com"></script>
     @stack('styles')
     <style>
         .swal2-container {
@@ -20,9 +23,9 @@
         }
     </style>
 </head>
+
 {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 {{-- when its completed properly will remove tailwind cdn and js as well --}}
-<script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
         theme: {
@@ -34,7 +37,7 @@
         ]
     }
 </script>
- {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> --}}
+
 <body x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }" x-init="darkMode = JSON.parse(localStorage.getItem('darkMode'));
 $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
     <!-- ===== Preloader Start ===== -->
@@ -68,7 +71,10 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 
 
     </div>
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.14.9/dist/cdn.min.js"></script> --}}
     @livewireScripts
+
+
     @stack('script')
     <!-- ===== Page Wrapper End ===== -->
 

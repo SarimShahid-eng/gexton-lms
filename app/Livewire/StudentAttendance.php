@@ -46,6 +46,7 @@ class StudentAttendance extends Component
     public function saveAttendance()
     {
         foreach ($this->attendances as $studentId => $status) {
+            $status = $status === "present" ? "1" : "0";
             AttendanceModel::updateOrCreate(
                 [
                     'student_id' => $studentId,

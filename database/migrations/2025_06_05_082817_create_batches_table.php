@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('campus_id')
                 ->constrained('campuses')
                 ->onDelete('cascade');
-            $table->string('status')->default('active'); // Added status column
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('task_description')->nullable();
             $table->string('number_of_days', 20)->nullable();
             $table->integer('total_marks');
+             $table->boolean('assigned_task')->default(false);
             $table->string('attachment_link')->nullable();
             $table->integer('course_id');
             $table->timestamps();

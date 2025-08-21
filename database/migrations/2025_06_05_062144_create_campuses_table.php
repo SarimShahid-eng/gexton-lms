@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique()->comment('Campus title');
             $table->text('description')->nullable()->comment('Campus description');
+            $table->foreignId('phase_id')
+                ->constrained('phases')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

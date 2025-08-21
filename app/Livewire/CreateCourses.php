@@ -69,6 +69,7 @@ class CreateCourses extends Component
             'phase_id.required' => 'Phase is required.',
         ];
         $validated = $this->validate($rules, $message);
+        unset($validated['phase_id']);
         Course::updateOrCreate(
             ['id' => $this->id],
             $validated
@@ -92,10 +93,11 @@ class CreateCourses extends Component
         $this->id = $course->id;
         $this->title = $course->title;
         $this->description = $course->description;
-        $this->campus_id = $course->campus_id;
-        $this->batch_id = $course->batch_id;
+        $this->campus_id = $course->batch_id;
+        $this->batch_id = $course->campus_id;
         $this->user_id = $course->user_id;
-        $this->phase_id = $course->phase_id;
+        // campus here denoting batches table
+        $this->phase_id = $course->campus->phase_id;
         $this->editMode = true;
         $this->campuses = Campus::where('phase_id', $this->phase_id)->get();
         $this->batches = Batch::where('campus_id', $this->campus_id)->where('status', 1)->get();
