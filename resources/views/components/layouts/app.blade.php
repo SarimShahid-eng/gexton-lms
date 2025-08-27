@@ -10,12 +10,13 @@
         MUET Portal
     </title>
     <link rel="icon" href="{{ asset('https://www.muet.edu.pk/sites/default/files/favicon.ico') }}" type="image/png" />
+   <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
-    <script src="h+ttps://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    {{-- <script src="h+ttps://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     @stack('styles')
     <style>
         .swal2-container {
@@ -24,7 +25,7 @@
     </style>
 </head>
 
-{{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 {{-- when its completed properly will remove tailwind cdn and js as well --}}
 <script>
     tailwind.config = {
