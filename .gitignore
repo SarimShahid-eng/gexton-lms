@@ -24,3 +24,6 @@ yarn-error.log
 /public
 resources/js/app.js
 resources/js/app.js
+vendor.zip
+node_modules.zip
+

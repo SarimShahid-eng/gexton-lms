@@ -1,38 +1,33 @@
-name: Build & Publish Deploy Branch (for cPanel)
+# .github/workflows/deploy.yml (on main/master)
+name: Build & Publish Deploy Branch
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]   # or master if that's your source
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      # Build frontend
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: 'npm' }
       - run: npm ci
       - run: npm run build
 
-      # Install PHP deps for production
       - uses: shivammathur/setup-php@v2
         with: { php-version: '8.3', coverage: none }
       - run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
-      # Prepare deploy snapshot
       - name: Prepare dist
         run: |
           rsync -a ./ ./dist \
-            --exclude ".git" \
-            --exclude ".github" \
-            --exclude "node_modules" \
-            --exclude "tests" \
-            --exclude ".env*"
-          test -d dist/public/build
+            --exclude ".git" --exclude ".github" --exclude "node_modules" \
+            --exclude "tests" --exclude ".env*"
+          # hard fail if manifest missing
+          test -f dist/public/build/manifest.json
 
-          # Override .gitignore so vendor and build are kept in deploy
+          # deploy branch should commit vendor/ and public/build
           cat > dist/.gitignore <<'IGN'
 .env
 .env.*
@@ -42,7 +37,6 @@ storage/framework/sessions/*
 storage/framework/views/*
 IGN
 
-      # Push to deploy branch
       - name: Publish deploy branch
         run: |
           cd dist
