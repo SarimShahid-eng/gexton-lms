@@ -1,15 +1,15 @@
 name: Build & Publish Deploy Branch
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]   # runs when you push to main OR master
 
 env:
-  APP_PATH: lms    # <-- change to '.' if your app is at repo root
+  APP_PATH: .   # app is at repo root
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +31,6 @@ jobs:
       - name: Show Vite output
         working-directory: ${{ env.APP_PATH }}
         run: |
-          ls -la
           ls -la public || true
           ls -la public/build || true
           test -f public/build/manifest.json
