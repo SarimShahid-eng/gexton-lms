@@ -2,7 +2,7 @@
 name: Build & Publish Deploy Branch
 on:
   push:
-    branches: [ main ]   # or master if that's your source
+    branches: [ master ]   # or master if that's your source
 
 jobs:
   build-and-publish:
@@ -48,3 +48,4 @@ IGN
           git branch -M deploy
           git remote add origin https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
           git push -f origin deploy
+
