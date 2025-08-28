@@ -3,7 +3,9 @@ on:
   push:
     branches:
       - master
-      - main
+
+env:
+  APP_PATH: lms    # <-- change to '.' if your app is at repo root
 
 jobs:
   build-and-publish:
@@ -19,16 +21,20 @@ jobs:
           cache: 'npm'
 
       - name: Install Node deps
+        working-directory: ${{ env.APP_PATH }}
         run: npm ci
 
       - name: Build assets (Vite)
+        working-directory: ${{ env.APP_PATH }}
         run: npm run build
 
       - name: Show Vite output
+        working-directory: ${{ env.APP_PATH }}
         run: |
           ls -la
           ls -la public || true
           ls -la public/build || true
+          test -f public/build/manifest.json
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -37,17 +43,16 @@ jobs:
           coverage: none
 
       - name: Install Composer deps (prod)
+        working-directory: ${{ env.APP_PATH }}
         run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Prepare dist snapshot
         run: |
           set -e
-          rsync -a ./ ./dist \
+          rsync -a "${APP_PATH}/" dist/ \
             --exclude ".git" --exclude ".github" --exclude "node_modules" \
             --exclude "tests" --exclude ".env*"
-          # fail if manifest missing
           test -f dist/public/build/manifest.json
-          # keep vendor/build in deploy branch
           printf "%s\n" \
             ".env" \
             ".env.*" \
