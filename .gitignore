@@ -22,7 +22,5 @@ yarn-error.log
 /.vscode
 /.zed
 /public
-resources/js/app.js
-resources/js/app.js
 vendor.zip
 node_modules.zip

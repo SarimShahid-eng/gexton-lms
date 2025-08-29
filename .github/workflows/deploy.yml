@@ -1,7 +1,7 @@
 name: Build & Publish Deploy Branch
 on:
   push:
-    branches: [ master ]   # runs when you push to main OR master
+    branches: [ master ]   # your source branch
 
 env:
   APP_PATH: .   # app is at repo root
@@ -60,14 +60,35 @@ jobs:
             "storage/framework/sessions/*" \
             "storage/framework/views/*" > dist/.gitignore
 
-      - name: Publish deploy branch
+      # ✅ Publish to deploy branch without force-pushing (keeps history; cPanel can fast-forward)
+      - name: Publish deploy branch (fast-forward, no force)
+        env:
+          REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
         run: |
-          cd dist
-          git init
+          set -e
+
+          # If deploy exists, clone it; else create it
+          if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
+            git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
+          else
+            git clone --depth=1 "$REPO_URL" deploy-repo
+            cd deploy-repo
+            git checkout --orphan deploy
+            git rm -rf .
+            cd ..
+          fi
+
+          # Replace contents with the new dist/ snapshot
+          rsync -a --delete dist/ deploy-repo/
+
+          cd deploy-repo
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add .
-          git commit -m "Deploy from ${GITHUB_SHA}"
-          git branch -M deploy
-          git remote add origin "https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git"
-          git push -f origin deploy
+          git add -A
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Deploy from ${GITHUB_SHA}"
+            git push origin deploy
+          else
+            echo "No changes to deploy."
+          fi

@@ -1,21 +1,12 @@
 deployment:
   tasks:
-    # 1) Make sure we’re on the correct branch (change 'main' if needed)
+    # Always deploy from the DEPLOY branch (built by GitHub Actions)
     - /bin/bash -lc 'git fetch --all --prune'
-    - /bin/bash -lc 'git checkout main'
+    - /bin/bash -lc 'git checkout deploy'
+    - /bin/bash -lc 'git reset --hard origin/deploy'
+    - /bin/bash -lc 'git clean -fd -e .env -e storage'  # keep env & storage
 
-    # 2) Force override local edits with remote state,
-    #    but keep .env and storage/ intact
-    - /bin/bash -lc 'git reset --hard origin/main'
-    - /bin/bash -lc 'git clean -fd -e .env -e storage'  # -e excludes
-
-    # 3) If you use Git submodules
-    - /bin/bash -lc 'git submodule update --init --recursive'
-
-    # 4) Laravel build steps (skip if not needed)
-    - /bin/bash -lc 'which composer || echo "composer not found, skipping"'
-    - /bin/bash -lc 'composer install --no-dev --prefer-dist --optimize-autoloader || true'
-    - /bin/bash -lc 'php artisan config:cache || true'
-    - /bin/bash -lc 'php artisan route:cache || true'
-    - /bin/bash -lc 'php artisan view:cache || true'
-    # - /bin/bash -lc 'php artisan migrate --force'  # Uncomment if you want DB migrations to run automatically
+    # (Optional) Laravel cache maintenance — no builds here
+    - /bin/bash -lc 'php artisan optimize:clear || true'
+    - /bin/bash -lc 'php artisan optimize || true'
+    # - /bin/bash -lc 'php artisan migrate --force'  # enable only if you really want auto migrations
