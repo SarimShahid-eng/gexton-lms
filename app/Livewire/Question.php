@@ -13,6 +13,7 @@ class Question extends Component
 
     public function render()
     {
+        // dd('s')
         $questions = DataQuestion::paginate(100);
         return view('livewire.question', compact('questions'));
     }

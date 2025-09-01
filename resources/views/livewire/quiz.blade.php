@@ -1,4 +1,4 @@
-<div x-data="{ showQuizForm: false }" class="grid grid-cols-12 gap-4 md:gap-6 p-4">
+<div x-data="{ showQuizForm: false, showGrabbedQuestion: false }" class="grid grid-cols-12 gap-4 md:gap-6 p-4">
     <!-- Create Course Section -->
     <div class="col-span-12 space-y-6">
         <div
@@ -58,7 +58,7 @@
                                 Campus
                             </label>
                             <select id="selcted_campus" wire:model.live="selectedCampus"
-                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800
+                                class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800
                                 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400">
                                 <option value="">Select Campus</option>
                                 @foreach ($campuses as $campus)
@@ -110,7 +110,7 @@
                                     @enderror --}}
                                 </select>
                             </div>
-                            @endif
+                        @endif
 
 
                     </div>
@@ -122,7 +122,7 @@
                                 Quiz Duration
                             </label>
                             <input type="number" placeholder="Enter in Minutes" wire:model="duration"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                             @error('duration')
                                 <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                             @enderror
@@ -133,7 +133,7 @@
                                 Marks
                             </label>
                             <input type="number" placeholder="Marks" wire:model="marks"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                             @error('marks')
                                 <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                             @enderror
@@ -146,7 +146,7 @@
                             {{-- <input type="date" wire:model="date"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" /> --}}
                             @error('date')
-                            <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
+                                <span class="text-red-500 ms-2 mt-1">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -168,9 +168,8 @@
                     </div>
 
                     {{-- show teachers added questions  only --}}
-                    <div x-data="{ showGrabbedQuestion:false }" window.show-question-grab-complete="showGrabbedQuestion = true">
-                        <div x-show="showGrabbedQuestion">
-
+                    <div x-data="{ showGrabbedQuestion: @entangle('showGrabbedQuestion') }">
+                        <div x-show="showGrabbedQuestion" x-cloak x-transition>
                             @if ($teachersAddedQuestion)
                                 <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
@@ -329,11 +328,13 @@
                                     <div class="flex items-center justify-center gap-3">
                                         <!-- Edit Button with Tooltip -->
                                         <div x-data="{ showTooltip: false }" class="relative">
-                                            <button wire:click="edit({{ $quiz->id }})" @click="showQuizForm = true"
+                                            <button wire:click="edit({{ $quiz->id }})"
+                                                @click="showQuizForm = true"
                                                 class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition"
                                                 title="Edit Quiz">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.125 1.125-4.5 12.737-12.45z" />
                                                 </svg>
@@ -398,44 +399,44 @@
 </div>
 
 @push('script')
-<script>
-    window.addEventListener('quiz-saved', event => {
-        let data = event.detail;
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
-        })
-        Toast.fire({
-            icon: data.icon,
-            title: data.text
-        });
+    <script>
+        window.addEventListener('quiz-saved', event => {
+            let data = event.detail;
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            })
+            Toast.fire({
+                icon: data.icon,
+                title: data.text
+            });
 
-    });
-    window.addEventListener('course-deleted', event => {
-        let data = event.detail;
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
-        })
-        Toast.fire({
-            icon: "success",
-            title: data.text
         });
+        window.addEventListener('course-deleted', event => {
+            let data = event.detail;
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            })
+            Toast.fire({
+                icon: "success",
+                title: data.text
+            });
 
-    });
-</script>
+        });
+    </script>
 @endpush

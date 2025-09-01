@@ -13,6 +13,7 @@ use App\Models\Quiz as QuizModel;
 class Quiz extends Component
 {
     public $title, $description, $duration, $marks, $id, $course_id, $updatedCampusId, $teachersAddedQuestion, $checkedId;
+    public bool $showGrabbedQuestion = false;
     //   dependent dropdowns vars declare
     public $batches, $courses, $campuses = [];
     // declaring it for hook call on modal live
@@ -44,6 +45,7 @@ class Quiz extends Component
     }
     public function save()
     {
+        // dd('s');
         $rules = [
             'selectedRows' => 'required',
             'title' => 'required',
@@ -80,7 +82,7 @@ class Quiz extends Component
             $validatedData
         );
 
-        QuizQuestion::where('quiz_id', $createdQuiz->id)->delete();
+
         $quizQuestion = [];
         foreach ($this->selectedRows as $questionId) {
             $quizQuestion[] = [
@@ -90,9 +92,12 @@ class Quiz extends Component
                 'updated_at' => now(),
             ];
         }
+        QuizQuestion::where('quiz_id', $createdQuiz->id)->delete();
         if (!empty($quizQuestion)) {
             QuizQuestion::insert($quizQuestion);
         }
+        // else {
+        // }
         $message = $this->id ? 'updated' : 'saved';
 
         $this->reset();
@@ -106,7 +111,7 @@ class Quiz extends Component
     public function showQuestionTeacherWise()
     {
         $this->teachersAddedQuestion = Question::where('teacher_id', auth()->id())->get();
-        $this->dispatch('question-grab-complete');
+        $this->showGrabbedQuestion = true;
     }
 
     public function edit($id)
