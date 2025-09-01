@@ -1,41 +1,41 @@
-- name: Publish deploy branch (fast-forward, no force)
-  env:
-    REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-  run: |
-    set -euo pipefail
-    set -x
+      - name: Publish deploy branch (fast-forward, no force)
+        env:
+          REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          set -euo pipefail
+          set -x
 
-    # If 'deploy' exists, clone it; otherwise create it
-    if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
-      git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
-    else
-      git clone --depth=1 "$REPO_URL" deploy-repo
-      cd deploy-repo
-      git checkout --orphan deploy
-      git rm -rf .
-      git commit --allow-empty -m "Initialize deploy branch"
-      git push -u origin deploy
-      cd ..
-    fi
+          # If 'deploy' exists, clone it; otherwise create it
+          if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
+            git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
+          else
+            git clone --depth=1 "$REPO_URL" deploy-repo
+            cd deploy-repo
+            git checkout --orphan deploy
+            git rm -rf .
+            git commit --allow-empty -m "Initialize deploy branch"
+            git push -u origin deploy
+            cd ..
+          fi
 
-    # Replace contents with the new dist/ snapshot
-    rsync -a --delete dist/ deploy-repo/
+          # Replace contents with the new dist/ snapshot
+          rsync -a --delete dist/ deploy-repo/
 
-    cd deploy-repo
-    git config user.name "github-actions"
-    git config user.email "actions@github.com"
-    git add -A
+          cd deploy-repo
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add -A
 
-    if git diff --cached --quiet; then
-      echo "No changes to deploy."
-      exit 0
-    fi
+          if git diff --cached --quiet; then
+            echo "No changes to deploy."
+            exit 0
+          fi
 
-    git commit -m "Deploy from ${GITHUB_SHA}"
+          git commit -m "Deploy from ${GITHUB_SHA}"
 
-    # Show remotes & the last commit for debugging
-    git remote -v
-    git log -1 --oneline
+          # Show remotes & the last commit for debugging
+          git remote -v
+          git log -1 --oneline
 
-    # Push (fast-forward). If this fails, you’ll see the exact error here.
-    git push origin deploy
+          # Push (fast-forward). If this fails, you’ll see the exact error here.
+          git push origin deploy
