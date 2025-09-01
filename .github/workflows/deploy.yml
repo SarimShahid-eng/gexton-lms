@@ -1,7 +1,12 @@
 name: Build & Publish Deploy Branch
+
 on:
   push:
     branches: [ master ]   # your source branch
+
+# Allow this workflow to push commits back to the repo
+permissions:
+  contents: write
 
 env:
   APP_PATH: .   # app is at repo root
@@ -28,7 +33,7 @@ jobs:
         working-directory: ${{ env.APP_PATH }}
         run: npm run build
 
-      - name: Show Vite output
+      - name: Show Vite output (debug)
         working-directory: ${{ env.APP_PATH }}
         run: |
           ls -la public || true
@@ -60,14 +65,14 @@ jobs:
             "storage/framework/sessions/*" \
             "storage/framework/views/*" > dist/.gitignore
 
-      # ✅ Publish to deploy branch without force-pushing (keeps history; cPanel can fast-forward)
+      # Publish to deploy branch WITHOUT force (so cPanel can fast-forward)
       - name: Publish deploy branch (fast-forward, no force)
         env:
-          REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
+          REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         run: |
           set -e
 
-          # If deploy exists, clone it; else create it
+          # If 'deploy' exists, clone it; otherwise create it
           if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
             git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
           else

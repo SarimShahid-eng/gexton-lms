@@ -1,12 +1,8 @@
 deployment:
   tasks:
-    # Always deploy from the DEPLOY branch (built by GitHub Actions)
     - /bin/bash -lc 'git fetch --all --prune'
     - /bin/bash -lc 'git checkout deploy'
     - /bin/bash -lc 'git reset --hard origin/deploy'
-    - /bin/bash -lc 'git clean -fd -e .env -e storage'  # keep env & storage
-
-    # (Optional) Laravel cache maintenance — no builds here
+    - /bin/bash -lc 'git clean -fd -e .env -e storage'
     - /bin/bash -lc 'php artisan optimize:clear || true'
     - /bin/bash -lc 'php artisan optimize || true'
-    # - /bin/bash -lc 'php artisan migrate --force'  # enable only if you really want auto migrations
