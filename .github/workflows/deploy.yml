@@ -2,10 +2,10 @@ name: Build & Publish Deploy Branch
 
 on:
   push:
-    branches: [ master ]   # trigger on pushes to master
+    branches: [ master ]
 
 permissions:
-  contents: write   # ✅ allow pushing to deploy branch
+  contents: write   # allow GITHUB_TOKEN to push
 
 env:
   APP_PATH: .   # app is at repo root
@@ -71,14 +71,18 @@ jobs:
           set -euo pipefail
           set -x
 
-          # If 'deploy' exists, clone it; otherwise create it
           if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
+            # Deploy branch exists -> clone it
             git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
           else
+            # Deploy branch doesn't exist -> create it
             git clone --depth=1 "$REPO_URL" deploy-repo
             cd deploy-repo
             git checkout --orphan deploy
             git rm -rf .
+            # Set identity BEFORE first commit
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
             git commit --allow-empty -m "Initialize deploy branch"
             git push -u origin deploy -v
             cd ..
@@ -88,6 +92,7 @@ jobs:
           rsync -a --delete dist/ deploy-repo/
 
           cd deploy-repo
+          # Ensure identity is set before commit (also for the normal path)
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add -A
@@ -100,6 +105,4 @@ jobs:
           git commit -m "Deploy from ${GITHUB_SHA}"
           git remote -v
           git log -1 --oneline
-
-          # Push (fast-forward). If this fails, you’ll see the exact error here.
           git push -v origin deploy
