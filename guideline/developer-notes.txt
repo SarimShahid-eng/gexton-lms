@@ -1,0 +1,3 @@
+Batches table representing campus
+Campus representing Batches
+due to demand change batch wise campus instead of campus wise batch labelling is changed only
