@@ -2,19 +2,17 @@ name: Build & Publish Deploy Branch
 
 on:
   push:
-    branches: [ master ]   # trigger on pushes to master
+    branches: [ master ]
 
-# let the workflow commit if we ever switch back to GITHUB_TOKEN
 permissions:
   contents: write
 
-# avoid race conditions: if multiple pushes happen quickly, cancel older runs
 concurrency:
   group: deploy-publish
   cancel-in-progress: true
 
 env:
-  APP_PATH: .   # your app is at repo root
+  APP_PATH: .
 
 jobs:
   build-and-publish:
@@ -61,9 +59,11 @@ jobs:
           rsync -a "${APP_PATH}/" dist/ \
             --exclude ".git" --exclude ".github" --exclude "node_modules" \
             --exclude "tests" --exclude ".env*"
-          # hard fail if vite manifest missing
+
+          # hard fail if vite manifest missing in dist
           test -f dist/public/build/manifest.json
-          # keep runtime stuff out of git
+
+          # minimal .gitignore in deploy branch (do NOT ignore public/build)
           printf "%s\n" \
             ".env" \
             ".env.*" \
@@ -72,10 +72,8 @@ jobs:
             "storage/framework/sessions/*" \
             "storage/framework/views/*" > dist/.gitignore
 
-      # === Publish to `deploy` without force; always base on latest remote tip ===
       - name: Publish deploy branch (fast-forward, no force)
         env:
-          # Repo secret: DEPLOY_TOKEN = fine-grained PAT scoped to this repo with Contents: Read & write
           REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
           GIT_TRACE: "1"
           GIT_CURL_VERBOSE: "1"
@@ -83,10 +81,10 @@ jobs:
           set -euo pipefail
           set -x
 
-          echo "Preflight auth check against $REPO_URL"
+          echo "Preflight auth check"
           git ls-remote "$REPO_URL" >/dev/null
 
-          # If deploy exists, clone it; else initialize it
+          # Clone existing deploy or init it
           if git ls-remote --exit-code "$REPO_URL" refs/heads/deploy >/dev/null 2>&1; then
             git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
           else
@@ -101,20 +99,35 @@ jobs:
             cd ..
           fi
 
+          # Ensure base is latest remote tip
           cd deploy-repo
-          # Make 100% sure we're on top of the latest remote tip
           git fetch origin deploy
           git checkout deploy
           git reset --hard origin/deploy
-
           cd ..
+
           # Replace contents with freshly built dist/
           rsync -a --delete dist/ deploy-repo/
 
           cd deploy-repo
+
+          # --- DEBUG: prove manifest exists before add/commit
+          echo "Listing build output for debug:"
+          find public -maxdepth 2 -type f -name "manifest.json" -print || true
+          ls -la public/build || true
+
+          # Make sure previous ignores don't block us; force stage build & vendor
+          git rm -r --cached --ignore-unmatch public/build || true
+          git rm -r --cached --ignore-unmatch vendor || true
+          git add -A
+          git add -f public/build vendor
+
+          # Double-check it's staged
+          echo "GIT STATUS (should show public/build/* staged):"
+          git status --porcelain | sed -n '1,200p'
+
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add -A
 
           if git diff --cached --quiet; then
             echo "No changes to deploy."
@@ -123,9 +136,9 @@ jobs:
 
           git commit -m "Deploy from ${GITHUB_SHA}"
 
-          # In case remote advanced between clone and now, rebase on latest tip
+          # Rebase onto latest tip in case another run pushed while we worked
           git fetch origin deploy
-          git rebase origin/deploy
+          git rebase origin/deploy || true
 
-          # Push using explicit ref; should be a FF after rebase
+          # Push (fast-forward)
           git push -v "$REPO_URL" HEAD:refs/heads/deploy
