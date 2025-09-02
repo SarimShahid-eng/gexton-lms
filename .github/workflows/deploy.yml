@@ -2,14 +2,13 @@ name: Build & Publish Deploy Branch
 
 on:
   push:
-    branches: [master] # your source branch
+    branches: [ master ]   # trigger on pushes to master
 
-# Needed so the workflow can push to the repo using GITHUB_TOKEN
 permissions:
-  contents: write
+  contents: write   # ✅ allow pushing to deploy branch
 
 env:
-  APP_PATH: . # app is at repo root
+  APP_PATH: .   # app is at repo root
 
 jobs:
   build-and-publish:
@@ -22,8 +21,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install Node deps
         working-directory: ${{ env.APP_PATH }}
@@ -43,7 +42,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: '8.3'
           coverage: none
 
       - name: Install Composer deps (prod)
@@ -65,7 +64,6 @@ jobs:
             "storage/framework/sessions/*" \
             "storage/framework/views/*" > dist/.gitignore
 
-      # Publish to deploy branch WITHOUT force (so cPanel can fast-forward)
       - name: Publish deploy branch (fast-forward, no force)
         env:
           REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
@@ -82,7 +80,7 @@ jobs:
             git checkout --orphan deploy
             git rm -rf .
             git commit --allow-empty -m "Initialize deploy branch"
-            git push -u origin deploy
+            git push -u origin deploy -v
             cd ..
           fi
 
@@ -100,10 +98,8 @@ jobs:
           fi
 
           git commit -m "Deploy from ${GITHUB_SHA}"
-
-          # Show remotes & the last commit for debugging
           git remote -v
           git log -1 --oneline
 
-          # Push (fast-forward). If this fails, you'll see the exact error here.
-          git push origin deploy
+          # Push (fast-forward). If this fails, you’ll see the exact error here.
+          git push -v origin deploy
