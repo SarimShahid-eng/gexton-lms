@@ -2,10 +2,10 @@ name: Build & Publish Deploy Branch
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ]   # trigger on pushes to master
 
 permissions:
-  contents: write
+  contents: write          # allow the workflow to push commits if needed
 
 concurrency:
   group: deploy-publish
@@ -53,17 +53,16 @@ jobs:
         working-directory: ${{ env.APP_PATH }}
         run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
-      - name: Prepare dist snapshot
+      - name: Prepare dist snapshot (exclude CI scratch dirs)
         run: |
           set -e
           rsync -a "${APP_PATH}/" dist/ \
             --exclude ".git" --exclude ".github" --exclude "node_modules" \
-            --exclude "tests" --exclude ".env*"
-
+            --exclude "tests" --exclude ".env*" \
+            --exclude "dist" --exclude "deploy-repo"
           # hard fail if vite manifest missing in dist
           test -f dist/public/build/manifest.json
-
-          # minimal .gitignore in deploy branch (do NOT ignore public/build)
+          # minimal ignore file for deploy branch (do NOT ignore public/build)
           printf "%s\n" \
             ".env" \
             ".env.*" \
@@ -74,6 +73,7 @@ jobs:
 
       - name: Publish deploy branch (fast-forward, no force)
         env:
+          # Repo secret: DEPLOY_TOKEN = fine-grained PAT (this repo, Contents: Read & write)
           REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
           GIT_TRACE: "1"
           GIT_CURL_VERBOSE: "1"
@@ -84,7 +84,7 @@ jobs:
           echo "Preflight auth check"
           git ls-remote "$REPO_URL" >/dev/null
 
-          # Clone existing deploy or init it
+          # Clone existing deploy or initialize it
           if git ls-remote --exit-code "$REPO_URL" refs/heads/deploy >/dev/null 2>&1; then
             git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
           else
@@ -111,18 +111,16 @@ jobs:
 
           cd deploy-repo
 
-          # --- DEBUG: prove manifest exists before add/commit
-          echo "Listing build output for debug:"
-          find public -maxdepth 2 -type f -name "manifest.json" -print || true
+          # Prove manifest exists (debug)
+          find public -maxdepth 2 -name "manifest.json" -print || true
           ls -la public/build || true
 
-          # Make sure previous ignores don't block us; force stage build & vendor
+          # Make sure build & vendor are staged even if ignored previously
           git rm -r --cached --ignore-unmatch public/build || true
           git rm -r --cached --ignore-unmatch vendor || true
           git add -A
           git add -f public/build vendor
 
-          # Double-check it's staged
           echo "GIT STATUS (should show public/build/* staged):"
           git status --porcelain | sed -n '1,200p'
 
@@ -136,9 +134,9 @@ jobs:
 
           git commit -m "Deploy from ${GITHUB_SHA}"
 
-          # Rebase onto latest tip in case another run pushed while we worked
+          # Rebase in case another run pushed while we worked
           git fetch origin deploy
           git rebase origin/deploy || true
 
-          # Push (fast-forward)
+          # Push fast-forward using explicit ref
           git push -v "$REPO_URL" HEAD:refs/heads/deploy

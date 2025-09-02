@@ -24,3 +24,5 @@ yarn-error.log
 /public
 vendor.zip
 node_modules.zip
+/dist/
+/deploy-repo/
