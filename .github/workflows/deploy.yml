@@ -1,108 +1,39 @@
-name: Build & Publish Deploy Branch
+- name: Publish deploy branch (fast-forward, no force)
+  env:
+    REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
+    GIT_TRACE: "1"
+    GIT_CURL_VERBOSE: "1"
+  run: |
+    set -euo pipefail
+    set -x
 
-on:
-  push:
-    branches: [ master ]
+    if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
+      git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
+    else
+      git clone --depth=1 "$REPO_URL" deploy-repo
+      cd deploy-repo
+      git checkout --orphan deploy
+      git rm -rf .
+      git config user.name "github-actions"
+      git config user.email "actions@github.com"
+      git commit --allow-empty -m "Initialize deploy branch"
+      git push -u origin deploy -v
+      cd ..
+    fi
 
-permissions:
-  contents: write   # allow GITHUB_TOKEN to push
+    rsync -a --delete dist/ deploy-repo/
 
-env:
-  APP_PATH: .   # app is at repo root
+    cd deploy-repo
+    git config user.name "github-actions"
+    git config user.email "actions@github.com"
+    git add -A
 
-jobs:
-  build-and-publish:
-    runs-on: ubuntu-latest
+    if git diff --cached --quiet; then
+      echo "No changes to deploy."
+      exit 0
+    fi
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install Node deps
-        working-directory: ${{ env.APP_PATH }}
-        run: npm ci
-
-      - name: Build assets (Vite)
-        working-directory: ${{ env.APP_PATH }}
-        run: npm run build
-
-      - name: Show Vite output (debug)
-        working-directory: ${{ env.APP_PATH }}
-        run: |
-          ls -la public || true
-          ls -la public/build || true
-          test -f public/build/manifest.json
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          coverage: none
-
-      - name: Install Composer deps (prod)
-        working-directory: ${{ env.APP_PATH }}
-        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
-
-      - name: Prepare dist snapshot
-        run: |
-          set -e
-          rsync -a "${APP_PATH}/" dist/ \
-            --exclude ".git" --exclude ".github" --exclude "node_modules" \
-            --exclude "tests" --exclude ".env*"
-          test -f dist/public/build/manifest.json
-          printf "%s\n" \
-            ".env" \
-            ".env.*" \
-            "storage/logs" \
-            "storage/framework/cache/data/*" \
-            "storage/framework/sessions/*" \
-            "storage/framework/views/*" > dist/.gitignore
-
-      - name: Publish deploy branch (fast-forward, no force)
-        env:
-          REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-        run: |
-          set -euo pipefail
-          set -x
-
-          if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
-            # Deploy branch exists -> clone it
-            git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
-          else
-            # Deploy branch doesn't exist -> create it
-            git clone --depth=1 "$REPO_URL" deploy-repo
-            cd deploy-repo
-            git checkout --orphan deploy
-            git rm -rf .
-            # Set identity BEFORE first commit
-            git config user.name "github-actions"
-            git config user.email "actions@github.com"
-            git commit --allow-empty -m "Initialize deploy branch"
-            git push -u origin deploy -v
-            cd ..
-          fi
-
-          # Replace contents with the new dist/ snapshot
-          rsync -a --delete dist/ deploy-repo/
-
-          cd deploy-repo
-          # Ensure identity is set before commit (also for the normal path)
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add -A
-
-          if git diff --cached --quiet; then
-            echo "No changes to deploy."
-            exit 0
-          fi
-
-          git commit -m "Deploy from ${GITHUB_SHA}"
-          git remote -v
-          git log -1 --oneline
-          git push -v origin deploy
+    git commit -m "Deploy from ${GITHUB_SHA}"
+    git remote -v
+    git log -1 --oneline
+    git push -v origin deploy
