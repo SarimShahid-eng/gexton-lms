@@ -1,7 +1,77 @@
+name: Build & Publish Deploy Branch
+
+on:
+  push:
+    branches: [ master ]   # trigger on pushes to master
+
+# Let the workflow push commits (kept even though we use a PAT)
+permissions:
+  contents: write
+
+env:
+  APP_PATH: .   # your app is at repo root
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node deps
+        working-directory: ${{ env.APP_PATH }}
+        run: npm ci
+
+      - name: Build assets (Vite)
+        working-directory: ${{ env.APP_PATH }}
+        run: npm run build
+
+      - name: Show Vite output (debug)
+        working-directory: ${{ env.APP_PATH }}
+        run: |
+          ls -la public || true
+          ls -la public/build || true
+          test -f public/build/manifest.json
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install Composer deps (prod)
+        working-directory: ${{ env.APP_PATH }}
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Prepare dist snapshot
+        run: |
+          set -e
+          rsync -a "${APP_PATH}/" dist/ \
+            --exclude ".git" --exclude ".github" --exclude "node_modules" \
+            --exclude "tests" --exclude ".env*"
+          # hard fail if vite manifest missing
+          test -f dist/public/build/manifest.json
+          # keep runtime stuff out of git
+          printf "%s\n" \
+            ".env" \
+            ".env.*" \
+            "storage/logs" \
+            "storage/framework/cache/data/*" \
+            "storage/framework/sessions/*" \
+            "storage/framework/views/*" > dist/.gitignore
+
+      # === Publish to `deploy` without force (fast-forward friendly) ===
       - name: Publish deploy branch (fast-forward, no force)
         env:
-          # MUST exist in: Repo → Settings → Secrets and variables → Actions → Repository secrets
-          # DEPLOY_TOKEN should be your fine-grained PAT with Contents: Read & write
+          # Add this secret in: Repo → Settings → Secrets and variables → Actions → New repository secret
+          # Name: DEPLOY_TOKEN  Value: your fine-grained PAT (Contents: Read & write, scoped to this repo)
           REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
           GIT_TRACE: "1"
           GIT_CURL_VERBOSE: "1"
@@ -9,10 +79,10 @@
           set -euo pipefail
           set -x
 
-          echo "Preflight: can we auth to the repo?"
-          git ls-remote "$REPO_URL" || (echo "Auth failed against $REPO_URL" && exit 1)
+          echo "Preflight auth check against $REPO_URL"
+          git ls-remote "$REPO_URL" || (echo "Auth failed for $REPO_URL" && exit 1)
 
-          # If deploy exists, clone it; otherwise initialize it
+          # If deploy exists, clone it; else initialize it
           if git ls-remote --exit-code "$REPO_URL" refs/heads/deploy >/dev/null 2>&1; then
             git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
           else
@@ -23,12 +93,12 @@
             git config user.name "github-actions"
             git config user.email "actions@github.com"
             git commit --allow-empty -m "Initialize deploy branch"
-            # push an empty initial commit to create the branch
+            # create the remote branch explicitly
             git push -v "$REPO_URL" HEAD:refs/heads/deploy
             cd ..
           fi
 
-          # Sync new build snapshot
+          # Replace contents with freshly built dist/
           rsync -a --delete dist/ deploy-repo/
 
           cd deploy-repo
@@ -45,5 +115,5 @@
           git remote -v
           git log -1 --oneline
 
-          # Push using explicit ref (avoids odd ref resolution issues)
+          # Push using explicit ref (avoids ref resolution quirks)
           git push -v "$REPO_URL" HEAD:refs/heads/deploy
