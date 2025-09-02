@@ -4,9 +4,14 @@ on:
   push:
     branches: [ master ]   # trigger on pushes to master
 
-# Let the workflow push commits (kept even though we use a PAT)
+# let the workflow commit if we ever switch back to GITHUB_TOKEN
 permissions:
   contents: write
+
+# avoid race conditions: if multiple pushes happen quickly, cancel older runs
+concurrency:
+  group: deploy-publish
+  cancel-in-progress: true
 
 env:
   APP_PATH: .   # your app is at repo root
@@ -67,11 +72,10 @@ jobs:
             "storage/framework/sessions/*" \
             "storage/framework/views/*" > dist/.gitignore
 
-      # === Publish to `deploy` without force (fast-forward friendly) ===
+      # === Publish to `deploy` without force; always base on latest remote tip ===
       - name: Publish deploy branch (fast-forward, no force)
         env:
-          # Add this secret in: Repo → Settings → Secrets and variables → Actions → New repository secret
-          # Name: DEPLOY_TOKEN  Value: your fine-grained PAT (Contents: Read & write, scoped to this repo)
+          # Repo secret: DEPLOY_TOKEN = fine-grained PAT scoped to this repo with Contents: Read & write
           REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
           GIT_TRACE: "1"
           GIT_CURL_VERBOSE: "1"
@@ -80,7 +84,7 @@ jobs:
           set -x
 
           echo "Preflight auth check against $REPO_URL"
-          git ls-remote "$REPO_URL" || (echo "Auth failed for $REPO_URL" && exit 1)
+          git ls-remote "$REPO_URL" >/dev/null
 
           # If deploy exists, clone it; else initialize it
           if git ls-remote --exit-code "$REPO_URL" refs/heads/deploy >/dev/null 2>&1; then
@@ -93,11 +97,17 @@ jobs:
             git config user.name "github-actions"
             git config user.email "actions@github.com"
             git commit --allow-empty -m "Initialize deploy branch"
-            # create the remote branch explicitly
             git push -v "$REPO_URL" HEAD:refs/heads/deploy
             cd ..
           fi
 
+          cd deploy-repo
+          # Make 100% sure we're on top of the latest remote tip
+          git fetch origin deploy
+          git checkout deploy
+          git reset --hard origin/deploy
+
+          cd ..
           # Replace contents with freshly built dist/
           rsync -a --delete dist/ deploy-repo/
 
@@ -112,8 +122,10 @@ jobs:
           fi
 
           git commit -m "Deploy from ${GITHUB_SHA}"
-          git remote -v
-          git log -1 --oneline
 
-          # Push using explicit ref (avoids ref resolution quirks)
+          # In case remote advanced between clone and now, rebase on latest tip
+          git fetch origin deploy
+          git rebase origin/deploy
+
+          # Push using explicit ref; should be a FF after rebase
           git push -v "$REPO_URL" HEAD:refs/heads/deploy
