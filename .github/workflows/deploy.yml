@@ -1,39 +1,49 @@
-- name: Publish deploy branch (fast-forward, no force)
-  env:
-    REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
-    GIT_TRACE: "1"
-    GIT_CURL_VERBOSE: "1"
-  run: |
-    set -euo pipefail
-    set -x
+      - name: Publish deploy branch (fast-forward, no force)
+        env:
+          # MUST exist in: Repo → Settings → Secrets and variables → Actions → Repository secrets
+          # DEPLOY_TOKEN should be your fine-grained PAT with Contents: Read & write
+          REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
+          GIT_TRACE: "1"
+          GIT_CURL_VERBOSE: "1"
+        run: |
+          set -euo pipefail
+          set -x
 
-    if git ls-remote --exit-code "$REPO_URL" deploy >/dev/null 2>&1; then
-      git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
-    else
-      git clone --depth=1 "$REPO_URL" deploy-repo
-      cd deploy-repo
-      git checkout --orphan deploy
-      git rm -rf .
-      git config user.name "github-actions"
-      git config user.email "actions@github.com"
-      git commit --allow-empty -m "Initialize deploy branch"
-      git push -u origin deploy -v
-      cd ..
-    fi
+          echo "Preflight: can we auth to the repo?"
+          git ls-remote "$REPO_URL" || (echo "Auth failed against $REPO_URL" && exit 1)
 
-    rsync -a --delete dist/ deploy-repo/
+          # If deploy exists, clone it; otherwise initialize it
+          if git ls-remote --exit-code "$REPO_URL" refs/heads/deploy >/dev/null 2>&1; then
+            git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
+          else
+            git clone --depth=1 "$REPO_URL" deploy-repo
+            cd deploy-repo
+            git checkout --orphan deploy
+            git rm -rf .
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git commit --allow-empty -m "Initialize deploy branch"
+            # push an empty initial commit to create the branch
+            git push -v "$REPO_URL" HEAD:refs/heads/deploy
+            cd ..
+          fi
 
-    cd deploy-repo
-    git config user.name "github-actions"
-    git config user.email "actions@github.com"
-    git add -A
+          # Sync new build snapshot
+          rsync -a --delete dist/ deploy-repo/
 
-    if git diff --cached --quiet; then
-      echo "No changes to deploy."
-      exit 0
-    fi
+          cd deploy-repo
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add -A
 
-    git commit -m "Deploy from ${GITHUB_SHA}"
-    git remote -v
-    git log -1 --oneline
-    git push -v origin deploy
+          if git diff --cached --quiet; then
+            echo "No changes to deploy."
+            exit 0
+          fi
+
+          git commit -m "Deploy from ${GITHUB_SHA}"
+          git remote -v
+          git log -1 --oneline
+
+          # Push using explicit ref (avoids odd ref resolution issues)
+          git push -v "$REPO_URL" HEAD:refs/heads/deploy
