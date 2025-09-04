@@ -14,7 +14,8 @@
                 @endif
                 @if (session()->has('message'))
                     <div class="alert alert-success">
-                        {{ session('message') }}
+                        {!! session('message') !!}
+
                     </div>
                 @endif
                 <!-- Welcome Banner -->
@@ -41,6 +42,13 @@
                         <!-- Step 1: Personal Information -->
                         <div class="tab-pane fade {{ $activeTab === 'step1' ? 'show active' : '' }}" id="step1">
                             <div class="formify-forms__booking-form formify-mg-top-30">
+                                <h5 class="mb-0 mt-3 pb-0 ms-2">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    If your file size is above the allowed limit (256 kb), please use the following link
+                                    to compress it before submission:
+                                    <a class="text-primary text-decoration-underline ms-4 mt-1"
+                                        href="https://compress.filexl.com">Click here to compress</a>
+                                </h5>
                                 <div class="formify-forms__booking-form">
                                     <div class="formify-forms__booking-form--single">
                                         <div class="col-12">
@@ -416,7 +424,7 @@
                                                                 type="radio" id="participated_yes"
                                                                 wire:model.change="participated_previously"
                                                                 name="participated_previously" value="yes"
-                                                                 required="">
+                                                                required="">
                                                             <label class="form-check-label m-0"
                                                                 for="participated_yes">Yes</label>
                                                         </div>
@@ -424,7 +432,8 @@
                                                             <input class="" style="height:16px;width:16px;"
                                                                 type="radio" id="participated_yes"
                                                                 name="participated_previously" value="no"
-                                                                wire:model.change="participated_previously" required="">
+                                                                wire:model.change="participated_previously"
+                                                                required="">
                                                             <label class="form-check-label m-0"
                                                                 for="participated_yes">No</label>
                                                         </div>
@@ -434,7 +443,7 @@
 
                                             </div>
                                             @if ($participated_previously === 'yes')
-                                                <div id="additionalFields" class="col-12" >
+                                                <div id="additionalFields" class="col-12">
                                                     <div class="form-group">
                                                         <label for="phase">Phase</label>
                                                         <input wire:model="phase_if_participated" type="text"

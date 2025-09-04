@@ -54,8 +54,14 @@ class Student extends Component
         'Certified Cyber Security and Ethical Hacking Professional',
         'Certified Data Scientist',
         'Certified Database Administrator',
+        'Certified Digital Marketing Professional',
+        'Certified E-Commerce Professional',
+        'Certified Graphic Designer',
         'Certified Java Developer',
         'Certified Mobile Application Developer',
+        'Certified Python Developer',
+        'Certified Social Media Manager',
+        'Certified Web Developer',
     ];
     // districts
     public array $districts = [
@@ -339,7 +345,8 @@ class Student extends Component
         $this->reset();
         return redirect()->back()->with('message', 'Dear Candidate,
 
-Thank you for submitting your registration form for PITP Phase II. Interviews for selection will be conducted soon. Please stay connected through our official WhatsApp channel for updates on your interview date and venue: https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t
+Thank you for submitting your registration form for PITP Phase II. Interviews for selection will be conducted soon. Please stay connected through our official WhatsApp channel for updates on your interview date and venue:
+    <a class="text-success text-decoration-underline" href="https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t">https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t</a>
 
 In the meantime, kindly ensure that all your documents are prepared and ready for verification.
 
