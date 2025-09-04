@@ -1,26 +1,25 @@
-name: Build & Publish Deploy Branch
+name: Build & Publish to deploy
 
 on:
   push:
-    branches: [ master ]   # trigger on pushes to master
+    branches: [ master ]
 
 permissions:
-  contents: write          # allow the workflow to push commits if needed
+  contents: write
 
 concurrency:
   group: deploy-publish
   cancel-in-progress: true
-
-env:
-  APP_PATH: .
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # we need full history for branches/worktrees
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -28,115 +27,60 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install Node deps
-        working-directory: ${{ env.APP_PATH }}
-        run: npm ci
-
-      - name: Build assets (Vite)
-        working-directory: ${{ env.APP_PATH }}
-        run: npm run build
-
-      - name: Show Vite output (debug)
-        working-directory: ${{ env.APP_PATH }}
+      - name: Install & Build
         run: |
-          ls -la public || true
-          ls -la public/build || true
-          test -f public/build/manifest.json
+          npm ci
+          npm run build
+        # If your build outputs somewhere else, note it below (examples):
+        # - Vite(Laravel): public/build
+        # - React: build/
+        # - Vue: dist/
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          coverage: none
-
-      - name: Install Composer deps (prod)
-        working-directory: ${{ env.APP_PATH }}
-        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
-
-      - name: Prepare dist snapshot (exclude CI scratch dirs)
-        run: |
-          set -e
-          rsync -a "${APP_PATH}/" dist/ \
-            --exclude ".git" --exclude ".github" --exclude "node_modules" \
-            --exclude "tests" --exclude ".env*" \
-            --exclude "dist" --exclude "deploy-repo"
-          # hard fail if vite manifest missing in dist
-          test -f dist/public/build/manifest.json
-          # minimal ignore file for deploy branch (do NOT ignore public/build)
-          printf "%s\n" \
-            ".env" \
-            ".env.*" \
-            "storage/logs" \
-            "storage/framework/cache/data/*" \
-            "storage/framework/sessions/*" \
-            "storage/framework/views/*" > dist/.gitignore
-
-      - name: Publish deploy branch (fast-forward, no force)
-        env:
-          # Repo secret: DEPLOY_TOKEN = fine-grained PAT (this repo, Contents: Read & write)
-          REPO_URL: https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
-          GIT_TRACE: "1"
-          GIT_CURL_VERBOSE: "1"
+      - name: Prepare deploy branch via worktree; sync master + build
+        shell: bash
         run: |
           set -euo pipefail
-          set -x
 
-          echo "Preflight auth check"
-          git ls-remote "$REPO_URL" >/dev/null
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Clone existing deploy or initialize it
-          if git ls-remote --exit-code "$REPO_URL" refs/heads/deploy >/dev/null 2>&1; then
-            git clone --depth=1 --branch=deploy "$REPO_URL" deploy-repo
+          # Ensure a local 'deploy' branch exists (tracking origin/deploy if present)
+          if git ls-remote --exit-code origin deploy > /dev/null 2>&1; then
+            git fetch origin deploy:deploy
           else
-            git clone --depth=1 "$REPO_URL" deploy-repo
-            cd deploy-repo
-            git checkout --orphan deploy
-            git rm -rf .
-            git config user.name "github-actions"
-            git config user.email "actions@github.com"
-            git commit --allow-empty -m "Initialize deploy branch"
-            git push -v "$REPO_URL" HEAD:refs/heads/deploy
-            cd ..
+            git branch deploy || true
           fi
 
-          # Ensure base is latest remote tip
-          cd deploy-repo
-          git fetch origin deploy
-          git checkout deploy
-          git reset --hard origin/deploy
-          cd ..
+          # Fresh worktree for deploy
+          rm -rf ../deploy-wt
+          git worktree add ../deploy-wt deploy
 
-          # Replace contents with freshly built dist/
-          rsync -a --delete dist/ deploy-repo/
+          # Copy *entire repo* into deploy worktree, excluding only repo internals
+          rsync -a --delete \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude "node_modules" \
+            ./ ../deploy-wt/
 
-          cd deploy-repo
+          # If your build output is gitignored, we still want it included:
+          # use `git add -f` to force-add ignored build artifacts.
+          cd ../deploy-wt
 
-          # Prove manifest exists (debug)
-          find public -maxdepth 2 -name "manifest.json" -print || true
-          ls -la public/build || true
+          # Examples: force include typical build dirs (adjust to your project)
+          if [ -d "public/build" ]; then git add -f public/build; fi
+          if [ -d "build" ];        then git add -f build;        fi
+          if [ -d "dist" ];         then git add -f dist;         fi
 
-          # Make sure build & vendor are staged even if ignored previously
-          git rm -r --cached --ignore-unmatch public/build || true
-          git rm -r --cached --ignore-unmatch vendor || true
-          git add -A
-          git add -f public/build vendor
-
-          echo "GIT STATUS (should show public/build/* staged):"
-          git status --porcelain | sed -n '1,200p'
-
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          # Add everything else (force to ensure ignored outputs get staged)
+          git add -A -f
 
           if git diff --cached --quiet; then
-            echo "No changes to deploy."
-            exit 0
+            echo "No changes to commit on deploy."
+          else
+            git commit -m "Deploy: sync master + build ($(date -u +'%Y-%m-%dT%H:%M:%SZ'))"
+            git push -u origin HEAD:deploy
           fi
 
-          git commit -m "Deploy from ${GITHUB_SHA}"
-
-          # Rebase in case another run pushed while we worked
-          git fetch origin deploy
-          git rebase origin/deploy || true
-
-          # Push fast-forward using explicit ref
-          git push -v "$REPO_URL" HEAD:refs/heads/deploy
+          # Clean up worktree
+          cd -
+          git worktree remove ../deploy-wt --force
