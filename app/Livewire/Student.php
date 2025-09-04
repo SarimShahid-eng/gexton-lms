@@ -337,6 +337,13 @@ class Student extends Component
         StudentRegister::create($validatedData);
 
         $this->reset();
-        return redirect()->back()->with('message', 'Successfully Registered !');
+        return redirect()->back()->with('message', 'Dear Candidate,
+
+Thank you for submitting your registration form for PITP Phase II. Interviews for selection will be conducted soon. Please stay connected through our official WhatsApp channel for updates on your interview date and venue: https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t
+
+In the meantime, kindly ensure that all your documents are prepared and ready for verification.
+
+Best regards,
+PITP – MUET');
     }
 }

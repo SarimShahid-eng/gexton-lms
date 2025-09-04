@@ -1,8 +1,0 @@
-deployment:
-  tasks:
-    - /bin/bash -lc 'git fetch --all --prune'
-    - /bin/bash -lc 'git checkout deploy'
-    - /bin/bash -lc 'git reset --hard origin/deploy'
-    - /bin/bash -lc 'git clean -fd -e .env -e storage'
-    - /bin/bash -lc 'php artisan optimize:clear || true'
-    - /bin/bash -lc 'php artisan optimize || true'
