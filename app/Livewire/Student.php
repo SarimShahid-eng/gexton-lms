@@ -271,7 +271,6 @@ class Student extends Component
     }
     public function switchTab($tab)
     {
-
         // Validate current step before moving
         if ($this->activeTab === 'step1') {
             $this->validate($this->rulesStep1());
@@ -342,21 +341,33 @@ class Student extends Component
                 $validatedData[$field] = "{$filename}";
             }
         }
-        // 4️⃣ Save only at the final step, or save partial draft if you want
         if ($this->activeTab === 'step3') {
             StudentRegister::create($validatedData);
 
             $this->reset();
+            return redirect()->back()->with('message', '
+                        <div class="alert alert-success"
+                        style="padding:20px; line-height:1.6; font-size:15px; text-align:left;">
+                    <p style="font-weight:bold; margin-bottom:10px;">Dear Candidate,</p>
 
-            return redirect()->back()->with('message', 'Dear Candidate,
+                    <p style="margin-bottom:10px;">
+                        Thank you for submitting your registration form for PITP Phase II. Interviews for
+                        selection will be conducted soon. Please stay connected through our official
+                        WhatsApp channel for updates on your interview date and venue:
+                        <a href="https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t"
+                        style="color:#0d6efd; text-decoration:underline;">
+                        https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t
+                        </a>
+                    </p>
 
-Thank you for submitting your registration form for PITP Phase II. Interviews for selection will be conducted soon. Please stay connected through our official WhatsApp channel for updates on your interview date and venue:
-    <a class="text-success text-decoration-underline" href="https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t">https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t</a>
+                    <p style="margin-bottom:10px;">
+                        In the meantime, kindly ensure that all your documents are prepared and ready for verification.
+                    </p>
 
-In the meantime, kindly ensure that all your documents are prepared and ready for verification.
-
-Best regards,
-PITP – MUET');
+                    <p style="margin-top:15px; margin-bottom:0;">Best regards,</p>
+                    <p style="margin-top:0;">PITP – MUET</p>
+                    </div>
+');
         }
     }
 }
