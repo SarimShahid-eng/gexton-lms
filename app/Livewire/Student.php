@@ -192,71 +192,59 @@ class Student extends Component
             $this->reset(['phase_if_participated', 'course_if_participated', 'center_if_participated']);
         }
     }
-    protected function rules()
+    protected function rulesStep1()
     {
         return [
-            'full_name'               => ['required', 'string', 'min:2', 'max:150'],
-            'monthly_household_income' => ['required', 'string', 'min:2', 'max:150'],
-            'father_name'             => ['required', 'string', 'min:2', 'max:150'],
-            'gender'                  => ['required', Rule::in(['male', 'female', 'transgender'])],
-
-            'cnic_number'    => ['required', 'integer', 'digits:13', new UniqueAcrossTables(['student_registers'], 'cnic_number')],
-            'contact_number' => ['required', 'integer', 'digits:11'],
-
-            'email'                   => ['required', 'email', 'max:100',   new UniqueAcrossTables(['student_registers', 'users'], 'email')],
-            'contact_number'          => ['required', 'string', 'min:11', 'max:11'], // adjust pattern if needed
-            'date_of_birth'           => ['required', 'date'],
-
-            'profile_picture' => [
-                'required',
-                'file',
-                'mimes:jpg,png,pdf',
-                'max:256',                        // ≈ 1 MB
-            ],
-            'intermediate_marksheet'  => ['required', 'file', 'max:256', 'mimes:jpg,png,pdf'],
-            'domicile_category'             => ['required', 'string', 'min:2', 'max:150', Rule::in(['urban', 'rural'])],
-            'domicile_form_c'         => ['required', 'file', 'max:256', 'mimes:jpg,png,pdf'],
-
-            'domicile_district'       => ['required', 'string', 'max:100', Rule::in(array_keys($this->districts))],
-            'most_recent_institution'   => ['required', 'string', 'max:150'],
-            'preferred_study_center'  => ['required', 'string', 'max:120'],
-            'preferred_time_slot'     => ['required', 'string', 'max:50'],
-
-            // Course choices: all required & distinct & must be from list (if you want to lock to known list)
-            'course_choice_1' => ['required', Rule::in(array_values($this->courseList))],
-            'course_choice_2' => ['required', 'different:course_choice_1', Rule::in(array_values($this->courseList))],
-            'course_choice_3' => ['required', 'different:course_choice_1', 'different:course_choice_2', Rule::in(array_values($this->courseList))],
-            'course_choice_4' => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3', Rule::in(array_values($this->courseList))],
-
-            'highest_qualification'   => ['required', 'string', 'max:100', Rule::in(['matric', 'intermediate', 'graduate'])],
-            'have_disability'         => ['required', Rule::in(['yes', 'no'])],
-
-            // Participated previously → require details
+            'full_name' => ['required', 'string', 'min:2', 'max:150'],
+            'father_name' => ['required', 'string', 'min:2', 'max:150'],
+            'gender' => ['required', Rule::in(['male', 'female', 'transgender'])],
+            'cnic_number' => ['required', 'digits:13'],
+            'email' => ['required', 'email'],
+            'contact_number' => ['required', 'digits:11'],
+            'date_of_birth' => ['required', 'date'],
+            'profile_picture' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
+            'highest_qualification' => ['required', 'string', Rule::in(['matric', 'intermediate', 'graduate'])],
+            'most_recent_institution' => ['required', 'string'],
+            'intermediate_marksheet' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
+            'domicile_district' => ['required', 'string'],
+            'domicile_category' => ['required', 'string', Rule::in(['urban', 'rural'])],
+            'domicile_form_c' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
+        ];
+    }
+    protected function rulesStep2()
+    {
+        return [
+            'preferred_study_center' => ['required', 'string'],
+            'preferred_time_slot' => ['required', 'string'],
+            'course_choice_1' => ['required'],
+            'course_choice_2' => ['required', 'different:course_choice_1'],
+            'course_choice_3' => ['required', 'different:course_choice_1', 'different:course_choice_2'],
+            'course_choice_4' => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3'],
+        ];
+    }
+    protected function rulesStep3()
+    {
+        return [
+            'have_disability' => ['required', Rule::in(['yes', 'no'])],
+            'monthly_household_income' => ['required'],
             'participated_previously' => ['required', Rule::in(['yes', 'no'])],
-            'course_if_participated' => [
-                'exclude_unless:participated_previously,yes',
-                'required',
-                'string',
-                'max:150'
-            ],
-            'phase_if_participated' => [
-                'exclude_unless:participated_previously,yes',
-                'required',
-                'string',
-                'max:150'
-            ],
-            'center_if_participated' => [
-                'exclude_unless:participated_previously,yes',
-                'required',
-                'string',
-                'max:150'
-            ],
-
-            'from_source'  => ['required', 'string', 'max:50', Rule::in(['socail media', 'friend/family', 'university', 'post/banner', 'whatsapp group', 'other'])],
-            'info_confirm' => ['accepted'],  // checkbox must be checked
+            'course_if_participated' => ['exclude_unless:participated_previously,yes', 'required', 'string', 'max:150'],
+            'phase_if_participated' => ['exclude_unless:participated_previously,yes', 'required', 'string', 'max:150'],
+            'center_if_participated' => ['exclude_unless:participated_previously,yes', 'required', 'string', 'max:150'],
+            'from_source' => ['required', 'string'],
+            'info_confirm' => ['accepted'],
         ];
     }
 
+    protected function rules()
+    {
+        return match ($this->activeTab) {
+            'step1' => $this->rulesStep1(),
+            'step2' => $this->rulesStep2(),
+            'step3' => $this->rulesStep3(),
+            default => [],
+        };
+    }
     protected $messages = [
         'info_confirm.accepted' => 'Please confirm that the information is accurate.',
         'domicile_form_c.required' => 'Please upload Domicile or Form‑C (max 256 KB).',
@@ -281,11 +269,26 @@ class Student extends Component
     {
         return view('livewire.student')->layout('layouts.student-layout');
     }
-    // Switch tabs
     public function switchTab($tab)
     {
 
+        // Validate current step before moving
+        if ($this->activeTab === 'step1') {
+            $this->validate($this->rulesStep1());
+        } elseif ($this->activeTab === 'step2' && $tab === 'step3') {
+            $this->validate($this->rulesStep2());
+        }
+
         $this->activeTab = $tab;
+    }
+    protected function rulesSoFar(): array
+    {
+        return match ($this->activeTab) {
+            'step1' => $this->rulesStep1(),
+            'step2' => array_merge($this->rulesStep1(), $this->rulesStep2()),
+            'step3' => array_merge($this->rulesStep1(), $this->rulesStep2(), $this->rulesStep3()),
+            default => [],
+        };
     }
     public function save()
     {
@@ -305,8 +308,7 @@ class Student extends Component
         RateLimiter::hit($key, $decay);
         $this->refreshCourseList();
         // Validate all input fields according to your rules
-        $validatedData = $this->validate();
-
+        $validatedData = $this->validate($this->rulesSoFar());
         // Force CNIC & contact number into string to preserve leading zeros
         $validatedData['cnic_number']    = (string) $validatedData['cnic_number'];
         $validatedData['contact_number'] = (string) $validatedData['contact_number'];
@@ -340,10 +342,13 @@ class Student extends Component
                 $validatedData[$field] = "{$filename}";
             }
         }
-        StudentRegister::create($validatedData);
+        // 4️⃣ Save only at the final step, or save partial draft if you want
+        if ($this->activeTab === 'step3') {
+            StudentRegister::create($validatedData);
 
-        $this->reset();
-        return redirect()->back()->with('message', 'Dear Candidate,
+            $this->reset();
+
+            return redirect()->back()->with('message', 'Dear Candidate,
 
 Thank you for submitting your registration form for PITP Phase II. Interviews for selection will be conducted soon. Please stay connected through our official WhatsApp channel for updates on your interview date and venue:
     <a class="text-success text-decoration-underline" href="https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t">https://whatsapp.com/channel/0029VayWRoWKgsNsomnaAp0t</a>
@@ -352,5 +357,6 @@ In the meantime, kindly ensure that all your documents are prepared and ready fo
 
 Best regards,
 PITP – MUET');
+        }
     }
 }
