@@ -93,9 +93,9 @@
                                                 <div class="form-group">
                                                     <div class="formify-forms__input">
                                                         <label>CNIC Number (without dashes) *</label>
-                                                        <input type="number" wire:model="cnic_number"
-                                                            oninput="validateNumber(this,13)"
-                                                            placeholder="Your CNIC" id="cnic-number">
+                                                        <input type="text" wire:model="cnic_number"
+                                                            oninput="validateNumber(this,13)" placeholder="Your CNIC"
+                                                            id="cnic-number">
                                                         @error('cnic_number')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -115,7 +115,7 @@
                                                 <div class="form-group">
                                                     <label> WhatsApp Contact Number (e.g., 03xxxxxxxxx) *</label>
                                                     <div class="formify-forms__input">
-                                                        <input type="number" oninput="validateNumber(this,11)"
+                                                        <input type="text" oninput="validateNumber(this,11)"
                                                             wire:model="contact_number" placeholder="Your Contact">
                                                     </div>
                                                 </div>
@@ -541,14 +541,14 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-           function validateNumber(el, limit) {
-  // remove everything except digits
-  el.value = el.value.replace(/\D/g, '');
-  // limit length
-  if (el.value.length > limit) {
-    el.value = el.value.slice(0, limit);
-  }
-}
+            function validateNumber(el, limit) {
+                el.value = el.value.replace(/\D/g, '');
+                // Trim to limit
+                if (el.value.length > limit) {
+                    el.value = el.value.slice(0, limit);
+                }
+            }
+
 
             function validateFileSize(inputElement) {
                 const maxSizeInKB = $(inputElement).data('max-size-kb'); // Get the max size from the data attribute
