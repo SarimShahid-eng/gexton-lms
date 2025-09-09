@@ -198,15 +198,15 @@ class Student extends Component
             'full_name' => ['required', 'string', 'min:2', 'max:150'],
             'father_name' => ['required', 'string', 'min:2', 'max:150'],
             'gender' => ['required', Rule::in(['male', 'female', 'transgender'])],
-            'cnic_number' => ['required', 'digits:13'],
-            'email' => ['required', 'email'],
+            'cnic_number'    => ['required', 'integer', 'digits:13', new UniqueAcrossTables(['student_registers'], 'cnic_number')],
+            'email'  => ['required', 'email', 'max:100',   new UniqueAcrossTables(['student_registers', 'users'], 'email')],
             'contact_number' => ['required', 'digits:11'],
             'date_of_birth' => ['required', 'date'],
             'profile_picture' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
             'highest_qualification' => ['required', 'string', Rule::in(['matric', 'intermediate', 'graduate'])],
             'most_recent_institution' => ['required', 'string'],
             'intermediate_marksheet' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
-            'domicile_district' => ['required', 'string'],
+            'domicile_district'       => ['required', 'string', 'max:100', Rule::in(array_keys($this->districts))],
             'domicile_category' => ['required', 'string', Rule::in(['urban', 'rural'])],
             'domicile_form_c' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
         ];
@@ -231,7 +231,7 @@ class Student extends Component
             'course_if_participated' => ['exclude_unless:participated_previously,yes', 'required', 'string', 'max:150'],
             'phase_if_participated' => ['exclude_unless:participated_previously,yes', 'required', 'string', 'max:150'],
             'center_if_participated' => ['exclude_unless:participated_previously,yes', 'required', 'string', 'max:150'],
-            'from_source' => ['required', 'string'],
+            'from_source'  => ['required', 'string', 'max:50', Rule::in(['socail media', 'friend/family', 'university', 'post/banner', 'whatsapp group', 'other'])],
             'info_confirm' => ['accepted'],
         ];
     }
