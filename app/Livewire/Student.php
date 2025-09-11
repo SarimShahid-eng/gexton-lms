@@ -202,13 +202,13 @@ class Student extends Component
             'email'  => ['required', 'email', 'max:100',   new UniqueAcrossTables(['student_registers', 'users'], 'email')],
             'contact_number' => ['required', 'digits:11'],
             'date_of_birth' => ['required', 'date'],
-            'profile_picture' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
+            'profile_picture' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:256'],
             'highest_qualification' => ['required', 'string', Rule::in(['matric', 'intermediate', 'graduate'])],
             'most_recent_institution' => ['required', 'string'],
-            'intermediate_marksheet' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
+            'intermediate_marksheet' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:256'],
             'domicile_district'       => ['required', 'string', 'max:100', Rule::in(array_keys($this->districts))],
             'domicile_category' => ['required', 'string', Rule::in(['urban', 'rural'])],
-            'domicile_form_c' => ['required', 'file', 'mimes:jpg,png,pdf', 'max:256'],
+            'domicile_form_c' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:256'],
         ];
     }
     protected function rulesStep2()
@@ -255,7 +255,7 @@ class Student extends Component
         'course_choice_2.different' => 'Course choices must be different.',
         'course_choice_3.different' => 'Course choices must be different.',
         'course_choice_4.different' => 'Course choices must be different.',
-        'cnic_number.digits'       => 'CNIC must be exactly 13 digits.',
+        'cnic_number.digits'       => ' must be exactly 13 digits.',
         'contact_number.digits'    => 'Contact number must be exactly 11 digits.',
         'course_if_participated.exclude_unless' => 'previous course required if you have participated before',
         'course_if_participated.required' => 'course required if you have participated before',
