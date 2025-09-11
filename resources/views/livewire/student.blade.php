@@ -128,7 +128,7 @@
                                                         *</label>
                                                     <div class="formify-forms__input">
                                                         <input type="file" wire:model="profile_picture"
-                                                            name="profile_picture" accept=".jpg,.png,.pdf"
+                                                            name="profile_picture" accept=".jpg,.jpeg,.png,.pdf"
                                                             data-max-size-kb="256"
                                                             style="padding-top: 13px; font-size: 12px;">
                                                     </div>
@@ -162,7 +162,7 @@
                                                     <div class="formify-forms__input">
                                                         <input type="file" wire:model="intermediate_marksheet"
                                                             name="intermediate_marksheet" data-max-size-kb="256"
-                                                            accept=".jpg,.png,.pdf"
+                                                            accept=".jpg,.jpeg,.png,.pdf"
                                                             style="padding-top: 13px; font-size: 12px;">
                                                     </div>
                                                 </div>
@@ -203,7 +203,7 @@
                                                         *</label>
                                                     <div class="formify-forms__input">
                                                         <input type="file" wire:model="domicile_form_c"
-                                                            name="domicile_form_c" accept=".jpg,.png,.pdf"
+                                                            name="domicile_form_c" accept=".jpg,.jpeg,.png,.pdf"
                                                             data-max-size-kb="256"
                                                             style="padding-top: 13px; font-size: 12px;">
                                                     </div>
@@ -262,6 +262,7 @@
                                             <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>
                                             <option value="3 PM to 6 PM">3 PM - 6 PM (Evening)</option>
                                             <option value="6 PM to 9 PM">6 PM - 9 PM (Evening)</option>
+                                            <option value="Sat & Sun (Weekend)">Sat & Sun (Weekend)</option>
                                         </select>
                                     </div>
                                 </div>
