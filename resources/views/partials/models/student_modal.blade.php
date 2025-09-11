@@ -58,16 +58,56 @@
 
                 <!-- Enhanced Info Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-sm mb-8">
-                    @foreach ([
-        'Full Name' => ['value' => $full_name, 'icon' => '👤', 'color' => 'slate'],
-        'Father Name' => ['value' => $father_name, 'icon' => '👨‍👦', 'color' => 'slate'],
-        'Gender' => ['value' => $gender, 'icon' => '⚧', 'color' => 'slate'],
-        'CNIC Number' => ['value' => $cnic_number, 'icon' => '🆔', 'color' => 'slate'],
-        'Contact Number' => ['value' => $contact_number, 'icon' => '📱', 'color' => 'slate'],
-        'Date of Birth' => ['value' => $date_of_birth, 'icon' => '🎂', 'color' => 'slate'],
-        'Domicile District' => ['value' => $domicile_district, 'icon' => '🏘️', 'color' => 'slate'],
-        'University Name' => ['value' => $university_name, 'icon' => '🎓', 'color' => 'slate'],
-    ] as $label => $data)
+                    @php
+                        // Normalize a truthy "yes"
+                        $didParticipate = in_array(
+                            strtolower((string) ($participated_previously ?? '')),
+                            ['yes', 'y', '1', 'true'],
+                            true,
+                        );
+
+                        $fields = [
+                            'Full Name' => ['value' => $full_name, 'icon' => '👤'],
+                            'Father Name' => ['value' => $father_name, 'icon' => '👨‍👦'],
+                            'Gender' => ['value' => $gender, 'icon' => '⚧'],
+                            'CNIC Number' => ['value' => $cnic_number, 'icon' => '🪪'],
+                            'Contact Number' => ['value' => $contact_number, 'icon' => '📞'],
+                            'Date of Birth' => ['value' => $date_of_birth, 'icon' => '🎂'],
+                            'Domicile Category' => ['value' => $domicile_category, 'icon' => '🏷️'],
+                            'Domicile District' => ['value' => $domicile_district, 'icon' => '🗺️'],
+                            'Highest Qualification' => ['value' => $highest_qualification, 'icon' => '🎓'],
+                            'Most Recent Institution' => ['value' => $most_recent_institution, 'icon' => '🏫'],
+                            'University Name' => ['value' => $university_name, 'icon' => '🏛️'],
+                            'Preferred Study Center' => ['value' => $preferred_study_center, 'icon' => '📍'],
+                            'Preferred Time Slot' => ['value' => $preferred_time_slot, 'icon' => '🕒'],
+                            'Course Choice 1' => ['value' => $course_choice_1, 'icon' => '📚'],
+                            'Course Choice 2' => ['value' => $course_choice_2, 'icon' => '📚'],
+                            'Course Choice 3' => ['value' => $course_choice_3, 'icon' => '📚'],
+                            'Course Choice 4' => ['value' => $course_choice_4, 'icon' => '📚'],
+                            'Have Disability' => ['value' => $have_disability, 'icon' => '♿'],
+                            'Monthly Household Income' => ['value' => $monthly_household_income, 'icon' => '💵'],
+                            'Participated Previously' => ['value' => $didParticipate ? 'Yes' : 'No', 'icon' => '🔁'],
+                        ];
+
+                        if ($didParticipate) {
+                            $fields = array_merge($fields, [
+                                'Course (if participated)' => [
+                                    'value' => $course_if_participated ?? null,
+                                    'icon' => '📚',
+                                ],
+                                'Phase (if participated)' => [
+                                    'value' => $phase_if_participated ?? null,
+                                    'icon' => '📅',
+                                ],
+                                'Center (if participated)' => [
+                                    'value' => $center_if_participated ?? null,
+                                    'icon' => '📍',
+                                ],
+                            ]);
+                        }
+                    @endphp
+
+                    @foreach ($fields as $label => $data)
                         <div class="group hover:scale-105 transition-all duration-300">
                             <div
                                 class="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 p-5 rounded-2xl border border-slate-200 dark:border-slate-600 hover:shadow-lg hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-300">
@@ -81,7 +121,7 @@
                                             {{ $label }}
                                         </div>
                                         <div class="text-slate-800 dark:text-slate-200 font-medium font-['Open_Sans']">
-                                            {{ $data['value'] ?: 'Not specified' }}
+                                            {{ filled($data['value']) ? $data['value'] : 'Not specified' }}
                                         </div>
                                     </div>
                                 </div>

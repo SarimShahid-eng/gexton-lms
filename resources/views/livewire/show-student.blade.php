@@ -21,11 +21,53 @@
                     </span>
                 </div>
             </div>
-            <div class="mb-6">
+            <div class="input-parent mb-6">
                 <input type="text" wire:model.live="search"
                     placeholder="Search by name, email, CNIC or contact number..."
-                    class="w-full sm:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                    class="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+            </div>
+            <div class="flex gap-4 mb-6 justify-center">
+                <div class="input-parent">
+                    <select wire:model.live="filter_course"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select Course</option>
+                        @foreach ($this->allCourses as $course)
+                            <option value="{{ $course }}">{{ $course }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_qualification"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select Highest Qualification</option>
+                        <option value="matric">Matric</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="graduate">Graduate</option>
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_gender"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="transgender">Transgender</option>
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_d_category"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select D.Category</option>
+                        <option value="urban">Urban</option>
+                        <option value="rural">Rural</option>
+                    </select>
+                </div>
+
             </div>
             <!-- Divider Line -->
             <hr class="mb-4 border-slate-200 dark:border-slate-700">
@@ -151,7 +193,8 @@
                                         </p>
                                         <p class="text-xs text-gray-400 dark:text-gray-500">
                                             Email: {{ $student->email }}
-                                        </p><p class="text-xs text-gray-400 dark:text-gray-500">
+                                        </p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500">
                                             CNIC: {{ $student->cnic_number }}
                                         </p>
                                     </div>
