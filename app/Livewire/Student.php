@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Computed;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use App\Models\StudentRegister;
 use App\Rules\UniqueAcrossTables;
@@ -19,6 +19,9 @@ class Student extends Component
     public $full_name, $father_name, $gender, $cnic_number, $email, $contact_number, $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_district, $domicile_category, $domicile_form_c,  $most_recent_institution, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4;
     public $highest_qualification, $have_disability, $monthly_household_income, $course_if_participated, $phase_if_participated, $center_if_participated, $from_source, $participated_previously;
     public $activeTab = 'step1';
+
+    protected int $courseCapacity = 50; // seats per course
+    private ?array $fullCoursesCache = null; // cache for current render
     // public string $highestQualification = '';
     public array $courseList = [];
     // course Setup
@@ -96,6 +99,78 @@ class Student extends Component
         'malir'               => 'Malir',
     ];
     //
+    private function fullCourseNames(): array
+    {
+        if ($this->fullCoursesCache !== null) {
+            return $this->fullCoursesCache;
+        }
+
+        $sub = DB::table('student_registers')->select(DB::raw('TRIM(course_choice_1) AS course'))
+            ->whereNotNull('course_choice_1')
+            ->unionAll(
+                DB::table('student_registers')->select(DB::raw('TRIM(course_choice_2) AS course'))
+                    ->whereNotNull('course_choice_2')
+            )
+            ->unionAll(
+                DB::table('student_registers')->select(DB::raw('TRIM(course_choice_3) AS course'))
+                    ->whereNotNull('course_choice_3')
+            )
+            ->unionAll(
+                DB::table('student_registers')->select(DB::raw('TRIM(course_choice_4) AS course'))
+                    ->whereNotNull('course_choice_4')
+            );
+
+        $counts = DB::query()
+            ->fromSub($sub, 'choices')
+            ->select('course', DB::raw('COUNT(*) AS cnt'))
+            ->groupBy('course')
+            ->pluck('cnt', 'course');
+
+        return $this->fullCoursesCache = collect($counts)
+            ->filter(fn($cnt) => $cnt >= $this->courseCapacity)
+            ->keys()
+            ->map(fn($c) => (string) $c)
+            ->all();
+    }
+    /**
+     * Remove full courses from a list, but ALWAYS keep currently selected values
+     * for this particular select (so UI doesn’t drop the selected item).
+     */
+    private function withoutFullCourses(array $list, array $alwaysKeep = []): array
+    {
+        $full   = collect($this->fullCourseNames())->map(fn($s) => trim($s));
+        $keep   = collect($alwaysKeep)->filter()->map(fn($s) => trim($s));
+        $toHide = $full->diff($keep)->all(); // full – keep
+
+        return array_values(array_diff($list, $toHide));
+    }
+
+    // Build the query that counts registrations where ANY choice matches $course
+    private function courseCountQuery(string $course)
+    {
+        return StudentRegister::where(function ($q) use ($course) {
+            $q->where('course_choice_1', $course)
+                ->orWhere('course_choice_2', $course)
+                ->orWhere('course_choice_3', $course)
+                ->orWhere('course_choice_4', $course);
+        });
+    }
+    private function registrationsForCourse(?string $course): int
+    {
+        if (!$course) return 0;
+        return $this->courseCountQuery($course)->count();
+    }
+    // Reusable closure rule for Step-2 validation
+    private function courseNotFullRule(string $field): \Closure
+    {
+        return function ($attr, $value, $fail) {
+            if (!$value) return;
+            $count = $this->registrationsForCourse($value);
+            if ($count >= $this->courseCapacity) {
+                $fail("Sorry, “{$value}” is already full (limit {$this->courseCapacity}). Please choose another.");
+            }
+        };
+    }
     public function mount()
     {
         // Optional: set a default
@@ -137,32 +212,30 @@ class Student extends Component
     #[Computed]
     public function availableCoursesForChoice1(): array
     {
-        // dd($this->courseList);
-        return $this->courseList;
+        return $this->withoutFullCourses($this->courseList, [$this->course_choice_1]);
     }
     #[Computed]
     public function availableCoursesForChoice2(): array
     {
+        $base    = $this->withoutFullCourses($this->courseList, [$this->course_choice_2]);
         $exclude = $this->selectedClean([$this->course_choice_1]);
-        return array_values(array_diff($this->courseList, $exclude));
+        return array_values(array_diff($base, $exclude));
     }
 
     #[Computed]
     public function availableCoursesForChoice3(): array
     {
+        $base    = $this->withoutFullCourses($this->courseList, [$this->course_choice_3]);
         $exclude = $this->selectedClean([$this->course_choice_1, $this->course_choice_2]);
-        return array_values(array_diff($this->courseList, $exclude));
+        return array_values(array_diff($base, $exclude));
     }
 
     #[Computed]
     public function availableCoursesForChoice4(): array
     {
-        $exclude = $this->selectedClean([
-            $this->course_choice_1,
-            $this->course_choice_2,
-            $this->course_choice_3
-        ]);
-        return array_values(array_diff($this->courseList, $exclude));
+        $base    = $this->withoutFullCourses($this->courseList, [$this->course_choice_4]);
+        $exclude = $this->selectedClean([$this->course_choice_1, $this->course_choice_2, $this->course_choice_3]);
+        return array_values(array_diff($base, $exclude));
     }
 
     public function updatedCourseChoice1(): void
@@ -216,10 +289,10 @@ class Student extends Component
         return [
             'preferred_study_center' => ['required', 'string'],
             'preferred_time_slot' => ['required', 'string'],
-            'course_choice_1' => ['required'],
-            'course_choice_2' => ['required', 'different:course_choice_1'],
-            'course_choice_3' => ['required', 'different:course_choice_1', 'different:course_choice_2'],
-            'course_choice_4' => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3'],
+            'course_choice_1' => ['required', $this->courseNotFullRule('course_choice_1')],
+            'course_choice_2' => ['required', 'different:course_choice_1',  $this->courseNotFullRule('course_choice_2')],
+            'course_choice_3' => ['required', 'different:course_choice_1', 'different:course_choice_2',   $this->courseNotFullRule('course_choice_3')],
+            'course_choice_4' => ['required', 'different:course_choice_1', 'different:course_choice_2', 'different:course_choice_3', $this->courseNotFullRule('course_choice_4')],
         ];
     }
     protected function rulesStep3()

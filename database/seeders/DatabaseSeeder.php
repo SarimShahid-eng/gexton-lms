@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory as FakerFactory;
-use App\Models\CustomSession;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CustomSession;
 use App\Models\StudentDetail;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\StudentRegister;
 use Illuminate\Database\Seeder;
+use Faker\Factory as FakerFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,15 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        StudentRegister::factory()->count(50)->create();
     //     $this->call([
     //     CustomSessionSeeder::class,
     // ]);
         // CustomSession::factory(1)->create();
-                User::factory()->create([
-                    'firstname' => 'Hadi',
-                    'email' => 'student@example.com',
-                    'user_type'=>'student',
-                ]);
+                // User::factory()->create([
+                //     'firstname' => 'Hadi',
+                //     'email' => 'student@example.com',
+                //     'user_type'=>'student',
+                // ]);
         // StudentDetail::create([
         //     'user_id'=>'3',
         //     'teacher_id'=>'3',
