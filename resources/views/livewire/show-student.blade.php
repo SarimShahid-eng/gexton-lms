@@ -67,6 +67,17 @@
                         <option value="rural">Rural</option>
                     </select>
                 </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_district"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select District</option>
+                        @foreach ($districts as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
             </div>
             <!-- Divider Line -->
