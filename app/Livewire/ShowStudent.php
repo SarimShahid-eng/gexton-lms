@@ -33,7 +33,37 @@ class ShowStudent extends Component
         'Certified Social Media Manager',
         'Certified Web Developer',
     ];
-
+    public array $districts = [
+        'badin'               => 'Badin',
+        'dadu'                => 'Dadu',
+        'ghotki'              => 'Ghotki',
+        'hyderabad'           => 'Hyderabad',
+        'jacobabad'           => 'Jacobabad',
+        'jamshoro'            => 'Jamshoro',
+        'karachi-central'     => 'Karachi Central',
+        'karachi-east'        => 'Karachi East',
+        'karachi-south'       => 'Karachi South',
+        'karachi-west'        => 'Karachi West',
+        'kashmore'            => 'Kashmore',
+        'khairpur'            => 'Khairpur',
+        'larkana'             => 'Larkana',
+        'matiari'             => 'Matiari',
+        'mirpurkhas'          => 'Mirpurkhas',
+        'naushahro-feroze'    => 'Naushahro Feroze',
+        'shaheed-benazirabad' => 'Shaheed Benazirabad',
+        'qambar-shahdadkot'   => 'Qambar Shahdadkot',
+        'sanghar'             => 'Sanghar',
+        'shikarpur'           => 'Shikarpur',
+        'sukkur'              => 'Sukkur',
+        'tando-allahyar'      => 'Tando Allahyar',
+        'tando-muhammad-khan' => 'Tando Muhammad Khan',
+        'tharparkar'          => 'Tharparkar',
+        'thatta'              => 'Thatta',
+        'umerkot'             => 'Umerkot',
+        'sujawal'             => 'Sujawal',
+        'korangi'             => 'Korangi',
+        'malir'               => 'Malir',
+    ];
     use WithPagination;
     protected $listeners = ['view_student'];
     public $full_name, $father_name, $gender, $cnic_number, $contact_number,
@@ -44,6 +74,7 @@ class ShowStudent extends Component
     public $filter_qualification = '';
     public $filter_gender = '';
     public $filter_d_category = '';
+    public $filter_district = '';
 
     // public function updatingSearch()
     // {
@@ -108,6 +139,11 @@ class ShowStudent extends Component
                 $this->filter_d_category !== '',
                 fn($q) =>
                 $q->where('domicile_category', $this->filter_d_category)
+            )
+            ->when(
+                $this->filter_district !== '',
+                fn($q) =>
+                $q->where('domicile_district', $this->filter_district)
             )
 
             ->orderByDesc('id')
