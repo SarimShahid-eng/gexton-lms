@@ -40,7 +40,7 @@
                 <div class="flex justify-center mb-8 relative">
                     <div class="relative group">
                         @if ($profile_picture)
-                            <img src="{{ asset('attachments/' . $profile_picture) }}"
+                            <img src="{{ asset('attachments/profile_pictures/' . $profile_picture) }}"
                                 class="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl dark:border-slate-700 group-hover:scale-105 transition-transform duration-300">
                         @else
                             <div
