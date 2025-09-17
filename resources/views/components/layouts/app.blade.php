@@ -10,7 +10,7 @@
         MUET Portal
     </title>
     <link rel="icon" href="{{ asset('https://www.muet.edu.pk/sites/default/files/favicon.ico') }}" type="image/png" />
-   <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
     {{-- <script src="h+ttps://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> --}}
 
@@ -75,6 +75,41 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     {{-- <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.14.9/dist/cdn.min.js"></script> --}}
     @livewireScripts
 
+    <script>
+        (function() {
+            if (window.__toastBound) return;
+            window.__toastBound = true;
+
+            const bind = () => {
+                Livewire.on('toast', ({
+                    icon = 'success',
+                    title = '',
+                    text = ''
+                } = {}) => {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (t) => {
+                            t.onmouseenter = Swal.stopTimer;
+                            t.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon,
+                        title,
+                        text
+                    });
+                });
+            };
+
+            document.addEventListener('livewire:initialized', bind);
+            document.addEventListener('livewire:navigated', () => {
+                /* keep single binding */ });
+        })();
+    </script>
 
     @stack('script')
     <!-- ===== Page Wrapper End ===== -->

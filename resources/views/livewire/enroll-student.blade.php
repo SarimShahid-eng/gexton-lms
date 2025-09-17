@@ -138,8 +138,7 @@
 
                                             <svg class="w-4 h-4 group-hover:rotate-12 transition-transform duration-200"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M18 9a3 3 0 11-6 0 3 3 0 016 0zM13.5 20.25h6M16.5 17.25v6M4.5 20.25v-1.5A4.5 4.5 0 019 14.25h3" />
                                             </svg>
 
@@ -216,4 +215,14 @@
         @endpush
     </div>
     @include('partials.models.enroll_model')
+
 </div>
+<script>
+    function validateNumber(el, limit) {
+        el.value = el.value.replace(/\D/g, '');
+        // Trim to limit
+        if (el.value.length > limit) {
+            el.value = el.value.slice(0, limit);
+        }
+    }
+</script>
