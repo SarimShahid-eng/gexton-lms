@@ -142,7 +142,7 @@ class EnrollStudent extends Component
         if ($student_data) {
             $this->full_name = $student_data->student->full_name;
             $this->father_name = $student_data->father_name;
-            $this->gender = Str::lcfirst($$student_data->gender);
+            $this->gender = Str::lcfirst($student_data->gender);
             $this->date_of_birth = $student_data->date_of_birth;
             $this->cnic_number = $student_data->cnic_number;
             $this->email = $student_data->student->email;
