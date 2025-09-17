@@ -32,11 +32,12 @@
                     <!-- phase Title Row -->
                     <div>
                         <!-- Label with Icon -->
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                        <label
+                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
                             <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
-                                 viewBox="0 0 24 24">
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
                             </svg>
                             <span>Phase Title</span>
                         </label>
@@ -57,11 +58,12 @@
                     <!-- phase Description Row -->
                     <div>
                         <!-- Label with Icon -->
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                        <label
+                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
                             <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
-                                 viewBox="0 0 24 24">
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M3 5h18M9 3v2m6-2v2m-9 4h12M5 9v10a2 2 0 002 2h10a2 2 0 002-2V9" />
+                                    d="M3 5h18M9 3v2m6-2v2m-9 4h12M5 9v10a2 2 0 002 2h10a2 2 0 002-2V9" />
                             </svg>
                             <span>Phase Description</span>
                         </label>
@@ -212,31 +214,10 @@
                                         </div>
 
                                         <!-- Delete Button with Tooltip -->
-                                        {{-- <div x-data="{ showTooltip: false }" class="relative">
-                                            <button
-                                                wire:click="confirmDelete({{ $phase->id }})"
-                                                @mouseenter="showTooltip = true"
-                                                @mouseleave="showTooltip = false"
-                                                class="group relative inline-flex items-center justify-center w-9 h-9 text-red-500 hover:bg-red-500/10 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                                                aria-label="Delete phase {{ $phase->title }}"
-                                            >
-                                                <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                            <div
-                                                x-show="showTooltip"
-                                                x-transition:enter="transition ease-out duration-200"
-                                                x-transition:enter-start="opacity-0 translate-y-1"
-                                                x-transition:enter-end="opacity-100 translate-y-0"
-                                                x-transition:leave="transition ease-in duration-150"
-                                                x-transition:leave-start="opacity-100 translate-y-0"
-                                                x-transition:leave-end="opacity-0 translate-y-1"
-                                                class="absolute z-10 bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-md shadow-md whitespace-nowrap"
-                                            >
-                                                Delete phase
-                                            </div>
-                                        </div> --}}
+                                        <x-ui.delete-button method="deletePhase" :payload="$phase->id"
+                                            tooltip="Delete phase" :aria-label="'Delete phase ' . $phase->title" confirmTitle="Are you sure?"
+                                            confirmText="Do you really want to delete this phase?" />
+
                                     </div>
                                 </td>
                             </tr>
@@ -287,7 +268,7 @@
             confirmButtonColor: '#e11d48',
             cancelButtonColor: '#3b82f6',
             preConfirm: () => {
-                @this.deletephase();
+                @this.deletePhase();
             }
         });
     })">

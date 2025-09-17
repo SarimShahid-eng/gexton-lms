@@ -335,6 +335,7 @@
         </div>
     </div>
 </div>
+{{-- Edit Enroll Student --}}
 <div x-data="{ showEnrollViewModal: false }" x-on:open-enrol-view-modal.window="showEnrollViewModal = true"
     x-on:close-enrol-view-modal.window="showEnrollViewModal = false" style="z-index: 99999">
 
@@ -443,6 +444,383 @@
                                     {{ $this->cnic_number ?: 'Not Available' }}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <!-- Student Edit Display Block -->
+                    <div
+                        class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/50 dark:to-slate-700/50 p-6 rounded-3xl border-2 border-slate-300 dark:border-slate-600 shadow-lg backdrop-blur-sm">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 font-['Open_Sans']">Edit
+                                Student
+                                Information</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Student Name Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Full name</span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <input type="text" placeholder="Enter Full name" wire:model="full_name"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('full_name')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Student fathername Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Father's Name </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <input type="text" placeholder="Enter Father Name" wire:model="father_name"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('father_name')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Student Gender Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Gender (as per CNIC) </span>
+                                </label>
+
+                                <!-- Select option  Field -->
+                                <select wire:model="gender"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="transgender">Transgender</option>
+                                </select>
+                                @error('gender')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Date of Birth Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Date of Birth</span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <input type="date" placeholder="Enter DOB" wire:model="date_of_birth"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('date_of_birth')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- CNIC Number Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>CNIC</span>
+                                </label>
+
+                                <!-- Input Field -->
+
+                                <input type="number" oninput="validateNumber(this,13)" placeholder="Enter CNIC"
+                                    wire:model="cnic_number"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('cnic_number')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Email Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Email</span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <input type="text" placeholder="Enter Email" wire:model="email"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('email')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Whatsapp Contact Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>WhatsApp Contact Number</span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <input type="number" oninput="validateNumber(this,11)" placeholder="Enter phone"
+                                    wire:model="phone"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('phone')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Highest Qualification Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Highest Qualification </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <select wire:model="highest_qualification"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                                    <option selected>Select Qualification</option>
+                                    <option value="matric">Matric</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="graduate">Graduate</option>
+                                </select>
+                                @error('highest_qualification')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Name of Last Attended Institution?  Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Name of Last Attended Institution? </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <input type="text" placeholder="Enter Last Attend Institution"
+                                    wire:model="most_recent_institution"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out" />
+                                @error('most_recent_institution')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Domicile Distric -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Domicile District </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <select wire:model="domicile_district"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                                    <option>Select District</option>
+                                    @foreach ($districts as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('gender')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Domicile Category -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Domicile Category </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <select wire:model="domicile_category"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                                    <option selected>Select category</option>
+                                    <option value="urban">Urban</option>
+                                    <option value="rural">Rural</option>
+                                </select>
+                                @error('domicile_category')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Preferred Center for Study?-->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Preferred Center for Study? </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <select wire:model="preferred_study_center"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                                    <option value="">Select Center</option>
+                                    <option value="MUET Jamshoro">MUET, Jamshoro</option>
+                                    <option value="Hyderabad">Hyderabad</option>
+                                    <option value="Mirpurkhas">Mirpurkhas</option>
+                                    <option value="Dadu">Dadu</option>
+                                    <option value="Thatta">Thatta</option>
+                                    <option value="Badin">Badin</option>
+                                    <option value="Tando Muhammad khan">Tando Muhammad khan</option>
+                                    <option value="Hala">Hala</option>
+                                    <option value="Umerkot">Umerkot</option>
+                                </select>
+                                @error('preferred_study_center')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Preferred Time Slot Display -->
+                            <div>
+                                <!-- Label with Icon -->
+                                <label
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2 mb-1.5">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13" />
+                                    </svg>
+                                    <span>Preferred Time Slot </span>
+                                </label>
+
+                                <!-- Input Field -->
+                                <select wire:model="preferred_time_slot"
+                                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                                    <option value="">Select Time Slot</option>
+                                    <option value="9 AM to 12 PM">9 AM - 12 PM (Morning)</option>
+                                    <option value="12 PM to 3 PM">12 PM - 3 PM (Afternoon)</option>
+                                    <option value="3 PM to 6 PM">3 PM - 6 PM (Evening)</option>
+                                    <option value="6 PM to 9 PM">6 PM - 9 PM (Evening)</option>
+                                    <option value="Sat & Sun (Weekend)">Sat & Sun (Weekend)</option>
+                                </select>
+                                @error('preferred_time_slot')
+                                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                         </div>
                     </div>
 
