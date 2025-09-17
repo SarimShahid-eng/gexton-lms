@@ -2,19 +2,20 @@
 
 namespace App\Livewire;
 
-use App\Exports\StudentsExport;
-use App\Imports\StudentsImport;
+use App\Models\User;
+use App\Models\Batch;
+use App\Models\Phase;
 use App\Models\Campus;
 use App\Models\Course;
-use App\Models\Batch;
-use App\Models\EnrollStudent;
-use App\Models\EnrollStudentDetail;
-use App\Models\Phase;
-use App\Models\StudentRegister;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Livewire\Component;
+use Illuminate\Http\Request;
 use Livewire\WithPagination;
+use App\Models\EnrollStudent;
+use App\Exports\StudentsExport;
+use App\Imports\StudentsImport;
+use App\Models\StudentRegister;
+use Illuminate\Support\Facades\DB;
+use App\Models\EnrollStudentDetail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ShowStudent extends Component
@@ -224,55 +225,143 @@ class ShowStudent extends Component
         $this->student_id = $student->id;
         $this->dispatch('open-enrol-view-modal');
     }
+    // public function enrollStudent($id)
+    // {
+    //     $this->validate([
+    //         'phase_id' => 'required',
+    //         'campus_id' => 'required',
+    //         'batch_id' => 'required',
+    //         'course_id' => 'required',
+    //     ], [
+    //         'phase_id.required' => 'Phase field is required.',
+    //         'campus_id.required' => 'Batch field is required.',
+    //         'batch_id.required' => 'Campus field is required.',
+    //         'course_id.required' => 'Course field is required.',
+    //     ]);
+
+    //     $student = StudentRegister::findOrFail($id);
+    //     //User
+    //     $user = User::create([
+    //         'full_name' => $student->full_name,
+    //         'email' => $student->email,
+    //         'phone' => $student->contact_number,
+    //         // cncic is student password
+    //         'password' => bcrypt($student->cnic_number),
+    //         'is_active' => '1',
+    //         'user_type' => 'student',
+    //     ]);
+
+    //     // EnrollStudent
+    //     EnrollStudent::create([
+    //         'student_id' => $user->id,
+    //         'father_name' => $student->father_name,
+    //         'gender' => $student->gender,
+    //         'cnic_number' => $student->cnic_number,
+    //         'contact_number' => $student->contact_number,
+    //         'date_of_birth' => $student->date_of_birth,
+    //         'profile_picture' => $student->profile_picture,
+    //         'intermediate_marksheet' => $student->intermediate_marksheet,
+    //         'domicile_form_c' => $student->domicile_form_c,
+    //         'domicile_district' => $student->domicile_district,
+    //         'university_name' => $student->university_name,
+    //     ]);
+    //     // EnrollStudentDetail
+    //     EnrollStudentDetail::create([
+    //         'student_id' => $user->id,
+    //         'campus_id' => $this->campus_id,
+    //         'batch_id' => $this->batch_id,
+    //         'course_id' => $this->course_id,
+    //     ]);
+    //     $student->enrolled_status = 1;
+    //     $student->save();
+    //     $this->dispatch('close-enrol-view-modal');
+    //     $this->dispatch(
+    //         'student-saved',
+    //         title: 'Success!',
+    //         text: "User Enrolled Successfully.",
+    //         icon: 'success',
+    //     );
+    // }
     public function enrollStudent($id)
-    {
-        $this->validate([
-            'phase_id' => 'required',
-            'campus_id' => 'required',
-            'batch_id' => 'required',
-            'course_id' => 'required',
-        ], [
-            'phase_id.required' => 'Phase field is required.',
-            'campus_id.required' => 'Batch field is required.',
-            'batch_id.required' => 'Campus field is required.',
-            'course_id.required' => 'Course field is required.',
-        ]);
+{
+    $this->validate([
+        'phase_id'  => 'required',
+        'campus_id' => 'required',
+        'batch_id'  => 'required',
+        'course_id' => 'required',
+    ], [
+        'phase_id.required'  => 'Phase field is required.',
+        'campus_id.required' => 'Batch field is required.',
+        'batch_id.required'  => 'Campus field is required.',
+        'course_id.required' => 'Course field is required.',
+    ]);
 
-        $student = StudentRegister::findOrFail($id);
-        //User
-        $user = User::create([
-            'full_name' => $student->full_name,
-            'email' => $student->email,
-            'phone' => $student->contact_number,
-            // cncic is student password
-            'password' => bcrypt($student->cnic_number),
-            'is_active' => '1',
-            'user_type' => 'student',
-        ]);
+    $student = StudentRegister::findOrFail($id);
 
-        // EnrollStudent
-        EnrollStudent::create([
-            'student_id' => $user->id,
-            'father_name' => $student->father_name,
-            'gender' => $student->gender,
-            'cnic_number' => $student->cnic_number,
-            'contact_number' => $student->contact_number,
-            'date_of_birth' => $student->date_of_birth,
-            'profile_picture' => $student->profile_picture,
-            'intermediate_marksheet' => $student->intermediate_marksheet,
-            'domicile_form_c' => $student->domicile_form_c,
-            'domicile_district' => $student->domicile_district,
-            'university_name' => $student->university_name,
-        ]);
-        // EnrollStudentDetail
-        EnrollStudentDetail::create([
-            'student_id' => $user->id,
-            'campus_id' => $this->campus_id,
-            'batch_id' => $this->batch_id,
-            'course_id' => $this->course_id,
-        ]);
-        $student->enrolled_status = 1;
-        $student->save();
+    try {
+        DB::transaction(function () use ($student) {
+
+            // Hard cap
+            $currentCount = EnrollStudentDetail::where('course_id', $this->course_id)
+                ->lockForUpdate() // prevents race conditions
+                ->count();
+
+            if ($currentCount >= 50) {
+                // Throwing will abort the transaction and bubble to catch()
+                throw new \RuntimeException('This course already has 50 students enrolled.');
+            }
+
+            // Create (or find) the auth user
+            $user = User::firstOrCreate(
+                ['email' => $student->email],
+                [
+                    'full_name' => $student->full_name,
+                    'phone'     => $student->contact_number,
+                    'password'  => bcrypt($student->cnic_number), // CNIC as password
+                    'is_active' => '1',
+                    'user_type' => 'student',
+                ]
+            );
+
+            // Prevent same student enrolling in same course again
+            $alreadyEnrolled = EnrollStudentDetail::where([
+                'student_id' => $user->id,
+                'course_id'  => $this->course_id,
+            ])->lockForUpdate()->exists();
+
+            if ($alreadyEnrolled) {
+                throw new \RuntimeException('This student is already enrolled in this course.');
+            }
+
+            // Profile (only create if missing)
+            EnrollStudent::firstOrCreate(
+                ['student_id' => $user->id],
+                [
+                    'father_name'            => $student->father_name,
+                    'gender'                 => $student->gender,
+                    'cnic_number'            => $student->cnic_number,
+                    'contact_number'         => $student->contact_number,
+                    'date_of_birth'          => $student->date_of_birth,
+                    'profile_picture'        => $student->profile_picture,
+                    'intermediate_marksheet' => $student->intermediate_marksheet,
+                    'domicile_form_c'        => $student->domicile_form_c,
+                    'domicile_district'      => $student->domicile_district,
+                    'university_name'        => $student->university_name,
+                ]
+            );
+
+            // Enrollment detail
+            EnrollStudentDetail::create([
+                'student_id' => $user->id,
+                'campus_id'  => $this->campus_id,
+                'batch_id'   => $this->batch_id,
+                'course_id'  => $this->course_id,
+            ]);
+
+            $student->enrolled_status = 1;
+            $student->save();
+        });
+
         $this->dispatch('close-enrol-view-modal');
         $this->dispatch(
             'student-saved',
@@ -280,7 +369,26 @@ class ShowStudent extends Component
             text: "User Enrolled Successfully.",
             icon: 'success',
         );
+
+    } catch (\RuntimeException $e) {
+        // Friendly message for capacity / duplicate cases
+        $this->dispatch(
+            'student-saved',
+            title: 'Enrollment blocked',
+            text: $e->getMessage(),
+            icon: 'error',
+        );
+    } catch (\Throwable $e) {
+        // Unexpected failure
+        report($e);
+        $this->dispatch(
+            'student-saved',
+            title: 'Error',
+            text: 'Something went wrong while enrolling the student.',
+            icon: 'error',
+        );
     }
+}
     public function export()
     {
         return (new \App\Exports\StudentsExport(
