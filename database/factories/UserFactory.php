@@ -24,8 +24,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'firstname' => $this->faker->firstName,
-            'lastname' => $this->faker->lastName,
+            'full_name' => $this->faker->firstName,
+            // 'lastname' => $this->faker->lastName,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'), // or use Hash::make('password') if importing Hash
@@ -40,6 +40,10 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      */
+     public function student(): static
+    {
+        return $this->state(fn() => ['user_type' => 'student']);
+    }
     public function unverified(): static
     {
         return $this->state(fn(array $attributes) => [
