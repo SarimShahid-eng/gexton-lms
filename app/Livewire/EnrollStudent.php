@@ -7,6 +7,7 @@ use App\Models\Batch;
 use App\Models\Campus;
 use App\Models\Course;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\StudentRegister;
 use Illuminate\Validation\Rule;
@@ -141,7 +142,7 @@ class EnrollStudent extends Component
         if ($student_data) {
             $this->full_name = $student_data->student->full_name;
             $this->father_name = $student_data->father_name;
-            $this->gender = $student_data->gender;
+            $this->gender = Str::lcfirst($$student_data->gender);
             $this->date_of_birth = $student_data->date_of_birth;
             $this->cnic_number = $student_data->cnic_number;
             $this->email = $student_data->student->email;
