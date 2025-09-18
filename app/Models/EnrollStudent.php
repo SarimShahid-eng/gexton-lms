@@ -22,6 +22,10 @@ class EnrollStudent extends Model
         'domicile_district',
         'university_name',
     ];
+    public function user()
+{
+    return $this->belongsTo(User::class, 'cnic_number', 'cnic_number');
+}
     public function student() {
         return $this->belongsTo(User::class, 'student_id', 'id');
     }
