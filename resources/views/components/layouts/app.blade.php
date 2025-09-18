@@ -76,6 +76,55 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     @livewireScripts
 
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('countTo', (target, opts = {}) => {
+                const cfg = Object.assign({
+                    duration: 1200,
+                    decimals: 0,
+                    formatter: v => v.toLocaleString()
+                }, opts);
+                return {
+                    from: 0,
+                    to: Number(target || 0),
+                    now: 0,
+                    startTime: null,
+                    display: '0',
+                    observing: false,
+                    start() {
+                        const animate = (t) => {
+                            if (!this.startTime) this.startTime = t;
+                            const p = Math.min((t - this.startTime) / cfg.duration, 1);
+                            const eased = 1 - Math.pow(1 - p, 3);
+                            this.now = this.from + (this.to - this.from) * eased;
+                            const fixed = this.now.toFixed(cfg.decimals);
+                            this.display = cfg.formatter(cfg.decimals ? Number(fixed) : Math.round(this
+                                .now));
+                            if (p < 1) requestAnimationFrame(animate);
+                        };
+                        requestAnimationFrame(animate);
+                    },
+                    observeOnce(el) {
+                        if (this.observing) return;
+                        this.observing = true;
+                        const io = new IntersectionObserver((entries) => {
+                            if (entries.some(e => e.isIntersecting)) {
+                                this.start();
+                                io.disconnect();
+                            }
+                        }, {
+                            threshold: 0.2
+                        });
+                        io.observe(el);
+                    },
+                    update(newVal) {
+                        this.from = this.now || 0;
+                        this.to = Number(newVal || 0);
+                        this.startTime = null;
+                        this.start();
+                    }
+                }
+            });
+        });
         (function() {
             if (window.__toastBound) return;
             window.__toastBound = true;
@@ -107,7 +156,8 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 
             document.addEventListener('livewire:initialized', bind);
             document.addEventListener('livewire:navigated', () => {
-                /* keep single binding */ });
+                /* keep single binding */
+            });
         })();
     </script>
 
