@@ -2,20 +2,19 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
+use App\Imports\StudentsImport;
 use App\Models\Batch;
-use App\Models\Phase;
 use App\Models\Campus;
 use App\Models\Course;
-use Livewire\Component;
-use Illuminate\Http\Request;
-use Livewire\WithPagination;
 use App\Models\EnrollStudent;
-use App\Exports\StudentsExport;
-use App\Imports\StudentsImport;
-use App\Models\StudentRegister;
-use Illuminate\Support\Facades\DB;
 use App\Models\EnrollStudentDetail;
+use App\Models\Phase;
+use App\Models\StudentRegister;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ShowStudent extends Component
@@ -34,55 +33,135 @@ class ShowStudent extends Component
         'Certified Social Media Manager',
         'Certified Web Developer',
     ];
+
     public array $districts = [
-        'badin'               => 'Badin',
-        'dadu'                => 'Dadu',
-        'ghotki'              => 'Ghotki',
-        'hyderabad'           => 'Hyderabad',
-        'jacobabad'           => 'Jacobabad',
-        'jamshoro'            => 'Jamshoro',
-        'karachi-central'     => 'Karachi Central',
-        'karachi-east'        => 'Karachi East',
-        'karachi-south'       => 'Karachi South',
-        'karachi-west'        => 'Karachi West',
-        'kashmore'            => 'Kashmore',
-        'khairpur'            => 'Khairpur',
-        'larkana'             => 'Larkana',
-        'matiari'             => 'Matiari',
-        'mirpurkhas'          => 'Mirpurkhas',
-        'naushahro-feroze'    => 'Naushahro Feroze',
+        'badin' => 'Badin',
+        'dadu' => 'Dadu',
+        'ghotki' => 'Ghotki',
+        'hyderabad' => 'Hyderabad',
+        'jacobabad' => 'Jacobabad',
+        'jamshoro' => 'Jamshoro',
+        'karachi-central' => 'Karachi Central',
+        'karachi-east' => 'Karachi East',
+        'karachi-south' => 'Karachi South',
+        'karachi-west' => 'Karachi West',
+        'kashmore' => 'Kashmore',
+        'khairpur' => 'Khairpur',
+        'larkana' => 'Larkana',
+        'matiari' => 'Matiari',
+        'mirpurkhas' => 'Mirpurkhas',
+        'naushahro-feroze' => 'Naushahro Feroze',
         'shaheed-benazirabad' => 'Shaheed Benazirabad',
-        'qambar-shahdadkot'   => 'Qambar Shahdadkot',
-        'sanghar'             => 'Sanghar',
-        'shikarpur'           => 'Shikarpur',
-        'sukkur'              => 'Sukkur',
-        'tando-allahyar'      => 'Tando Allahyar',
+        'qambar-shahdadkot' => 'Qambar Shahdadkot',
+        'sanghar' => 'Sanghar',
+        'shikarpur' => 'Shikarpur',
+        'sukkur' => 'Sukkur',
+        'tando-allahyar' => 'Tando Allahyar',
         'tando-muhammad-khan' => 'Tando Muhammad Khan',
-        'tharparkar'          => 'Tharparkar',
-        'thatta'              => 'Thatta',
-        'umerkot'             => 'Umerkot',
-        'sujawal'             => 'Sujawal',
-        'korangi'             => 'Korangi',
-        'malir'               => 'Malir',
+        'tharparkar' => 'Tharparkar',
+        'thatta' => 'Thatta',
+        'umerkot' => 'Umerkot',
+        'sujawal' => 'Sujawal',
+        'korangi' => 'Korangi',
+        'malir' => 'Malir',
     ];
+
     use WithPagination;
+
     protected $listeners = ['view_student'];
-    public $full_name, $father_name, $gender, $cnic_number, $contact_number,
-        $domicile_category, $most_recent_institution, $highest_qualification, $have_disability, $monthly_household_income, $participated_previously, $from_source,
-        $course_if_participated, $phase_if_participated, $center_if_participated,
-        $date_of_birth, $profile_picture, $intermediate_marksheet, $domicile_form_c, $domicile_district, $is_enrolled, $university_name, $enrolled_status, $preferred_study_center, $preferred_time_slot, $course_choice_1, $course_choice_2, $course_choice_3, $course_choice_4, $search = '', $phases = [], $phase_id;
+
+    public $full_name;
+
+    public $father_name;
+
+    public $gender;
+
+    public $cnic_number;
+
+    public $contact_number;
+
+    public $domicile_category;
+
+    public $most_recent_institution;
+
+    public $highest_qualification;
+
+    public $have_disability;
+
+    public $monthly_household_income;
+
+    public $participated_previously;
+
+    public $from_source;
+
+    public $course_if_participated;
+
+    public $phase_if_participated;
+
+    public $center_if_participated;
+
+    public $date_of_birth;
+
+    public $profile_picture;
+
+    public $intermediate_marksheet;
+
+    public $domicile_form_c;
+
+    public $domicile_district;
+
+    public $is_enrolled;
+
+    public $university_name;
+
+    public $enrolled_status;
+
+    public $preferred_study_center;
+
+    public $preferred_time_slot;
+
+    public $course_choice_1;
+
+    public $course_choice_2;
+
+    public $course_choice_3;
+
+    public $course_choice_4;
+
+    public $search = '';
+
+    public $phases = [];
+
+    public $phase_id;
+
     public $filter_course = '';
+
     public $filter_qualification = '';
+
     public $filter_gender = '';
+
     public $filter_d_category = '';
+
     public $filter_district = '';
 
     // public function updatingSearch()
     // {
     //     $this->resetPage();
     // }
-    public $campus_id, $batch_id, $course_id, $student_id;
-    public $campuses = [], $batches = [], $courses = [];
+    public $campus_id;
+
+    public $batch_id;
+
+    public $course_id;
+
+    public $student_id;
+
+    public $campuses = [];
+
+    public $batches = [];
+
+    public $courses = [];
+
     public function updating($name, $value)
     {
         if (in_array($name, [
@@ -95,6 +174,7 @@ class ShowStudent extends Component
             $this->resetPage();
         }
     }
+
     public function render()
     {
         $students = StudentRegister::query()
@@ -124,27 +204,23 @@ class ShowStudent extends Component
             // highest qualification
             ->when(
                 $this->filter_qualification !== '',
-                fn($q) =>
-                $q->where('highest_qualification', $this->filter_qualification)
+                fn ($q) => $q->where('highest_qualification', $this->filter_qualification)
             )
 
             // gender
             ->when(
                 $this->filter_gender !== '',
-                fn($q) =>
-                $q->where('gender', $this->filter_gender)
+                fn ($q) => $q->where('gender', $this->filter_gender)
             )
 
             // domicile category
             ->when(
                 $this->filter_d_category !== '',
-                fn($q) =>
-                $q->where('domicile_category', $this->filter_d_category)
+                fn ($q) => $q->where('domicile_category', $this->filter_d_category)
             )
             ->when(
                 $this->filter_district !== '',
-                fn($q) =>
-                $q->where('domicile_district', $this->filter_district)
+                fn ($q) => $q->where('domicile_district', $this->filter_district)
             )
 
             ->orderByDesc('id')
@@ -187,9 +263,9 @@ class ShowStudent extends Component
         $this->center_if_participated = $student->center_if_participated;
         $this->from_source = $student->from_source;
 
-
         $this->dispatch('open-task-view-modal');
     }
+
     public function updatedPhaseId($value)
     {
         $this->campuses = Campus::where('phase_id', $value)->get();
@@ -199,6 +275,7 @@ class ShowStudent extends Component
         $this->courses = [];
         $this->course_id = null;
     }
+
     public function updatedCampusId($value)
     {
         $this->batches = Batch::where('campus_id', $value)->where('status', 1)->get();
@@ -213,6 +290,7 @@ class ShowStudent extends Component
         $this->courses = Course::where('batch_id', $value)->get();
         $this->course_id = null;
     }
+
     public function enroll_student($id)
     {
         $this->reset(['campus_id', 'batch_id', 'course_id', 'batches', 'courses']);
@@ -225,170 +303,123 @@ class ShowStudent extends Component
         $this->student_id = $student->id;
         $this->dispatch('open-enrol-view-modal');
     }
-    // public function enrollStudent($id)
-    // {
-    //     $this->validate([
-    //         'phase_id' => 'required',
-    //         'campus_id' => 'required',
-    //         'batch_id' => 'required',
-    //         'course_id' => 'required',
-    //     ], [
-    //         'phase_id.required' => 'Phase field is required.',
-    //         'campus_id.required' => 'Batch field is required.',
-    //         'batch_id.required' => 'Campus field is required.',
-    //         'course_id.required' => 'Course field is required.',
-    //     ]);
 
-    //     $student = StudentRegister::findOrFail($id);
-    //     //User
-    //     $user = User::create([
-    //         'full_name' => $student->full_name,
-    //         'email' => $student->email,
-    //         'phone' => $student->contact_number,
-    //         // cncic is student password
-    //         'password' => bcrypt($student->cnic_number),
-    //         'is_active' => '1',
-    //         'user_type' => 'student',
-    //     ]);
-
-    //     // EnrollStudent
-    //     EnrollStudent::create([
-    //         'student_id' => $user->id,
-    //         'father_name' => $student->father_name,
-    //         'gender' => $student->gender,
-    //         'cnic_number' => $student->cnic_number,
-    //         'contact_number' => $student->contact_number,
-    //         'date_of_birth' => $student->date_of_birth,
-    //         'profile_picture' => $student->profile_picture,
-    //         'intermediate_marksheet' => $student->intermediate_marksheet,
-    //         'domicile_form_c' => $student->domicile_form_c,
-    //         'domicile_district' => $student->domicile_district,
-    //         'university_name' => $student->university_name,
-    //     ]);
-    //     // EnrollStudentDetail
-    //     EnrollStudentDetail::create([
-    //         'student_id' => $user->id,
-    //         'campus_id' => $this->campus_id,
-    //         'batch_id' => $this->batch_id,
-    //         'course_id' => $this->course_id,
-    //     ]);
-    //     $student->enrolled_status = 1;
-    //     $student->save();
-    //     $this->dispatch('close-enrol-view-modal');
-    //     $this->dispatch(
-    //         'student-saved',
-    //         title: 'Success!',
-    //         text: "User Enrolled Successfully.",
-    //         icon: 'success',
-    //     );
-    // }
     public function enrollStudent($id)
-{
-    $this->validate([
-        'phase_id'  => 'required',
-        'campus_id' => 'required',
-        'batch_id'  => 'required',
-        'course_id' => 'required',
-    ], [
-        'phase_id.required'  => 'Phase field is required.',
-        'campus_id.required' => 'Batch field is required.',
-        'batch_id.required'  => 'Campus field is required.',
-        'course_id.required' => 'Course field is required.',
-    ]);
+    {
+        $this->validate([
+            'phase_id' => 'required',
+            'campus_id' => 'required',
+            'batch_id' => 'required',
+            'course_id' => 'required',
+        ], [
+            'phase_id.required' => 'Phase field is required.',
+            'campus_id.required' => 'Batch field is required.',
+            'batch_id.required' => 'Campus field is required.',
+            'course_id.required' => 'Course field is required.',
+        ]);
 
-    $student = StudentRegister::findOrFail($id);
+        $student = StudentRegister::findOrFail($id);
 
-    try {
-        DB::transaction(function () use ($student) {
+        try {
+            DB::transaction(function () use ($student) {
 
-            // Hard cap
-            $currentCount = EnrollStudentDetail::where('course_id', $this->course_id)
-                ->lockForUpdate() // prevents race conditions
-                ->count();
+                // 1) Capacity check: count only ACTIVE enrollments
+                $currentCount = EnrollStudentDetail::query()
+                    ->where('course_id', $this->course_id)
+                    ->join('enroll_students', 'enroll_students.student_id', '=', 'enroll_student_details.student_id')
+                    ->where('enroll_students.cancel_enrollment', 0)
+                    ->lockForUpdate()
+                    ->count();
 
-            if ($currentCount >= 50) {
-                // Throwing will abort the transaction and bubble to catch()
-                throw new \RuntimeException('This course already has 50 students enrolled.');
-            }
+                if ($currentCount >= 50) {
+                    throw new \RuntimeException('This course already has 50 students enrolled.');
+                }
 
-            // Create (or find) the auth user
-            $user = User::firstOrCreate(
-                ['email' => $student->email],
-                [
-                    'full_name' => $student->full_name,
-                    'phone'     => $student->contact_number,
-                    'password'  => bcrypt($student->cnic_number), // CNIC as password
-                    'is_active' => '1',
-                    'user_type' => 'student',
-                ]
+                // 2) Reuse or create the auth user
+                $user = User::firstOrCreate(
+                    ['email' => $student->email],
+                    [
+                        'full_name' => $student->full_name,
+                        'phone' => $student->contact_number,
+                        'password' => bcrypt($student->cnic_number), // CNIC as password
+                        'is_active' => '1',
+                        'user_type' => 'student',
+                    ]
+                );
+
+                // 3) Reuse or create the enrollment profile (global per student)
+                $profile = EnrollStudent::firstOrNew(['student_id' => $user->id]);
+                // If it's a new profile OR you want to refresh fields from register:
+                $profile->father_name = $student->father_name;
+                $profile->gender = $student->gender;
+                $profile->cnic_number = $student->cnic_number;
+                $profile->contact_number = $student->contact_number;
+                $profile->date_of_birth = $student->date_of_birth;
+                $profile->profile_picture = $student->profile_picture;
+                $profile->intermediate_marksheet = $student->intermediate_marksheet;
+                $profile->domicile_form_c = $student->domicile_form_c;
+                $profile->domicile_district = $student->domicile_district;
+                $profile->university_name = $student->university_name;
+
+                // If previously canceled, flip back to active
+                $profile->cancel_enrollment = 0;
+                $profile->save();
+
+                // 4) Course detail for THIS course
+                $detail = EnrollStudentDetail::where([
+                    'student_id' => $user->id,
+                    'course_id' => $this->course_id,
+                ])->lockForUpdate()->first();
+
+                if ($detail) {
+                    // If we reached here, profile is active now; update placement if needed
+                    $detail->update([
+                        'campus_id' => $this->campus_id,
+                        'batch_id' => $this->batch_id,
+                        // 'course_id' unchanged (this row is for this course)
+                    ]);
+
+                } else {
+                    // No row for this course → create new detail
+                    EnrollStudentDetail::create([
+                        'student_id' => $user->id,
+                        'campus_id' => $this->campus_id,
+                        'batch_id' => $this->batch_id,
+                        'course_id' => $this->course_id,
+                    ]);
+                }
+
+                // 5) Mark register as enrolled (active)
+                $student->enrolled_status = 1;
+                $student->save();
+            });
+
+            $this->dispatch('close-enrol-view-modal');
+            $this->dispatch(
+                'student-saved',
+                title: 'Success!',
+                text: 'User Enrolled Successfully.',
+                icon: 'success',
             );
 
-            // Prevent same student enrolling in same course again
-            $alreadyEnrolled = EnrollStudentDetail::where([
-                'student_id' => $user->id,
-                'course_id'  => $this->course_id,
-            ])->lockForUpdate()->exists();
-
-            if ($alreadyEnrolled) {
-                throw new \RuntimeException('This student is already enrolled in this course.');
-            }
-
-            // Profile (only create if missing)
-            EnrollStudent::firstOrCreate(
-                ['student_id' => $user->id],
-                [
-                    'father_name'            => $student->father_name,
-                    'gender'                 => $student->gender,
-                    'cnic_number'            => $student->cnic_number,
-                    'contact_number'         => $student->contact_number,
-                    'date_of_birth'          => $student->date_of_birth,
-                    'profile_picture'        => $student->profile_picture,
-                    'intermediate_marksheet' => $student->intermediate_marksheet,
-                    'domicile_form_c'        => $student->domicile_form_c,
-                    'domicile_district'      => $student->domicile_district,
-                    'university_name'        => $student->university_name,
-                ]
+        } catch (\RuntimeException $e) {
+            $this->dispatch(
+                'student-saved',
+                title: 'Enrollment blocked',
+                text: $e->getMessage(),
+                icon: 'error',
             );
-
-            // Enrollment detail
-            EnrollStudentDetail::create([
-                'student_id' => $user->id,
-                'campus_id'  => $this->campus_id,
-                'batch_id'   => $this->batch_id,
-                'course_id'  => $this->course_id,
-            ]);
-
-            $student->enrolled_status = 1;
-            $student->save();
-        });
-
-        $this->dispatch('close-enrol-view-modal');
-        $this->dispatch(
-            'student-saved',
-            title: 'Success!',
-            text: "User Enrolled Successfully.",
-            icon: 'success',
-        );
-
-    } catch (\RuntimeException $e) {
-        // Friendly message for capacity / duplicate cases
-        $this->dispatch(
-            'student-saved',
-            title: 'Enrollment blocked',
-            text: $e->getMessage(),
-            icon: 'error',
-        );
-    } catch (\Throwable $e) {
-        // Unexpected failure
-        report($e);
-        $this->dispatch(
-            'student-saved',
-            title: 'Error',
-            text: 'Something went wrong while enrolling the student.',
-            icon: 'error',
-        );
+        } catch (\Throwable $e) {
+            report($e);
+            $this->dispatch(
+                'student-saved',
+                title: 'Error',
+                text: 'Something went wrong while enrolling the student.',
+                icon: 'error',
+            );
+        }
     }
-}
+
     public function export()
     {
         return (new \App\Exports\StudentsExport(
@@ -403,15 +434,13 @@ class ShowStudent extends Component
         ))->download('students.xlsx');
     }
 
-
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv'
+            'file' => 'required|file|mimes:xlsx,xls,csv',
         ]);
         Excel::import(new StudentsImport, $request->file('file'));
-        $message = "Import Has Successfully.";
-
+        $message = 'Import Has Successfully.';
 
         $this->dispatch(
             'student-saved',

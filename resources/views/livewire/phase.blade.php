@@ -131,6 +131,7 @@
                             {{ $phases->total() }} Phasees
                         </span>
                     </div>
+
                 </div>
             </div>
 

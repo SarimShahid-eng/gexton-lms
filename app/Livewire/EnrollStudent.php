@@ -2,80 +2,138 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use App\Models\Batch;
 use App\Models\Campus;
 use App\Models\Course;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use Livewire\WithPagination;
-use App\Models\StudentRegister;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-use App\Models\EnrollStudentDetail;
 use App\Models\EnrollStudent as EnrollStudentModel;
+use App\Models\EnrollStudentDetail;
+use App\Models\StudentRegister;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class EnrollStudent extends Component
 {
     use WithPagination;
 
-    public $full_name, $father_name, $gender, $email, $cnic_number, $phone, $contact_number, $date_of_birth,
-        $highest_qualification, $most_recent_institution,
-        $profile_picture, $intermediate_marksheet, $domicile_form_c,
-        $domicile_category, $preferred_study_center, $preferred_time_slot,
-        $domicile_district, $university_name, $search = '', $enrolledDetails = [], $campuses = [], $batches = [], $courses = [], $student_id, $campus_ids = [], $batch_ids = [], $course_ids = [], $student_details = [];
+    public $full_name;
+
+    public $father_name;
+
+    public $gender;
+
+    public $email;
+
+    public $cnic_number;
+
+    public $phone;
+
+    public $contact_number;
+
+    public $date_of_birth;
+
+    public $highest_qualification;
+
+    public $most_recent_institution;
+
+    public $profile_picture;
+
+    public $intermediate_marksheet;
+
+    public $domicile_form_c;
+
+    public $domicile_category;
+
+    public $preferred_study_center;
+
+    public $preferred_time_slot;
+
+    public $domicile_district;
+
+    public $university_name;
+
+    public $search = '';
+
+    public $enrolledDetails = [];
+
+    public $campuses = [];
+
+    public $batches = [];
+
+    public $courses = [];
+
+    public $student_id;
+
+    public $campus_ids = [];
+
+    public $batch_ids = [];
+
+    public $course_ids = [];
+
+    public $student_details = [];
+
     public array $districts = [
-        'badin'               => 'Badin',
-        'dadu'                => 'Dadu',
-        'ghotki'              => 'Ghotki',
-        'hyderabad'           => 'Hyderabad',
-        'jacobabad'           => 'Jacobabad',
-        'jamshoro'            => 'Jamshoro',
-        'karachi-central'     => 'Karachi Central',
-        'karachi-east'        => 'Karachi East',
-        'karachi-south'       => 'Karachi South',
-        'karachi-west'        => 'Karachi West',
-        'kashmore'            => 'Kashmore',
-        'khairpur'            => 'Khairpur',
-        'larkana'             => 'Larkana',
-        'matiari'             => 'Matiari',
-        'mirpurkhas'          => 'Mirpurkhas',
-        'naushahro-feroze'    => 'Naushahro Feroze',
+        'badin' => 'Badin',
+        'dadu' => 'Dadu',
+        'ghotki' => 'Ghotki',
+        'hyderabad' => 'Hyderabad',
+        'jacobabad' => 'Jacobabad',
+        'jamshoro' => 'Jamshoro',
+        'karachi-central' => 'Karachi Central',
+        'karachi-east' => 'Karachi East',
+        'karachi-south' => 'Karachi South',
+        'karachi-west' => 'Karachi West',
+        'kashmore' => 'Kashmore',
+        'khairpur' => 'Khairpur',
+        'larkana' => 'Larkana',
+        'matiari' => 'Matiari',
+        'mirpurkhas' => 'Mirpurkhas',
+        'naushahro-feroze' => 'Naushahro Feroze',
         'shaheed-benazirabad' => 'Shaheed Benazirabad',
-        'qambar-shahdadkot'   => 'Qambar Shahdadkot',
-        'sanghar'             => 'Sanghar',
-        'shikarpur'           => 'Shikarpur',
-        'sukkur'              => 'Sukkur',
-        'tando-allahyar'      => 'Tando Allahyar',
+        'qambar-shahdadkot' => 'Qambar Shahdadkot',
+        'sanghar' => 'Sanghar',
+        'shikarpur' => 'Shikarpur',
+        'sukkur' => 'Sukkur',
+        'tando-allahyar' => 'Tando Allahyar',
         'tando-muhammad-khan' => 'Tando Muhammad Khan',
-        'tharparkar'          => 'Tharparkar',
-        'thatta'              => 'Thatta',
-        'umerkot'             => 'Umerkot',
-        'sujawal'             => 'Sujawal',
-        'korangi'             => 'Korangi',
-        'malir'               => 'Malir',
+        'tharparkar' => 'Tharparkar',
+        'thatta' => 'Thatta',
+        'umerkot' => 'Umerkot',
+        'sujawal' => 'Sujawal',
+        'korangi' => 'Korangi',
+        'malir' => 'Malir',
     ];
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
     public function mount()
     {
         $this->campuses = Campus::get();
     }
+
     public function render()
     {
         $students = User::where('user_type', 'student')
+            ->whereHas('student_detail', function ($q) {
+                $q->where('cancel_enrollment', 0);
+            })
             ->where('is_active', '1')
             ->where(function ($query) {
-                $query->where('full_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
+                $query->where('full_name', 'like', '%'.$this->search.'%')
+                    ->orWhere('email', 'like', '%'.$this->search.'%');
             })
             ->orderBy('id', 'desc')
             ->paginate(10);
 
         return view('livewire.enroll-student', compact('students'));
     }
+
     public function updatedCampusIds($value, $index)
     {
         $this->campus_ids[$index] = $value ? (int) $value : null;
@@ -101,17 +159,19 @@ class EnrollStudent extends Component
             $this->courses[$index] = Course::where('batch_id', (int) $value)->get();
         }
     }
+
     public function updatedCourseIds($value, $index)
     {
         $this->course_ids[$index] = $value ? (int) $value : null;
     }
-    function view_student($id)
+
+    public function view_student($id)
     {
         // dd($id);
         $student = EnrollStudentModel::with([
             'enroll_student.campus',
             'enroll_student.batch',
-            'enroll_student.course'
+            'enroll_student.course',
         ])->where('student_id', $id)->first();
         $this->full_name = $student->student->full_name;
         $this->father_name = $student->father_name;
@@ -130,6 +190,7 @@ class EnrollStudent extends Component
         // dd($student);
         $this->dispatch('open-task-view-modal');
     }
+
     public function enroll_student($id)
     {
         $this->reset(['campus_ids', 'batch_ids', 'course_ids', 'batches', 'courses', 'full_name', 'father_name', 'cnic_number', 'student_id']);
@@ -164,8 +225,8 @@ class EnrollStudent extends Component
             // Populate batches for this campus_id
             $this->batches[$index] = $this->campus_ids[$index]
                 ? Batch::where('campus_id', $this->campus_ids[$index])
-                ->where('status', 1)
-                ->get()
+                    ->where('status', 1)
+                    ->get()
                 : collect();
 
             // Populate courses for this batch_id
@@ -230,27 +291,66 @@ class EnrollStudent extends Component
     //     }
     // }
 
+    public function cancelEnrollment(array $ids)
+    {
+        // sanitize
+        $ids = array_values(array_unique(array_map('intval', $ids)));
+        if (empty($ids)) {
+            $this->dispatch('student-update', icon: 'error', text: 'No selection.');
+
+            return;
+        }
+
+        DB::transaction(function () use ($ids) {
+            // 1) Mark enrollments as canceled
+            EnrollStudentModel::whereIn('student_id', $ids)
+                ->update(['cancel_enrollment' => 1]);
+
+            // 2) Grab CNICs for those students (distinct, non-null)
+            $cnics = EnrollStudentModel::whereIn('student_id', $ids)
+                ->pluck('cnic_number')
+                ->filter()
+                ->unique()
+                ->values();
+
+            if ($cnics->isNotEmpty()) {
+                // 3) Reset enrolled_status in student_registers for matching CNICs
+                StudentRegister::whereIn('cnic_number', $cnics)
+                    ->update(['enrolled_status' => 0]);
+            }
+        });
+
+        // toast
+        $this->dispatch('student-update', [
+            'icon' => 'success',
+            'text' => 'Enrollment(s) canceled successfully!',
+        ]);
+
+        // optional: refresh table/pagination
+        // $this->resetPage();
+        // $this->dispatch('$refresh');
+    }
 
     public function updateStudent()
     {
         $this->validate([
             // form fields you showed
-            'full_name'               => 'required|string|max:255',
-            'email'                   => ['required', 'email', Rule::unique('users', 'email')->ignore($this->student_id)],
-            'phone'                   => 'required|string|max:20',
-            'father_name'             => 'required|string|max:255',
-            'gender'                  => 'required|in:male,female,transgender',
-            'cnic_number'             => 'required|string|max:13',
-            'date_of_birth'           => 'required|date',
-            'domicile_district'       => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->student_id)],
+            'phone' => 'required|string|max:20',
+            'father_name' => 'required|string|max:255',
+            'gender' => 'required|in:male,female,transgender',
+            'cnic_number' => 'required|string|max:13',
+            'date_of_birth' => 'required|date',
+            'domicile_district' => 'required|string|max:255',
             'most_recent_institution' => 'required|string|max:255',
-            'highest_qualification'   => 'required|string|max:100',
-            'preferred_study_center'  => 'required|string|max:255',
-            'preferred_time_slot'     => 'required|string|max:255',
+            'highest_qualification' => 'required|string|max:100',
+            'preferred_study_center' => 'required|string|max:255',
+            'preferred_time_slot' => 'required|string|max:255',
 
             // detail arrays
             'campus_ids.*' => 'required|exists:campuses,id',
-            'batch_ids.*'  => 'required|exists:batches,id',
+            'batch_ids.*' => 'required|exists:batches,id',
             'course_ids.*' => 'required|exists:courses,id',
         ]);
 
@@ -259,7 +359,7 @@ class EnrollStudent extends Component
 
                 // --- 1) Load profile by current user/student id
                 $profile = EnrollStudentModel::with('student')
-                    ->where('student_id', (int)$this->student_id)
+                    ->where('student_id', (int) $this->student_id)
                     ->lockForUpdate()
                     ->firstOrFail();
 
@@ -273,37 +373,37 @@ class EnrollStudent extends Component
                 // --- 3) Update USER
                 $profile->student->fill([
                     'full_name' => $this->full_name,
-                    'email'     => $this->email,
-                    'phone'     => $this->phone,
+                    'email' => $this->email,
+                    'phone' => $this->phone,
                 ])->save();
 
                 // --- 4) Update ENROLL_STUDENTS (profile sheet)
                 $profile->fill([
-                    'father_name'      => $this->father_name,
-                    'gender'           => $this->gender,
-                    'cnic_number'      => $this->cnic_number,     // can change
-                    'contact_number'   => $this->phone,
-                    'date_of_birth'    => $this->date_of_birth,
+                    'father_name' => $this->father_name,
+                    'gender' => $this->gender,
+                    'cnic_number' => $this->cnic_number,     // can change
+                    'contact_number' => $this->phone,
+                    'date_of_birth' => $this->date_of_birth,
                     'domicile_district' => $this->domicile_district,
-                    'university_name'  => $this->most_recent_institution,
+                    'university_name' => $this->most_recent_institution,
                     // add picture/marksheet/etc if you collect them
                 ])->save();
 
                 // --- 5) Update STUDENT_REGISTERS (application card), if found via CNIC
                 if ($register) {
                     $register->fill([
-                        'full_name'               => $this->full_name,
-                        'father_name'             => $this->father_name,
-                        'gender'                  => $this->gender,
-                        'cnic_number'             => $this->cnic_number, // keep in sync
-                        'email'                   => $this->email,
-                        'contact_number'          => $this->phone,
-                        'date_of_birth'           => $this->date_of_birth,
-                        'domicile_district'       => $this->domicile_district,
+                        'full_name' => $this->full_name,
+                        'father_name' => $this->father_name,
+                        'gender' => $this->gender,
+                        'cnic_number' => $this->cnic_number, // keep in sync
+                        'email' => $this->email,
+                        'contact_number' => $this->phone,
+                        'date_of_birth' => $this->date_of_birth,
+                        'domicile_district' => $this->domicile_district,
                         'most_recent_institution' => $this->most_recent_institution,
-                        'highest_qualification'   => $this->highest_qualification,
-                        'preferred_study_center'  => $this->preferred_study_center,
-                        'preferred_time_slot'     => $this->preferred_time_slot,
+                        'highest_qualification' => $this->highest_qualification,
+                        'preferred_study_center' => $this->preferred_study_center,
+                        'preferred_time_slot' => $this->preferred_time_slot,
                     ])->save();
                 }
                 // If you want to create when missing, you can add a create() here.
@@ -311,11 +411,13 @@ class EnrollStudent extends Component
                 // --- 6) Update per-campus/batch/course details (existing rows only)
                 if (is_array($this->campus_ids)) {
                     foreach ($this->campus_ids as $i => $campus_id) {
-                        if (empty($campus_id)) continue;
+                        if (empty($campus_id)) {
+                            continue;
+                        }
 
                         $campus_id = (int) $campus_id;
-                        $batch_id  = !empty($this->batch_ids[$i])  ? (int)$this->batch_ids[$i]  : null;
-                        $course_id = !empty($this->course_ids[$i]) ? (int)$this->course_ids[$i] : null;
+                        $batch_id = ! empty($this->batch_ids[$i]) ? (int) $this->batch_ids[$i] : null;
+                        $course_id = ! empty($this->course_ids[$i]) ? (int) $this->course_ids[$i] : null;
 
                         $detail = EnrollStudentDetail::where('student_id', $profile->student_id)
                             ->lockForUpdate()
@@ -324,7 +426,7 @@ class EnrollStudent extends Component
                         if ($detail) {
                             $detail->update([
                                 'campus_id' => $campus_id,
-                                'batch_id'  => $batch_id,
+                                'batch_id' => $batch_id,
                                 'course_id' => $course_id,
                             ]);
                         }
