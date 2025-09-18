@@ -43,9 +43,12 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 bg-indigo-100 rounded-md flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10l9-6 9 6v10a1 1 0 01-1 1H4a1 1 0 01-1-1V10z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21V9h6v12" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-600"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M3 10l9-6 9 6v10a1 1 0 01-1 1H4a1 1 0 01-1-1V10z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9 21V9h6v12" />
                                                 </svg>
                                             </div>
                                             <span>{{ $enrollment->campus->title }}</span>
@@ -56,8 +59,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 bg-green-100 rounded-md flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M4 6h16M4 12h8m-8 6h16" />
                                                 </svg>
                                             </div>
                                             <span>{{ $enrollment->batch->title }}</span>
@@ -68,9 +73,12 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20l9-5-9-5-9 5 9 5z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12V4l9 5-9 5z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-600"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 20l9-5-9-5-9 5 9 5z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 12V4l9 5-9 5z" />
                                                 </svg>
                                             </div>
                                             <span>{{ $enrollment->course->title }}</span>
@@ -102,3 +110,4 @@
             </div>
         </div>
     @endrole
+
