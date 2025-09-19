@@ -331,6 +331,12 @@ class EnrollStudent extends Component
         // $this->dispatch('$refresh');
     }
 
+    public function export()
+    {
+
+        return (new \App\Exports\EnrollStudentExport)->download('enroll_students.xlsx');
+    }
+
     public function updateStudent()
     {
         $this->validate([

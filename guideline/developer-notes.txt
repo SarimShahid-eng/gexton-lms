@@ -1,3 +1,5 @@
 Batches table representing campus
 Campus representing Batches
 due to demand change batch wise campus instead of campus wise batch labelling is changed only
+
+just maintain campus in campus_id and batches in batch_id flip relation from backend
