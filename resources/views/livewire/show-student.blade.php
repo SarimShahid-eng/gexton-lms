@@ -33,7 +33,7 @@
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                         <option value="">Select Course</option>
-                        @foreach ($this->allCourses as $course)
+                        @foreach (config('filters.courses') as $course)
                             <option value="{{ $course }}">{{ $course }}</option>
                         @endforeach
                     </select>
@@ -43,9 +43,9 @@
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                         <option value="">Select Highest Qualification</option>
-                        <option value="matric">Matric</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="graduate">Graduate</option>
+                        @foreach (config('filters.qualifications') as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="input-parent">
@@ -53,9 +53,9 @@
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="transgender">Transgender</option>
+                        @foreach (config('filters.genders') as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="input-parent">
@@ -63,8 +63,9 @@
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                         <option value="">Select D.Category</option>
-                        <option value="urban">Urban</option>
-                        <option value="rural">Rural</option>
+                        @foreach (config('filters.d_categories') as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="input-parent">
@@ -72,7 +73,18 @@
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                         <option>Select District</option>
-                        @foreach ($districts as $key => $label)
+                        @foreach (config('filters.districts') as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_study_center"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select Centers</option>
+                        @foreach (config('filters.study_centers') as $key => $label)
                             <option value="{{ $key }}">{{ $label }}
                             </option>
                         @endforeach

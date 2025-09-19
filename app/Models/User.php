@@ -46,24 +46,36 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_active'=>'boolean',
+            'is_active' => 'boolean',
 
         ];
     }
+
     public function student_detail()
     {
         return $this->hasOne(EnrollStudent::class, 'student_id');
     }
+    public function enroll_detail()
+    {
+        return $this->hasOne(EnrollStudentDetail::class, 'student_id');
+    }
+
+    // public function register_info()
+    // {
+    //     return $this->hasOne(StudentRegister::class, 'cnic_number', 'cnic_number');
+    // }
+
     public function hasRole($role)
     {
-        // dd($role);
         return $this->user_type === $role;
     }
-    function std_details()
+
+    public function std_details()
     {
         return $this->hasMany(EnrollStudentDetail::class, 'student_id');
     }
-    function courses()
+
+    public function courses()
     {
         return $this->hasMany(Course::class, 'user_id');
     }

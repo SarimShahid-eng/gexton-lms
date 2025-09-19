@@ -19,52 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ShowStudent extends Component
 {
-    protected array $allCourses = [
-        'Certified Cloud Computing Professional',
-        'Certified Cyber Security and Ethical Hacking Professional',
-        'Certified Data Scientist',
-        'Certified Database Administrator',
-        'Certified Digital Marketing Professional',
-        'Certified E-Commerce Professional',
-        'Certified Graphic Designer',
-        'Certified Java Developer',
-        'Certified Mobile Application Developer',
-        'Certified Python Developer',
-        'Certified Social Media Manager',
-        'Certified Web Developer',
-    ];
 
-    public array $districts = [
-        'badin' => 'Badin',
-        'dadu' => 'Dadu',
-        'ghotki' => 'Ghotki',
-        'hyderabad' => 'Hyderabad',
-        'jacobabad' => 'Jacobabad',
-        'jamshoro' => 'Jamshoro',
-        'karachi-central' => 'Karachi Central',
-        'karachi-east' => 'Karachi East',
-        'karachi-south' => 'Karachi South',
-        'karachi-west' => 'Karachi West',
-        'kashmore' => 'Kashmore',
-        'khairpur' => 'Khairpur',
-        'larkana' => 'Larkana',
-        'matiari' => 'Matiari',
-        'mirpurkhas' => 'Mirpurkhas',
-        'naushahro-feroze' => 'Naushahro Feroze',
-        'shaheed-benazirabad' => 'Shaheed Benazirabad',
-        'qambar-shahdadkot' => 'Qambar Shahdadkot',
-        'sanghar' => 'Sanghar',
-        'shikarpur' => 'Shikarpur',
-        'sukkur' => 'Sukkur',
-        'tando-allahyar' => 'Tando Allahyar',
-        'tando-muhammad-khan' => 'Tando Muhammad Khan',
-        'tharparkar' => 'Tharparkar',
-        'thatta' => 'Thatta',
-        'umerkot' => 'Umerkot',
-        'sujawal' => 'Sujawal',
-        'korangi' => 'Korangi',
-        'malir' => 'Malir',
-    ];
 
     use WithPagination;
 
@@ -143,6 +98,7 @@ class ShowStudent extends Component
     public $filter_d_category = '';
 
     public $filter_district = '';
+    public $filter_study_center = '';
 
     // public function updatingSearch()
     // {
@@ -174,6 +130,8 @@ class ShowStudent extends Component
             $this->resetPage();
         }
     }
+
+
 
     public function render()
     {
@@ -221,6 +179,10 @@ class ShowStudent extends Component
             ->when(
                 $this->filter_district !== '',
                 fn ($q) => $q->where('domicile_district', $this->filter_district)
+            )
+            ->when(
+                $this->filter_study_center !== '',
+                fn ($q) => $q->where('preferred_study_center', $this->filter_study_center)
             )
 
             ->orderByDesc('id')

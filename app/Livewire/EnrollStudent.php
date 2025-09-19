@@ -75,37 +75,31 @@ class EnrollStudent extends Component
 
     public $student_details = [];
 
-    public array $districts = [
-        'badin' => 'Badin',
-        'dadu' => 'Dadu',
-        'ghotki' => 'Ghotki',
-        'hyderabad' => 'Hyderabad',
-        'jacobabad' => 'Jacobabad',
-        'jamshoro' => 'Jamshoro',
-        'karachi-central' => 'Karachi Central',
-        'karachi-east' => 'Karachi East',
-        'karachi-south' => 'Karachi South',
-        'karachi-west' => 'Karachi West',
-        'kashmore' => 'Kashmore',
-        'khairpur' => 'Khairpur',
-        'larkana' => 'Larkana',
-        'matiari' => 'Matiari',
-        'mirpurkhas' => 'Mirpurkhas',
-        'naushahro-feroze' => 'Naushahro Feroze',
-        'shaheed-benazirabad' => 'Shaheed Benazirabad',
-        'qambar-shahdadkot' => 'Qambar Shahdadkot',
-        'sanghar' => 'Sanghar',
-        'shikarpur' => 'Shikarpur',
-        'sukkur' => 'Sukkur',
-        'tando-allahyar' => 'Tando Allahyar',
-        'tando-muhammad-khan' => 'Tando Muhammad Khan',
-        'tharparkar' => 'Tharparkar',
-        'thatta' => 'Thatta',
-        'umerkot' => 'Umerkot',
-        'sujawal' => 'Sujawal',
-        'korangi' => 'Korangi',
-        'malir' => 'Malir',
-    ];
+    public array $districts = [];
+
+    public $filter_course = '';
+
+    public $filter_qualification = '';
+
+    public $filter_gender = '';
+
+    public $filter_d_category = '';
+
+    public $filter_district = '';
+
+    public $filter_study_center = '';
+
+    public $filter_enrolled_in_campus = '';
+
+    public $filter_enrolled_in_batch = '';
+
+    public $filter_enrolled_in_course = '';
+
+    public $overAllBatches = [];
+
+    public $overAllCampus = [];
+
+    public $overAllCourse = [];
 
     public function updatingSearch()
     {
@@ -115,6 +109,11 @@ class EnrollStudent extends Component
     public function mount()
     {
         $this->campuses = Campus::get();
+        $this->districts = config('filters.districts');
+        $this->overAllBatches = Campus::all();
+        $this->overAllCampus = Batch::all();
+        $this->overAllCourse = Course::all();
+
     }
 
     public function render()
@@ -123,13 +122,63 @@ class EnrollStudent extends Component
             ->whereHas('student_detail', function ($q) {
                 $q->where('cancel_enrollment', 0);
             })
+ // all field filters live on the StudentRegister model => use whereHas
+            ->whereHas('student_detail.registered_student', function ($q) {
+                // course filter matches any of the 4 choices
+                $q->when($this->filter_course !== '', function ($qq) {
+                    $c = $this->filter_course;
+                    $qq->where(function ($qx) use ($c) {
+                        $qx->where('course_choice_1', $c)
+                            ->orWhere('course_choice_2', $c)
+                            ->orWhere('course_choice_3', $c)
+                            ->orWhere('course_choice_4', $c);
+                    });
+                });
+
+                // highest qualification
+                $q->when($this->filter_qualification !== '',
+                    fn ($qq) => $qq->where('highest_qualification', $this->filter_qualification)
+                );
+
+                // gender
+                $q->when($this->filter_gender !== '',
+                    fn ($qq) => $qq->where('gender', $this->filter_gender)
+                );
+
+                // domicile category
+                $q->when($this->filter_d_category !== '',
+                    fn ($qq) => $qq->where('domicile_category', $this->filter_d_category)
+                );
+
+                // district
+                $q->when($this->filter_district !== '',
+                    fn ($qq) => $qq->where('domicile_district', $this->filter_district)
+                );
+
+                // preferred study center
+                $q->when($this->filter_study_center !== '',
+                    fn ($qq) => $qq->where('preferred_study_center', $this->filter_study_center)
+                );
+            })
+            ->whereHas('enroll_detail', function ($q) {
+                $q->when($this->filter_enrolled_in_batch !== '',
+                    fn ($qq) => $qq->where('campus_id', $this->filter_enrolled_in_batch)
+                );
+                  $q->when($this->filter_enrolled_in_campus !== '',
+                    fn ($qq) => $qq->where('batch_id', $this->filter_enrolled_in_campus)
+                );
+                  $q->when($this->filter_enrolled_in_course !== '',
+                    fn ($qq) => $qq->where('course_id', $this->filter_enrolled_in_course)
+                );
+            })
+
             ->where('is_active', '1')
             ->where(function ($query) {
                 $query->where('full_name', 'like', '%'.$this->search.'%')
                     ->orWhere('email', 'like', '%'.$this->search.'%');
             })
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate(50);
 
         return view('livewire.enroll-student', compact('students'));
     }
