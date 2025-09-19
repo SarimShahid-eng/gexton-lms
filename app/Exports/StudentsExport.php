@@ -5,14 +5,14 @@ namespace App\Exports;
 use App\Models\StudentRegister;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class StudentsExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading, ShouldAutoSize, WithColumnFormatting
+class StudentsExport implements FromQuery, ShouldAutoSize, WithChunkReading, WithColumnFormatting, WithHeadings, WithMapping
 {
     use Exportable;
 
@@ -23,7 +23,7 @@ class StudentsExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
         public ?string $gender = '',
         public ?string $dCategory = '',
         public ?int $campusId = null,
-        public ?int $batchId  = null,
+        public ?int $batchId = null,
         public ?int $courseId = null,
     ) {}
 
@@ -33,27 +33,27 @@ class StudentsExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
             // search
             ->when($this->search !== '', function ($q) {
                 $term = '%'.$this->search.'%';
-                $q->where(fn($q) => $q->where('full_name','like',$term)
-                    ->orWhere('email','like',$term)
-                    ->orWhere('cnic_number','like',$term)
-                    ->orWhere('contact_number','like',$term));
+                $q->where(fn ($q) => $q->where('full_name', 'like', $term)
+                    ->orWhere('email', 'like', $term)
+                    ->orWhere('cnic_number', 'like', $term)
+                    ->orWhere('contact_number', 'like', $term));
             })
             // course (string choices across 4 columns)
             ->when($this->course !== '', function ($q) {
                 $c = $this->course;
-                $q->where(fn($q) => $q->where('course_choice_1',$c)
-                    ->orWhere('course_choice_2',$c)
-                    ->orWhere('course_choice_3',$c)
-                    ->orWhere('course_choice_4',$c));
+                $q->where(fn ($q) => $q->where('course_choice_1', $c)
+                    ->orWhere('course_choice_2', $c)
+                    ->orWhere('course_choice_3', $c)
+                    ->orWhere('course_choice_4', $c));
             })
             // id-based filters (use if your schema has these columns)
-            ->when($this->courseId, fn($q) => $q->where('course_id', $this->courseId))
-            ->when($this->campusId, fn($q) => $q->where('campus_id', $this->campusId))
-            ->when($this->batchId,  fn($q) => $q->where('batch_id',  $this->batchId))
+            ->when($this->courseId, fn ($q) => $q->where('course_id', $this->courseId))
+            ->when($this->campusId, fn ($q) => $q->where('campus_id', $this->campusId))
+            ->when($this->batchId, fn ($q) => $q->where('batch_id', $this->batchId))
             // others
-            ->when($this->qualification !== '', fn($q) => $q->where('highest_qualification', $this->qualification))
-            ->when($this->gender !== '',        fn($q) => $q->where('gender', $this->gender))
-            ->when($this->dCategory !== '',     fn($q) => $q->where('domicile_category', $this->dCategory))
+            ->when($this->qualification !== '', fn ($q) => $q->where('highest_qualification', $this->qualification))
+            ->when($this->gender !== '', fn ($q) => $q->where('gender', $this->gender))
+            ->when($this->dCategory !== '', fn ($q) => $q->where('domicile_category', $this->dCategory))
             ->orderByDesc('id');
     }
 

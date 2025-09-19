@@ -26,6 +26,10 @@ class EnrollStudent extends Model
 {
     return $this->belongsTo(User::class, 'cnic_number', 'cnic_number');
 }
+    public function registered_student()
+{
+    return $this->belongsTo(StudentRegister::class, 'cnic_number', 'cnic_number');
+}
     public function student() {
         return $this->belongsTo(User::class, 'student_id', 'id');
     }
