@@ -241,15 +241,9 @@
                                     <div class="form-grouping form-group__flex">
                                         <select class="form-select" wire:model="preferred_study_center">
                                             <option value="">Select Center</option>
-                                            <option value="MUET Jamshoro">MUET, Jamshoro</option>
-                                            <option value="Hyderabad">Hyderabad</option>
-                                            <option value="Mirpurkhas">Mirpurkhas</option>
-                                            <option value="Dadu">Dadu</option>
-                                            <option value="Thatta">Thatta</option>
-                                            <option value="Badin">Badin</option>
-                                            <option value="Tando Muhammad khan">Tando Muhammad khan</option>
-                                            <option value="Hala">Hala</option>
-                                            <option value="Umerkot">Umerkot</option>
+                                            @foreach (config('filters.study_centers') as $value => $label)
+                                                <option value="{{ $value }}">{{ $label }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

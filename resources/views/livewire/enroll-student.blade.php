@@ -41,7 +41,112 @@
                     Export Students
                 </a>
             </div>
+            <hr class="mb-4 border-slate-200 dark:border-slate-700">
+            <div class="flex gap-4 mb-6 justify-center">
+                <div class="input-parent">
+                    <select wire:model.live="filter_course"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select Course</option>
+                        @foreach (config('filters.courses') as $course)
+                            <option value="{{ $course }}">{{ $course }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_qualification"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select Highest Qualification</option>
+                        @foreach (config('filters.qualifications') as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_gender"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select Gender</option>
+                        @foreach (config('filters.genders') as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_d_category"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option value="">Select D.Category</option>
+                        @foreach (config('filters.d_categories') as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
+
+            </div>
+            <div class="flex gap-4 mb-6 justify-center">
+                <div class="input-parent">
+                    <select wire:model.live="filter_district"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select District</option>
+                        @foreach (config('filters.districts') as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_study_center"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select Centers</option>
+                        @foreach (config('filters.study_centers') as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="input-parent">
+                    <select wire:model.live="filter_enrolled_in_batch"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select Enrolled Batch</option>
+                        @foreach ($this->overAllBatches as $batch)
+                            <option value="{{ $batch->id }}">{{ $batch->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="input-parent">
+                    <select wire:model.live="filter_enrolled_in_campus"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select Enrolled Campus</option>
+                        @foreach ($this->overAllCampus as $campus)
+                            <option value="{{ $campus->id }}">{{ $campus->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-parent">
+                    <select wire:model.live="filter_enrolled_in_course"
+                        class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                  focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                        <option>Select Enrolled Course</option>
+                        @foreach ($this->overAllCourse as $course)
+                            <option value="{{ $course->id }}">{{ $course->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+            </div>
             {{-- Bulk container handles selected state + confirm + calling Livewire --}}
             <x-ui.bulk-container method="cancelEnrollment" buttonLabel="Cancel Enrollment"
                 confirmTitle="Are you sure you want to cancel?"
