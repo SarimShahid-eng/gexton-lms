@@ -28,6 +28,7 @@ use App\Http\Controllers\LoginController;
 //     return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
 // });
 
+
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
@@ -39,10 +40,10 @@ Route::middleware('auth')->group(function () {
         Route::get('show-courses', CreateCourses::class)->name('courses_create');
         Route::get('registered-student', ShowStudent::class)->name('show_students');
         Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
-        Route::get('/students/enroll-export', [EnrollStudent::class, 'export'])->name('enroll_students.export');
         Route::get('create-trainer', Teacher::class)->name('create_teacher');
         Route::get('/students/export', [ShowStudent::class, 'export'])->name('students.export');
         Route::post('/students/import', [ShowStudent::class, 'import'])->name('students.import');
+
 
     });
     Route::middleware(['role:student'])->prefix('students')->name('students.')->group(function () {
