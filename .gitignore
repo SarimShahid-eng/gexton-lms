@@ -26,3 +26,4 @@ vendor.zip
 node_modules.zip
 /dist/
 /deploy-repo/
+guideline/developer-notes.txt
