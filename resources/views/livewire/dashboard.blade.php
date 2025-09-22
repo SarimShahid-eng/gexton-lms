@@ -9,7 +9,6 @@
         <div class="col-span-12 xl:col-span-6">
             <!-- ====== Card Two Start -->
             @include('partials.cards.card2')
-
             <!-- ====== Card Two End -->
         </div>
 
