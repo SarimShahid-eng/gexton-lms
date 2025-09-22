@@ -75,5 +75,12 @@ return [
         'urban' => 'Urban',
         'rural' => 'Rural',
     ],
+    'timeSlots' => [
+        '9 AM to 12 PM' => '9 AM - 12 PM (Morning)',
+        '12 PM to 3 PM' => '12 PM - 3 PM (Afternoon)',
+        '3 PM to 6 PM' => '3 PM - 6 PM (Evening)',
+        '6 PM to 9 PM' => '6 PM - 9 PM (Evening)',
+        'Sat & Sun (Weekend)' => 'Sat & Sun (Weekend)',
+    ],
 
 ];

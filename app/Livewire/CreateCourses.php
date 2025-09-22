@@ -51,7 +51,7 @@ class CreateCourses extends Component
     {
 
         $rules = [
-            'title' => 'required|string|max:20',
+            'title' => 'required|string|max:200',
             'description' => 'string|max:200',
             'campus_id' => 'required',
             'user_id' => 'required',
@@ -60,7 +60,6 @@ class CreateCourses extends Component
         ];
         $message = [
             'title.required' => 'Course title is required.',
-            'title.max' => 'Course title may not be greater than 20 characters.',
             'description.string' => 'Course description is required.',
             'description.max' => 'Course description may not be greater than 200 characters.',
             'campus_id.required' => 'Campus is required.',

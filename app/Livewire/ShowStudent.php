@@ -99,6 +99,7 @@ class ShowStudent extends Component
 
     public $filter_district = '';
     public $filter_study_center = '';
+    public $filter_timeslot = '';
 
     // public function updatingSearch()
     // {
@@ -163,6 +164,11 @@ class ShowStudent extends Component
             ->when(
                 $this->filter_qualification !== '',
                 fn ($q) => $q->where('highest_qualification', $this->filter_qualification)
+            )
+            // timeslot
+            ->when(
+                $this->filter_timeslot !== '',
+                fn ($q) => $q->where('preferred_time_slot', $this->filter_timeslot)
             )
 
             // gender
@@ -288,8 +294,8 @@ class ShowStudent extends Component
                 // 1) Capacity check: count only ACTIVE enrollments
                 $currentCount = EnrollStudentDetail::query()
                     ->where('course_id', $this->course_id)
-                    ->join('enroll_students', 'enroll_students.student_id', '=', 'enroll_student_details.student_id')
-                    ->where('enroll_students.cancel_enrollment', 0)
+                    ->where('student.cancel_enrollment', 0)
+                    ->where('student.enrolled_status', 1)
                     ->lockForUpdate()
                     ->count();
 
