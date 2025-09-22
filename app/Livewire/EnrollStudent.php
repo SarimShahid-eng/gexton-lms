@@ -94,6 +94,7 @@ class EnrollStudent extends Component
     public $filter_enrolled_in_batch = '';
 
     public $filter_enrolled_in_course = '';
+    public $filter_timeslot = '';
 
     public $overAllBatches = [];
 
@@ -158,6 +159,10 @@ class EnrollStudent extends Component
                 // preferred study center
                 $q->when($this->filter_study_center !== '',
                     fn ($qq) => $qq->where('preferred_study_center', $this->filter_study_center)
+                );
+                // preferred study center
+                $q->when($this->filter_timeslot !== '',
+                    fn ($qq) => $qq->where('preferred_time_slot', $this->filter_timeslot)
                 );
             })
             ->whereHas('enroll_detail', function ($q) {

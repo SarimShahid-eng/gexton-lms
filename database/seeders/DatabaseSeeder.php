@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 50 student users
-        $students = User::factory()->count(50)->student()->create();
+        $students = User::factory()->count(10)->student()->create();
 
         // Profiles for those students
         foreach ($students as $u) {
