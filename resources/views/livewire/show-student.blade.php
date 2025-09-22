@@ -39,7 +39,7 @@
                     </select>
                 </div>
                 <div class="input-parent">
-                    <select wire:model.live="filter_course"
+                    <select wire:model.live="filter_timeslot"
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                         <option value="">Select Time slot</option>
