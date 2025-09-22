@@ -297,7 +297,7 @@ class ShowStudent extends Component
                     ->join('enroll_students', 'enroll_students.student_id', '=', 'enroll_student_details.student_id')
                     ->where('enroll_students.cancel_enrollment', 0)
                      ->join('student_registers', 'student_registers.cnic_number', '=', 'enroll_students.cnic_number')
-                    ->where('student_registers.enrolled_status', 0) // filter only not cancelled
+                    ->where('student_registers.enrolled_status', 1) // filter only not cancelled
                     ->lockForUpdate()
                     ->count();
 
