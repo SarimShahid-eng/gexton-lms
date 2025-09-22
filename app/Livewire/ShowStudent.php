@@ -294,8 +294,10 @@ class ShowStudent extends Component
                 // 1) Capacity check: count only ACTIVE enrollments
                 $currentCount = EnrollStudentDetail::query()
                     ->where('course_id', $this->course_id)
-                    ->where('student.cancel_enrollment', 0)
-                    ->where('student.registered_student.enrolled_status', 1)
+                    ->join('enroll_students', 'enroll_students.student_id', '=', 'enroll_student_details.student_id')
+                    ->where('enroll_students.cancel_enrollment', 0)
+                     ->join('student_registers', 'student_registers.cnic_number', '=', 'enroll_students.cnic_number')
+                    ->where('student_registers.enrolled_status', 0) // filter only not cancelled
                     ->lockForUpdate()
                     ->count();
 
