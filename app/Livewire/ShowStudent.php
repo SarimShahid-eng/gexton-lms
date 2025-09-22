@@ -295,7 +295,7 @@ class ShowStudent extends Component
                 $currentCount = EnrollStudentDetail::query()
                     ->where('course_id', $this->course_id)
                     ->where('student.cancel_enrollment', 0)
-                    ->where('student.enrolled_status', 1)
+                    ->where('student.registered_student.enrolled_status', 1)
                     ->lockForUpdate()
                     ->count();
 
