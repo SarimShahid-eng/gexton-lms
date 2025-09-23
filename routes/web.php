@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
+use App\Livewire\Dashboard;
+use App\Livewire\EditProfile;
 use App\Livewire\EnrollStudent;
 use App\Livewire\Phase;
 use App\Livewire\ProgrammeCreate;
@@ -11,18 +14,15 @@ use App\Livewire\Quiz;
 use App\Livewire\QuizStudent;
 use App\Livewire\ShowStudent;
 use App\Livewire\StartTest;
+use App\Livewire\Student;
 use App\Livewire\StudentAttendance;
 use App\Livewire\StudentTask;
 use App\Livewire\StudentTaskUplode;
 use App\Livewire\StudentView;
 use App\Livewire\Teacher;
 use App\Livewire\TeacherTask;
-use Livewire\Livewire;
-use App\Livewire\Student;
-use App\Livewire\Dashboard;
-use App\Livewire\EditProfile;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
+use Livewire\Livewire;
 
 // Livewire::setUpdateRoute(function ($handle) {
 //     return Route::post('/gexton-lms-mehran/public/livewire/update', $handle);
@@ -31,18 +31,20 @@ use App\Http\Controllers\LoginController;
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
-        Route::get('/profile', EditProfile::class)->name('show_profile');
-        Route::get('/show-phases', Phase::class)->name('show_phase');
-        // Route::get('/show-programmes', ProgrammeCreate::class)->name('show_programme');
-        Route::get('/show-batches', Campus::class)->name('show_campus');
-        Route::get('/show-campus', Batch::class)->name('show_batches');
-        Route::get('show-courses', CreateCourses::class)->name('courses_create');
-        Route::get('registered-student', ShowStudent::class)->name('show_students');
-        Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
-        Route::get('/students/enroll-export', [EnrollStudent::class, 'export'])->name('enroll_students.export');
-        Route::get('create-trainer', Teacher::class)->name('create_teacher');
-        Route::get('/students/export', [ShowStudent::class, 'export'])->name('students.export');
-        Route::post('/students/import', [ShowStudent::class, 'import'])->name('students.import');
+        Route::middleware(['restrict_admin'])->group(function () {
+            Route::get('/profile', EditProfile::class)->name('show_profile');
+            Route::get('/show-phases', Phase::class)->name('show_phase');
+            // Route::get('/show-programmes', ProgrammeCreate::class)->name('show_programme');
+            Route::get('/show-batches', Campus::class)->name('show_campus');
+            Route::get('/show-campus', Batch::class)->name('show_batches');
+            Route::get('show-courses', CreateCourses::class)->name('courses_create');
+            Route::get('registered-student', ShowStudent::class)->name('show_students');
+            Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
+            Route::get('/students/enroll-export', [EnrollStudent::class, 'export'])->name('enroll_students.export');
+            Route::get('create-trainer', Teacher::class)->name('create_teacher');
+            Route::get('/students/export', [ShowStudent::class, 'export'])->name('students.export');
+            Route::post('/students/import', [ShowStudent::class, 'import'])->name('students.import');
+        });
 
     });
     Route::middleware(['role:student'])->prefix('students')->name('students.')->group(function () {

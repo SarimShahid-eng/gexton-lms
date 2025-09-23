@@ -14,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+
         $middleware->alias([
+            'restrict_admin'=> \App\Http\Middleware\RestrictSpecificAdmin::class,
             'role' => RoleAccessMiddleware::class,
             'pass' => PassStudentsMiddleware::class,
             'In_progress' => InProgressStudentsMiddleware::class
