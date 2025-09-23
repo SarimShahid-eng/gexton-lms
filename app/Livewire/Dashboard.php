@@ -25,6 +25,7 @@ class Dashboard extends Component
     public $phasesCount;
 
     public $campusCount;
+    public $genderCounts;
 
     public $batchesCount;
 
@@ -33,6 +34,10 @@ class Dashboard extends Component
     public function mount()
     {
         $query = User::query();
+          $this->genderCounts = StudentRegister::selectRaw('gender, COUNT(*) as total')
+        ->groupBy('gender')
+        ->pluck('total', 'gender');
+        // dd($this->genderCounts);
         $this->enrolledstudentsCount = (clone $query)
             ->where('user_type', 'student')
             ->count();

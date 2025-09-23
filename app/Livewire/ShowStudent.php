@@ -19,8 +19,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ShowStudent extends Component
 {
-
-
     use WithPagination;
 
     protected $listeners = ['view_student'];
@@ -98,7 +96,9 @@ class ShowStudent extends Component
     public $filter_d_category = '';
 
     public $filter_district = '';
+
     public $filter_study_center = '';
+
     public $filter_timeslot = '';
 
     // public function updatingSearch()
@@ -131,8 +131,6 @@ class ShowStudent extends Component
             $this->resetPage();
         }
     }
-
-
 
     public function render()
     {
@@ -290,13 +288,13 @@ class ShowStudent extends Component
 
         try {
             DB::transaction(function () use ($student) {
-
+                // logic is  set according to 1 student per course
                 // 1) Capacity check: count only ACTIVE enrollments
                 $currentCount = EnrollStudentDetail::query()
                     ->where('course_id', $this->course_id)
                     ->join('enroll_students', 'enroll_students.student_id', '=', 'enroll_student_details.student_id')
                     ->where('enroll_students.cancel_enrollment', 0)
-                     ->join('student_registers', 'student_registers.cnic_number', '=', 'enroll_students.cnic_number')
+                    ->join('student_registers', 'student_registers.cnic_number', '=', 'enroll_students.cnic_number')
                     ->where('student_registers.enrolled_status', 1) // filter only not cancelled
                     ->lockForUpdate()
                     ->count();
