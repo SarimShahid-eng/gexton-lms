@@ -101,10 +101,6 @@ class ShowStudent extends Component
 
     public $filter_timeslot = '';
 
-    // public function updatingSearch()
-    // {
-    //     $this->resetPage();
-    // }
     public $campus_id;
 
     public $batch_id;

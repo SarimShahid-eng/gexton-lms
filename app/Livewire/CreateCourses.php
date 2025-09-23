@@ -14,7 +14,7 @@ class CreateCourses extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'tailwind';
-    public $campus_id, $batches = [], $campuses = [], $phase_id, $user_id, $title, $description, $id, $batch_id, $courseIdToDelete, $search = '', $editMode = false;
+    public $campus_id, $batches = [], $campuses = [], $phase_id, $user_id, $title, $description, $id, $batch_id,$time_slot, $courseIdToDelete, $search = '', $editMode = false;
     public function updatingSearch()
     {
         $this->resetPage();
@@ -57,6 +57,7 @@ class CreateCourses extends Component
             'user_id' => 'required',
             'batch_id' => 'required',
             'phase_id' => 'required',
+            'time_slot'=>'required'
         ];
         $message = [
             'title.required' => 'Course title is required.',
