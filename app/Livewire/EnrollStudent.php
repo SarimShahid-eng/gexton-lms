@@ -369,6 +369,7 @@ class EnrollStudent extends Component
                 ->unique()
                 ->values();
 
+
             if ($cnics->isNotEmpty()) {
                 // 3) Reset enrolled_status in student_registers for matching CNICs
                 StudentRegister::whereIn('cnic_number', $cnics)
