@@ -94,6 +94,7 @@ class EnrollStudent extends Component
     public $filter_enrolled_in_batch = '';
 
     public $filter_enrolled_in_course = '';
+
     public $filter_timeslot = '';
 
     public $overAllBatches = [];
@@ -169,10 +170,10 @@ class EnrollStudent extends Component
                 $q->when($this->filter_enrolled_in_batch !== '',
                     fn ($qq) => $qq->where('campus_id', $this->filter_enrolled_in_batch)
                 );
-                  $q->when($this->filter_enrolled_in_campus !== '',
+                $q->when($this->filter_enrolled_in_campus !== '',
                     fn ($qq) => $qq->where('batch_id', $this->filter_enrolled_in_campus)
                 );
-                  $q->when($this->filter_enrolled_in_course !== '',
+                $q->when($this->filter_enrolled_in_course !== '',
                     fn ($qq) => $qq->where('course_id', $this->filter_enrolled_in_course)
                 );
             })
@@ -247,6 +248,7 @@ class EnrollStudent extends Component
 
     public function enroll_student($id)
     {
+        // dd('ss');
         $this->reset(['campus_ids', 'batch_ids', 'course_ids', 'batches', 'courses', 'full_name', 'father_name', 'cnic_number', 'student_id']);
 
         $student_data = EnrollStudentModel::with('student')->where('student_id', $id)->first();
@@ -416,7 +418,20 @@ class EnrollStudent extends Component
 
         try {
             DB::transaction(function () {
+                $currentCount = EnrollStudentDetail::query()
+                    ->where('course_id', $this->course_ids[0])
+                    ->join('enroll_students', 'enroll_students.student_id', '=', 'enroll_student_details.student_id')
+                    ->where('enroll_students.cancel_enrollment', 0)
+                    ->join('student_registers', 'student_registers.cnic_number', '=', 'enroll_students.cnic_number')
+                    ->where('student_registers.enrolled_status', 1) // filter only not cancelled
+                    ->lockForUpdate()
+                    ->count();
+                // dd($currentCount);
+                if ($currentCount >= 50) {
+                    throw new \RuntimeException('This course already has 50 students enrolled.');
+                    // $this->dispatch('student-update', title: 'Error!', text: 'This course already has 50 students enrolled.', icon: 'error');
 
+                }
                 // --- 1) Load profile by current user/student id
                 $profile = EnrollStudentModel::with('student')
                     ->where('student_id', (int) $this->student_id)
@@ -498,7 +513,12 @@ class EnrollStudent extends Component
             $this->dispatch('student-update', title: 'Success!', text: 'User profile & enrollment updated.', icon: 'success');
         } catch (\Throwable $e) {
             report($e);
-            $this->dispatch('student-update', title: 'Error!', text: 'An error occurred while updating enrollment.', icon: 'error');
+            $this->dispatch(
+                'student-update',
+                title: 'Error!',
+                text: $e->getMessage(), // show exception message
+                icon: 'error'
+            );
         }
     }
 }

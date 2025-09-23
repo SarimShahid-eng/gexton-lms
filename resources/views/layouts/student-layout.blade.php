@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
-  <head>
+
+<head>
     <!-- Meta Tags -->
-    <meta charset="utf-8" >
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-    <meta name="keywords" content="Site keywords here" >
-    <meta name="description" content="#" >
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Site keywords here">
+    <meta name="description" content="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Site Title -->
     <title>PITP</title>
 
@@ -38,7 +36,8 @@
                     <!-- Form Area -->
 
                     <div class="formify-form__bookingv2-header">
-                        <img src="{{ asset('form_assets') }}/image/ai.JPG" alt="" style="height:270px ;object-fit: cover;width:100%;">
+                        <img src="{{ asset('form_assets') }}/image/ai.JPG" alt=""
+                            style="height:270px ;object-fit: cover;width:100%;">
                     </div>
                     <div class="row">
                         {{ $slot }}
@@ -46,14 +45,14 @@
                     </div>
                 </div>
 
-            <!-- End Form Area -->
-        </div>
+                <!-- End Form Area -->
+            </div>
         </div>
         </div>
         </div>
 
 
-    </div>
+        </div>
 
         </div>
         </div>
@@ -61,6 +60,7 @@
         </div>
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Formify Scripts -->
     <script src="{{ asset('form_assets') }}/js/jquery.min.js"></script>
     <script src="{{ asset('form_assets') }}/js/jquery-migrate.js"></script>

@@ -4,7 +4,10 @@
             <!-- Card One -->
             @include('partials.cards.card1')
             <!-- Card One -->
-
+            {{-- <div>
+                <h3 class="text-lg font-bold mb-2">Gender Ratio</h3>
+                <canvas id="genderChart"></canvas>
+            </div> --}}
         </div>
         <div class="col-span-12 xl:col-span-6">
             <!-- ====== Card Two Start -->
@@ -15,6 +18,20 @@
 
     </div>
 @endrole
+<script>
+    // Gender Chart (Pie)
+    const genderCtx = document.getElementById('genderChart').getContext('2d');
+    new Chart(genderCtx, {
+        type: 'pie',
+        data: {
+            labels: {!! json_encode(array_keys($genderCounts->toArray())) !!},
+            datasets: [{
+                data: {!! json_encode(array_values($genderCounts->toArray())) !!},
+                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+            }]
+        },
+    });
+</script>
 @role('student')
     <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 p-6" x-data="{ activeTab: 'modules' }">
         <!-- Left Column -->
@@ -109,4 +126,3 @@
             </div>
         </div>
     @endrole
-
