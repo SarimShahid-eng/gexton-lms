@@ -49,7 +49,8 @@
                                 @endforeach
                             </select>
                             @error('phase_id')
-                                <p id="phase-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}</p>
+                                <p id="phase-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}
+                                </p>
                             @enderror
                         </div>
                         <div class="space-y-2">
@@ -67,12 +68,14 @@
                                 aria-describedby="campus-error">
                                 <option value="">Select Batch</option>
                                 @foreach ($campuses as $campus)
-                                    <option value="{{ $campus->id }}" {{ $campus->id == $campus_id ? 'selected' : '' }}>
+                                    <option value="{{ $campus->id }}"
+                                        {{ $campus->id == $campus_id ? 'selected' : '' }}>
                                         {{ $campus->title }}</option>
                                 @endforeach
                             </select>
                             @error('campus_id')
-                                <p id="campus-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}
+                                <p id="campus-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
+                                    {{ $message }}
                                 </p>
                             @enderror
                         </div>
@@ -100,7 +103,8 @@
                                 @endforeach
                             </select>
                             @error('batch_id')
-                                <p id="batch-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}
+                                <p id="batch-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
+                                    {{ $message }}
                                 </p>
                             @enderror
                         </div>
@@ -123,7 +127,8 @@
                                 @endforeach
                             </select>
                             @error('user_id')
-                                <p id="user-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}</p>
+                                <p id="user-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}
+                                </p>
                             @enderror
                         </div>
                     </div>
@@ -142,7 +147,32 @@
                                 class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 font-['Open_Sans']"
                                 aria-describedby="title-error">
                             @error('title')
-                                <p id="title-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">{{ $message }}
+                                <p id="title-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-semibold text-gray-700 dark:text-gray-300 font-['Open_Sans'] flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Time Slot
+                            </label>
+                            <select wire:model.live="time_slot"
+                                class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                aria-describedby="user-error">
+                                <option value="">Select Time Slot</option>
+                                @foreach (config('filters.timeSlots') as $key => $timeSlot)
+                                    <option value="{{ $key }}">{{ $timeSlot }}</option>
+                                @endforeach
+                            </select>
+                            @error('time_slot')
+                                <p id="title-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
+                                    {{ $message }}
                                 </p>
                             @enderror
                         </div>
@@ -180,7 +210,9 @@
 
                                 {{-- Loading --}}
                                 <div wire:loading wire:target="save" class="flex items-center gap-2">
-                                    <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                    <div
+                                        class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin">
+                                    </div>
                                     <span>Saving...</span>
                                 </div>
 

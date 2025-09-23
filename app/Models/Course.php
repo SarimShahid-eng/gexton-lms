@@ -14,6 +14,7 @@ class Course extends Model
         'campus_id',
         'batch_id',
         'phase_id',
+        'time_slot',
         'description'
     ];
 
