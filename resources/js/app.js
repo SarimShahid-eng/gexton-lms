@@ -4,6 +4,9 @@ import "jsvectormap/dist/jsvectormap.min.css";
 import "flatpickr/dist/flatpickr.min.css";
 import "dropzone/dist/dropzone.css";
 import "../css/style.css";
+// 💡 Import Chart.js
+import Chart from 'chart.js/auto';
+window.Chart = Chart;
 
 
 

@@ -54,11 +54,6 @@ class Dashboard extends Component
 
     public function render()
     {
-        //  $genderCounts = StudentRegister::selectRaw('gender, COUNT(*) as total')
-        // ->groupBy('gender')
-        // ->pluck('total', 'gender');
-
-        // dd($genderCounts);
         if (Auth::user()->user_type == 'student') {
             $this->enrollments = EnrollStudentDetail::where('student_id', Auth::user()->id)->get();
         }
