@@ -13,7 +13,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
     {{-- <script src="h+ttps://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> --}}
-
+    {{-- <script src="
+    https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js
+    "></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}

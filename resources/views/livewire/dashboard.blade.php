@@ -1,21 +1,132 @@
 @role('admin')
-    <div class="grid grid-cols-12 gap-4 md:gap-6 ">
-        <div class="col-span-12 xl:col-span-6">
-            <!-- Card One -->
-            @include('partials.cards.card1')
-            <!-- Card One -->
-            {{-- <div>
+    <div>
+        {{-- <div class="flex gap-5 my-3">
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Batch</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Center</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Course</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Gender</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex gap-5 my-3">
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Qualification</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Age Group</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <select wire:model="domicile_category"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Time Slot</option>
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+        </div> --}}
+
+        <div class="grid grid-cols-12 gap-4 md:gap-6 ">
+            <div class="col-span-12 xl:col-span-6">
+                <!-- Card One -->
+                @include('partials.cards.card1')
+                <!-- Card One -->
+                {{-- <div>
                 <h3 class="text-lg font-bold mb-2">Gender Ratio</h3>
                 <canvas id="genderChart"></canvas>
             </div> --}}
-        </div>
-        <div class="col-span-12 xl:col-span-6">
-            <!-- ====== Card Two Start -->
-            @include('partials.cards.card2')
-            <!-- ====== Card Two End -->
-        </div>
+            </div>
+            <div class="col-span-12 xl:col-span-6">
+                <!-- ====== Card Two Start -->
+                @include('partials.cards.card2')
+                <!-- ====== Card Two End -->
+            </div>
 
 
+        </div>
+        <div class="py-12">
+            <div class="max-w-7xl flex">
+                {{-- 💡 Embed the Livewire Component here --}}
+                @livewire('enroll-student-gender-chart')
+                @livewire('enroll-student-age-group')
+            </div>
+        </div>
+        <div class="">
+            <div class="max-w-7xl flex">
+                @livewire('enroll-by-time-slot')
+
+            </div>
+        </div>
     </div>
 @endrole
 <script>
