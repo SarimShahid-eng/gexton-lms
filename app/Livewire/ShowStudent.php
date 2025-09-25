@@ -332,28 +332,30 @@ class ShowStudent extends Component
                 // 4) Course detail for THIS course
                 $detail = EnrollStudentDetail::where([
                     'student_id' => $user->id,
-                    'course_id' => $this->course_id,
+                    // 'course_id' => $this->course_id,
                 ])->lockForUpdate()->first();
-
                 if ($detail) {
                     // If we reached here, profile is active now; update placement if needed
                     $detail->update([
                         'campus_id' => $this->campus_id,
                         'batch_id' => $this->batch_id,
-                        // 'course_id' unchanged (this row is for this course)
+                        'course_id' => $this->course_id,
                     ]);
 
                 } else {
                     // No row for this course → create new detail
-                    EnrollStudentDetail::create([
+                    $detail = EnrollStudentDetail::create([
                         'student_id' => $user->id,
                         'campus_id' => $this->campus_id,
                         'batch_id' => $this->batch_id,
                         'course_id' => $this->course_id,
                     ]);
                 }
-
-                // 5) Mark register as enrolled (active)
+                // delete any other rows for this student except the current one
+                EnrollStudentDetail::where('student_id', $user->id)
+                    ->where('id', '!=', $detail->id)
+                    ->delete();
+                // mark student as enrolled
                 $student->enrolled_status = 1;
                 $student->save();
             });
