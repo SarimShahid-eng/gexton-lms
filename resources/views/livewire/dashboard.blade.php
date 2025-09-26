@@ -125,6 +125,12 @@
             <div class="max-w-7xl flex">
                 @livewire('enroll-by-time-slot')
 
+
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="max-w-7xl flex">
+                    @livewire('student-education-background-chart')
             </div>
         </div>
     </div>
