@@ -5,7 +5,7 @@
 
         x-data="{
             {{-- // 💡 Pass the new PHP ageGroupData to Alpine.js --}}
-            chartData: @js($ageGroupData),
+            chartData: @js($educationGroupData),
             chart: null,
 
             init() {
@@ -47,7 +47,7 @@
                             title: {
                                 display: true,
                                 {{-- // 💡 NEW CHART TITLE --}}
-                                text: 'Enrollment by Age Group'
+                                text: 'Education Group (Enrolled Students)'
                             }
                         }
                     }
@@ -55,7 +55,7 @@
             },
         }"
         {{-- 💡 Container classes for 400px x 400px size --}}
-        class="w-[600px] h-[400px] p-3"
+        class="w-[1000px] h-[400px] p-3"
     >
         <canvas x-ref="enrollmentChart"></canvas>
     </div>

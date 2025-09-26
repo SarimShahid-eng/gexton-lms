@@ -83,7 +83,7 @@
                 });
             },
         }"
-        class="w-[600px] h-[400px]"
+        class="w-[1000px] h-[400px]"
     >
         <canvas x-ref="timeSlotChart"></canvas>
     </div>
