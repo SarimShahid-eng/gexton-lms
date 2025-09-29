@@ -1,6 +1,9 @@
 @props([
-    'method' => 'bulkAction',
-    'buttonLabel' => 'Apply',
+    // pass an array of actions, each action = ['method'=>'cancelEnrollment','label'=>'Cancel Enrollment']
+    'actions' => [
+        ['method' => 'cancelEnrollment', 'label' => 'Cancel Enrollment'],
+        ['method' => 'changeDetails', 'label' => 'Change Details'],
+    ],
     'confirmTitle' => 'Are you sure?',
     'confirmText' => 'Proceed with this action?',
     'confirmButtonText' => 'Yes, continue',
@@ -10,7 +13,7 @@
 ])
 
 <div x-data="bulkBox({
-    method: @js($method),
+    actions: @js($actions),
     messages: {
         confirmTitle: @js($confirmTitle),
         confirmText: @js($confirmText),
@@ -20,7 +23,7 @@
         successText: @js($successText),
     }
 })" class="relative">
-    <!-- Action bar: only visible when something is selected -->
+    @livewire('change-student-details')
     <div x-show="selectedCount > 0" x-transition
         class="mb-3 flex items-center justify-between gap-3 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm">
         <div>
@@ -28,10 +31,12 @@
             <span>selected</span>
         </div>
         <div class="flex items-center gap-2">
-            <button type="button" class="rounded-md bg-rose-600 px-3 py-2 text-white hover:bg-rose-700"
-                @click="confirmAndRun()">
-                {{ $buttonLabel }}
-            </button>
+            <template x-for="(act,i) in actions" :key="i">
+                <button type="button" class="rounded-md bg-rose-600 px-3 py-2 text-white hover:bg-rose-700"
+                    @click="runAction(act)">
+                    <span x-text="act.label"></span>
+                </button>
+            </template>
             <button type="button" class="rounded-md border px-3 py-2 hover:bg-gray-50" @click="clear()">
                 Clear
             </button>
@@ -41,11 +46,10 @@
     {{ $slot }}
 </div>
 
-{{-- Put this helper once (e.g., in your layout footer) --}}
 <script>
     function bulkBox(opts) {
         return {
-            // fully reactive array (not Set)
+            // ---- selection management ----
             selected: [],
             get selectedCount() {
                 return this.selected.length
@@ -81,9 +85,21 @@
                 this.selected = []
             },
 
-            method: opts.method,
+            // ---- actions ----
+            actions: opts.actions ?? [],
             messages: opts.messages,
-            confirmAndRun() {
+
+            runAction(act) {
+                if (act.method === 'changeDetails') {
+                    // open modal via Livewire event
+                    Livewire.dispatch('open-change-details-modal', [ { ids: this.selected } ]);
+                    return;
+                }
+                // default: confirm and run method
+                this.confirmAndRun(act.method);
+            },
+
+            confirmAndRun(method) {
                 if (!this.selectedCount) return;
                 const m = this.messages;
                 const wire = this.$wire;
@@ -100,31 +116,26 @@
                     showLoaderOnConfirm: true,
 
                     preConfirm: () => {
-                        return wire.call(this.method, this.selected)
+                        return wire.call(method, this.selected)
                             .then(() => {
-                                // ✅ success toast
                                 Livewire.dispatch('student-update', {
                                     icon: 'success',
-                                    text: m.successText ||
-                                        'Enrollment(s) canceled successfully!'
+                                    text: m.successText
                                 });
-
-                                this.clear();
+                                // comment out if you want selections sticky:
+                                // this.clear();
                             })
                             .catch((e) => {
-                                // ❌ error toast
                                 Livewire.dispatch('student-update', {
                                     icon: 'error',
                                     text: e?.message || 'Something went wrong.'
                                 });
-
                                 throw e;
                             });
                     },
                     allowOutsideClick: () => !Swal.isLoading(),
                 });
             }
-
         }
     }
 </script>

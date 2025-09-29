@@ -54,10 +54,10 @@
                     </select>
                 </div>
                 <div class="input-parent">
-                    <select wire:model.live="filter_timeslot"
+                <select wire:model.live="filter_timeslot"
                         class="w-full sm:w-1/1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                   focus:ring focus:ring-blue-200 focus:outline-none text-sm">
-                        <option value="">Select TIme Slot</option>
+                        <option value="">Select Time Slot</option>
                         @foreach (config('filters.timeSlots') as $key => $timeSlot)
                             <option value="{{ $key }}">{{ $timeSlot }}</option>
                         @endforeach
@@ -158,7 +158,12 @@
 
             </div>
             {{-- Bulk container handles selected state + confirm + calling Livewire --}}
-            <x-ui.bulk-container method="cancelEnrollment" buttonLabel="Cancel Enrollment"
+            <x-ui.bulk-container
+            :actions="[
+        ['method'=>'cancelEnrollment','label'=>'Cancel Enrollment'],
+        ['method'=>'changeDetails','label'=>'Change Details'],
+    ]"
+            {{-- method="cancelEnrollment" buttonLabel="Cancel Enrollment" --}}
                 confirmTitle="Are you sure you want to cancel?"
                 confirmText="This will cancel the selected student(s) enrollment." confirmButtonText="Yes, cancel"
                 cancelButtonText="No, keep" successTitle="Canceled" successText="Enrollment canceled successfully.">
