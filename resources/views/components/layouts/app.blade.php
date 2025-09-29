@@ -127,6 +127,16 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 }
             });
         });
+        Livewire.on('custom', (data) => {
+            // For example with SweetAlert:
+            Swal.fire({
+                icon: data.icon || 'success',
+                text: data.text || '',
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+        });
         (function() {
             if (window.__toastBound) return;
             window.__toastBound = true;
