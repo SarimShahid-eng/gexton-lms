@@ -59,17 +59,6 @@ class ChangeStudentDetails extends Component
 
     public function save()
     {
-        // $this->validate([
-        //     'preferred_study_center' => 'required',
-        //     'preferred_time_slot' => 'required',
-        //     'campus_id' => 'required|exists:campuses,id',
-        //     'batch_id' => 'required|exists:batches,id',
-        //     'course_id' => 'required|exists:courses,id',
-        // ], [
-        //     'campus_id.required' => 'The campus field is required.',
-        //     'batch_id.required' => 'The batch field is required.',
-        //     'course_id.required' => 'The course field is required.',
-        // ]);
 
           DB::transaction(function () {
         // 👇 Conditional validation
