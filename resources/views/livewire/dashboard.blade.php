@@ -1,136 +1,111 @@
 @role('admin')
-    <div>
-        {{-- <div class="flex gap-5 my-3">
+    <div class="mainParent" wire:key="dashboard-main">
+        {{-- <div class="flex gap-5 my-3 card bg-white p-6 rounded-xl align-end border border-gray-200">
             <div class="filter-parent w-1/3">
                 <!-- Input Field -->
-                <select wire:model="domicile_category"
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Center
+                    Selection</label>
+                <select wire:model.live="study_center_filter"
                     class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
                                    bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
-                                   shadow-sm transition duration-150 ease-in-out">
-                    <option selected>Select Batch</option>
-                    <option value="urban">Urban</option>
-                    <option value="rural">Rural</option>
-                </select>
-            </div>
-            <div class="filter-parent w-1/3">
-                <!-- Input Field -->
-                <select wire:model="domicile_category"
-                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
-                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
-                                   placeholder:text-gray-400 dark:placeholder:text-white/30
-                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
-                                   shadow-sm transition duration-150 ease-in-out">
+                                shadow-sm transition duration-150 ease-in-out">
                     <option selected>Select Center</option>
+                    @foreach (config('filters.study_centers') as $value => $label)
+                        <option wire:key="{{ $value }}" value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <!-- Input Field -->
+                <label
+                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Domicile
+                    Selection</label>
+                <select wire:model.live="domicile_category_filter"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option selected>Select Domicile</option>
                     <option value="urban">Urban</option>
                     <option value="rural">Rural</option>
                 </select>
             </div>
             <div class="filter-parent w-1/3">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Gender
+                    Selection</label>
                 <!-- Input Field -->
-                <select wire:model="domicile_category"
+                <select wire:model.live="gender_filter"
+                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
+                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
+                                   placeholder:text-gray-400 dark:placeholder:text-white/30
+                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
+                                   shadow-sm transition duration-150 ease-in-out">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="transgender">Transgender</option>
+                </select>
+            </div>
+            <div class="filter-parent w-1/3">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Course
+                    Selection</label>
+                <!-- Input Field -->
+                <select wire:model.live="course_filter"
                     class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
                                    bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                    shadow-sm transition duration-150 ease-in-out">
                     <option selected>Select Course</option>
-                    <option value="urban">Urban</option>
-                    <option value="rural">Rural</option>
-                </select>
-            </div>
-            <div class="filter-parent w-1/3">
-                <!-- Input Field -->
-                <select wire:model="domicile_category"
-                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
-                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
-                                   placeholder:text-gray-400 dark:placeholder:text-white/30
-                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
-                                   shadow-sm transition duration-150 ease-in-out">
-                    <option selected>Select Gender</option>
-                    <option value="urban">Urban</option>
-                    <option value="rural">Rural</option>
-                </select>
-            </div>
-        </div>
-        <div class="flex gap-5 my-3">
-            <div class="filter-parent w-1/3">
-                <!-- Input Field -->
-                <select wire:model="domicile_category"
-                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
-                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
-                                   placeholder:text-gray-400 dark:placeholder:text-white/30
-                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
-                                   shadow-sm transition duration-150 ease-in-out">
-                    <option selected>Select Qualification</option>
-                    <option value="urban">Urban</option>
-                    <option value="rural">Rural</option>
-                </select>
-            </div>
-            <div class="filter-parent w-1/3">
-                <!-- Input Field -->
-                <select wire:model="domicile_category"
-                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
-                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
-                                   placeholder:text-gray-400 dark:placeholder:text-white/30
-                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
-                                   shadow-sm transition duration-150 ease-in-out">
-                    <option selected>Select Age Group</option>
-                    <option value="urban">Urban</option>
-                    <option value="rural">Rural</option>
-                </select>
-            </div>
-            <div class="filter-parent w-1/3">
-                <!-- Input Field -->
-                <select wire:model="domicile_category"
-                    class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
-                                   bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
-                                   placeholder:text-gray-400 dark:placeholder:text-white/30
-                                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
-                                   shadow-sm transition duration-150 ease-in-out">
-                    <option selected>Select Time Slot</option>
-                    <option value="urban">Urban</option>
-                    <option value="rural">Rural</option>
+                    @foreach ($courses as $course)
+                        <option value="{{ $course->title }}">{{ $course->title }}</option>
+                    @endforeach
+
                 </select>
             </div>
         </div> --}}
-
         <div class="grid grid-cols-12 gap-4 md:gap-6 ">
             <div class="col-span-12 xl:col-span-6">
                 <!-- Card One -->
                 @include('partials.cards.card1')
-                <!-- Card One -->
-                {{-- <div>
-                <h3 class="text-lg font-bold mb-2">Gender Ratio</h3>
-                <canvas id="genderChart"></canvas>
-            </div> --}}
+
             </div>
             <div class="col-span-12 xl:col-span-6">
                 <!-- ====== Card Two Start -->
                 @include('partials.cards.card2')
                 <!-- ====== Card Two End -->
             </div>
-
-
         </div>
         <div class="py-12">
             <div class="max-w-7xl flex">
                 {{-- 💡 Embed the Livewire Component here --}}
-                @livewire('enroll-student-gender-chart')
-                @livewire('enroll-student-age-group')
+                @livewire('enroll-student-gender-chart', key('gender-chart'))
+                @livewire('enroll-student-age-group', key('age-group'))
             </div>
         </div>
         <div class="">
             <div class="max-w-7xl flex">
-                @livewire('enroll-by-time-slot')
-
+                @livewire('enroll-by-time-slot', key('time-slot'))
 
             </div>
         </div>
         <div class="mt-3">
             <div class="max-w-7xl flex">
-                    @livewire('student-education-background-chart')
+                @livewire('student-education-background-chart', key('education-background'))
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class=" mt-3 max-w-7xl flex">
+                @livewire('course-wise-enrollment-chart', key('course-wise-enrollment-chart'))
+            </div>
+            <div class="mt-3 max-w-7xl flex">
+                @livewire('center-wise-enrollment-chart', key('center-wise-enrollment-chart'))
+            </div>
+            <div class="mt-3 max-w-7xl flex">
+                @livewire('domicile-wise-enrollment-chart', key('domicile-wise-enrollment-chart'))
             </div>
         </div>
     </div>
