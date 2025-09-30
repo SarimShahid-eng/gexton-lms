@@ -1,8 +1,3 @@
-  @props([
-      'headingLabel' => 'StudentCard',
-      'count' => 0,
-  ])
-  <!-- Metric Item Start -->
   <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
       <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
           <svg class="fill-gray-800 dark:fill-white/90" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -16,17 +11,9 @@
       <div class="mt-5 flex items-end justify-between">
           <div>
               <span class="text-sm text-gray-500 dark:text-gray-400">{{ $headingLabel }}</span>
-  <h4
-    {{-- x-data="countTo(@entangle($attributes->wire('model')).defer ?? {{ (int) $count }})"
-    x-init="
-        start();
-        $watch('to', value => update(value));
-    "
-    x-text="display" --}}
-    class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
-    {{ $count }}
-</h4>
-
+              <h4 x-data="countTo({{ (int) ($count ?? 0) }})" x-init="observeOnce($el)" x-text="display"
+                  class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
+              </h4>
               {{-- <h4 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
                     {{ $studentsCount??'0' }}
                 </h4> --}}
@@ -34,4 +21,3 @@
 
       </div>
   </div>
-  <!-- Metric Item End -->

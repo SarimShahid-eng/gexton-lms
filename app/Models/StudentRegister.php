@@ -39,4 +39,8 @@ class StudentRegister extends Model
         'from_source',
         'info_confirm',
     ];
+    public function enrollments()
+    {
+        return $this->hasOne(EnrollStudent::class, 'cnic_number', 'cnic_number');
+    }
 }
