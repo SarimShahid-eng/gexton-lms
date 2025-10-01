@@ -1,30 +1,31 @@
-<div class="bg-white rounded-l-lg shadow flex items-center">
+<div class="bg-white rounded-r-lg shadow flex items-center">
     <div
         wire:ignore
         x-data="{
-            chartData: @js($centerGroupData),
+            chartData: @js($courseChoiceData),
             chart: null,
 
             init() {
-                const ctx = this.$refs.centerChart.getContext('2d');
+                const ctx = this.$refs.courseChoiceChart.getContext('2d');
 
                 this.chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: this.chartData.labels,
                         datasets: [{
-                            label: 'Total Enrollment',
+                            label: 'Enrolled Students',
                             data: this.chartData.data,
-                            backgroundColor: this.chartData.backgroundColor,
-                            borderColor: this.chartData.borderColor,
+                            backgroundColor: '#42A5F5',
+                            borderColor: '#1E88E5',
                             borderWidth: 1
                         }]
                     },
                     options: {
+                        indexAxis: 'y', // ✅ horizontal bar chart
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: {
+                            x: {
                                 beginAtZero: true
                             }
                         },
@@ -34,15 +35,15 @@
                             },
                             title: {
                                 display: true,
-                                text: 'Preferred Study Center (Enrolled Students)'
+                                text: 'Enrolled Students by Course Choice'
                             }
                         }
                     }
                 });
             },
         }"
-        class="w-[400px] h-[400px] p-3"
+        class="w-[1000px] h-[400px] p-4"
     >
-        <canvas x-ref="centerChart"></canvas>
+        <canvas x-ref="courseChoiceChart"></canvas>
     </div>
 </div>

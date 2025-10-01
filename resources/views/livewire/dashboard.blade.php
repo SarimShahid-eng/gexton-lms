@@ -223,18 +223,21 @@
             <div class="mt-3">
                 <div class="max-w-7xl flex">
                     @livewire('student-education-background-chart', key('education-background'))
+                      @livewire('course-wise-enrollment-chart', key('course-wise-enrollment-chart'))
                 </div>
             </div>
             <div class="mt-3">
-                <div class=" mt-3 max-w-7xl flex">
-                    @livewire('course-wise-enrollment-chart', key('course-wise-enrollment-chart'))
-                </div>
+
                 <div class="mt-3 max-w-7xl flex">
                     @livewire('center-wise-enrollment-chart', key('center-wise-enrollment-chart'))
+                    @livewire('domicile-wise-enrollment-chart', key('domicile-wise-enrollment-chart'))
+
                 </div>
                 <div class="mt-3 max-w-7xl flex">
-                    @livewire('domicile-wise-enrollment-chart', key('domicile-wise-enrollment-chart'))
+                    @livewire('enroll-students-course-choice-wise-chart', key('enroll-students-course-choice-wise-chart'))
                 </div>
+                {{-- <div class="mt-3 max-w-7xl flex">
+                </div> --}}
             </div>
         </div>
     @endrole

@@ -1,4 +1,4 @@
-<div class=" bg-white rounded-r-lg shadow flex items-center">
+<div class=" bg-white  shadow flex items-center rounded-l-lg">
     <div
         wire:ignore
 
@@ -54,7 +54,7 @@
             },
         }"
         {{-- 💡 Container classes for 400px x 400px size --}}
-        class="w-[1000px] h-[400px] p-3"
+        class="w-[400px] h-[400px] p-3"
     >
         <canvas x-ref="enrollmentChart"></canvas>
     </div>
