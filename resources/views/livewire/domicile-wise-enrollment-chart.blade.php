@@ -41,7 +41,7 @@
                 });
             },
         }"
-        class="w-[1000px] h-[400px] p-3"
+        class="w-[600px] h-[400px] p-3"
     >
         <canvas x-ref="domicileChart"></canvas>
     </div>
