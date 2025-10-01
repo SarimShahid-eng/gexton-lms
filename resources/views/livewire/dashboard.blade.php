@@ -1,7 +1,7 @@
 <div id="rootDiv">
     @role('admin')
         <div class="mainParent">
-            <div
+            {{-- <div
                 class="flex gap-5  card bg-white px-6 pb-3 pt-6 rounded-t-xl align-end border-t border-r border-l border-t-gray-200">
 
                 <div class="filter-parent w-1/3">
@@ -89,13 +89,10 @@
 
                     </select>
                 </div>
-            </div>
-            {{-- Qualification --}}
-            <div
+            </div> --}}
+            {{-- <div
                 class="flex gap-5 mb-3 card bg-white px-6 pb-6 pt-3 rounded-b-xl align-end border-b border-r border-l border-b-gray-200">
-
                 <div class="filter-parent w-1/3">
-                    <!-- Input Field -->
                     <label
                         class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Highest.Qualification
                         Selection</label>
@@ -112,7 +109,6 @@
                     </select>
                 </div>
                 <div class="filter-parent w-1/3">
-                    <!-- Input Field -->
                     <label
                         class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Age
                         Group
@@ -135,7 +131,6 @@
                         class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">Time
                         Slot
                         Selection</label>
-                    <!-- Input Field -->
                     <select wire:model="time_slot_filter"
                         class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700
                                    bg-white dark:bg-gray-900 px-4 py-2.5 text-sm text-gray-800 dark:text-white
@@ -169,15 +164,9 @@
                         <span wire:loading wire:target="applyFilters">Applying...</span>
                         <span wire:loading.remove wire:target="applyFilters">Apply Filters</span>
                     </button>
-
-
-
-                    {{-- <div class="apply-btn">
-                        <button class="bg-blue-600 px-3 py-3 text-sm text-white rounded-xl">Apply Filters</button>
-                    </div> --}}
                 </div>
 
-            </div>
+            </div> --}}
             <div class="grid grid-cols-12 gap-4 md:gap-6 ">
                 <div class="col-span-12 xl:col-span-6">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
