@@ -19,6 +19,7 @@ class StudentRegister extends Model
         'profile_picture',
         'intermediate_marksheet',
         'domicile_form_c',
+        'domicile_category',
         'domicile_district',
         'is_enrolled',
         'enrolled_status',
