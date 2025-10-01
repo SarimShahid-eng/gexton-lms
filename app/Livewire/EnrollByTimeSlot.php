@@ -2,11 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\EnrollStudent;
-use App\Models\StudentRegister;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Livewire\Component;
 
 class EnrollByTimeSlot extends Component
 {
@@ -36,14 +34,13 @@ class EnrollByTimeSlot extends Component
     public function mount()
     {
         // 1. Setup Center Labels and Slot Groups
-        $centerLabels = array_values(Config::get('filters.study_centers', []));
-
+        $centerLabels = array_keys(Config::get('filters.study_centers', []));
         $groupedSlotsMap = [
-            'Morning'       => ['9 AM to 12 PM'],
-            'Afternoon'     => ['12 PM to 3 PM'],
+            'Morning' => ['9 AM to 12 PM'],
+            'Afternoon' => ['12 PM to 3 PM'],
             'Early Evening' => ['3 PM to 6 PM'],
-            'Late Evening'  => ['6 PM to 9 PM'],
-            'Weekend'       => ['Sat & Sun (Weekend)'],
+            'Late Evening' => ['6 PM to 9 PM'],
+            'Weekend' => ['Sat & Sun (Weekend)'],
         ];
 
         // 2. Initialize Data Arrays
@@ -61,36 +58,27 @@ class EnrollByTimeSlot extends Component
         $this->lateEvening = array_fill(0, $numCenters, 0);
         $this->weekend = array_fill(0, $numCenters, 0);
 
-        // --- START FINAL CORRECTED DATABASE QUERY LOGIC ---
+        // --- QUERY NOW FROM ENROLLSTUDENT ---
+        $enrollmentCounts = EnrollStudent::query()
+            ->where('cancel_enrollment', 0) // exclude cancelled
+            ->whereHas('registered_student', function ($q) {
+                $q->where('enrolled_status', 1); // only enrolled students
+            })
+            ->with('registered_student')
+            ->get()
+            ->groupBy(function ($enroll) {
+                return $enroll->registered_student->preferred_study_center.'|'.
+                       $enroll->registered_student->preferred_time_slot;
+            })
+            ->map(function ($group) {
+                return $group->count();
+            });
 
-        $enrollmentCounts = StudentRegister::query()
-            // 💡 BASE FILTER: Only include enrolled students
-            ->where('student_registers.enrolled_status', 1)
-
-            // Join to EnrollStudent to apply the cancel filter
-            ->join('enroll_students', 'student_registers.cnic_number', '=', 'enroll_students.cnic_number')
-
-            // 💡 FILTER: Exclude cancelled enrollments
-            ->where('enroll_students.cancel_enrollment', 0)
-
-            // Select and Group using ONLY StudentRegister columns
-            ->select(
-                'student_registers.preferred_study_center',
-                'student_registers.preferred_time_slot',
-                DB::raw('COUNT(student_registers.cnic_number) as count')
-            )
-            ->groupBy('student_registers.preferred_study_center', 'student_registers.preferred_time_slot')
-            ->get();
-
-        // 3. Process the results and map them to the PHP properties
-        foreach ($enrollmentCounts as $record) {
-            $centerName = $record->preferred_study_center;
+        // 3. Process results
+        foreach ($enrollmentCounts as $key => $count) {
+            [$centerName, $dbTimeSlotValue] = explode('|', $key);
             $centerIndex = array_search($centerName, $centerLabels);
-
-            // Determine which chart group the time slot belongs to
             $groupName = null;
-            $dbTimeSlotValue = $record->preferred_time_slot; // Correct column used
-
             foreach ($groupedSlotsMap as $group => $slots) {
                 if (in_array($dbTimeSlotValue, $slots)) {
                     $groupName = $group;
@@ -98,10 +86,7 @@ class EnrollByTimeSlot extends Component
                 }
             }
 
-            // Map the count to the correct center and time slot property
             if ($centerIndex !== false && $groupName) {
-                $count = $record->count;
-
                 switch ($groupName) {
                     case 'Morning':
                         $this->morning[$centerIndex] = $count;
@@ -122,10 +107,10 @@ class EnrollByTimeSlot extends Component
             }
         }
 
-        // 4. Final data package for Alpine.js
+        // 4. Final package
         $this->timeSlotData = [
             'labels' => $centerLabels,
-            'colors' => $this->colors
+            'colors' => $this->colors,
         ];
     }
 
