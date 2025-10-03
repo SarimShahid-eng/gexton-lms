@@ -454,7 +454,7 @@
                                     Course Selection
                                 </label>
                                 <div class="relative">
-                                    <select wire:model="course_id"
+                                    <select wire:model.live="course_id"
                                         class="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 dark:text-white focus:border-slate-500 focus:ring-4 focus:ring-slate-500/20 transition-all duration-300 hover:shadow-md appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-['Open_Sans']"
                                         @if (empty($courses)) disabled @endif>
                                         <option value="">Select Course</option>
@@ -472,6 +472,34 @@
                                     </div>
                                 </div>
                                 @error('course_id')
+                                    <div class="mt-1 text-red-500 text-sm font-['Open_Sans']">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <!-- Course Selection -->
+                            <div class="group">
+                                <label
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 font-['Open_Sans']">
+                                    Time Slot Selection
+                                </label>
+                                <div class="relative">
+                                    <select wire:model="time_slot_id"
+                                        class="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 dark:text-white focus:border-slate-500 focus:ring-4 focus:ring-slate-500/20 transition-all duration-300 hover:shadow-md appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-['Open_Sans']"
+                                        @if (empty($timeSlots)) disabled @endif>
+                                        <option value="">Select timeSlots</option>
+                                        @foreach ($timeSlots as $timeSlot)
+                                            <option value="{{ $timeSlot->id }}">{{ $timeSlot->title }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                @error('time_slot_id')
                                     <div class="mt-1 text-red-500 text-sm font-['Open_Sans']">{{ $message }}</div>
                                 @enderror
                             </div>

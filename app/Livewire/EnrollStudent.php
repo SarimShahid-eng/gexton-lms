@@ -2,18 +2,19 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use App\Models\Batch;
 use App\Models\Campus;
 use App\Models\Course;
-use App\Models\EnrollStudent as EnrollStudentModel;
-use App\Models\EnrollStudentDetail;
-use App\Models\StudentRegister;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
+use App\Models\TimeSlot;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use App\Models\StudentRegister;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Models\EnrollStudentDetail;
+use App\Models\EnrollStudent as EnrollStudentModel;
 
 class EnrollStudent extends Component
 {
@@ -62,10 +63,12 @@ class EnrollStudent extends Component
     public $campuses = [];
 
     public $batches = [];
+    public $timeSlots=[];
 
     public $courses = [];
 
     public $student_id;
+    public $time_slot_id;
 
     public $campus_ids = [];
 
@@ -111,6 +114,7 @@ class EnrollStudent extends Component
     public function mount()
     {
         $this->campuses = Campus::get();
+        $this->timeSlots=TimeSlot::get();
         $this->districts = config('filters.districts');
         $this->overAllBatches = Campus::all();
         $this->overAllCampus = Batch::all();
