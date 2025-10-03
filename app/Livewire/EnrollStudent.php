@@ -252,7 +252,7 @@ class EnrollStudent extends Component
 
     public function enroll_student($id)
     {
-        // dd('ss');
+        dd('ss');
         $this->reset(['campus_ids', 'batch_ids', 'course_ids', 'batches', 'courses', 'full_name', 'father_name', 'cnic_number', 'student_id']);
 
         $student_data = EnrollStudentModel::with('student')->where('student_id', $id)->first();
