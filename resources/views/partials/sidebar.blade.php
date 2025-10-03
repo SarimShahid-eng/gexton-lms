@@ -246,7 +246,7 @@
 
 
                                     <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                        Assign course to teacher
+                                        Assign course
                                     </span>
                                     @if (request()->routeIs('courses_create'))
                                         <div
