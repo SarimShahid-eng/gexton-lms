@@ -234,6 +234,7 @@ class ShowStudent extends Component
     public function updatedPhaseId($value)
     {
         $this->campuses = Campus::where('phase_id', $value)->get();
+        // dd($this->campuses);
         $this->campus_id = null;
         $this->batches = [];
         $this->batch_id = null;
@@ -252,7 +253,7 @@ class ShowStudent extends Component
     public function updatedBatchId($value)
     {
         // dd
-        $this->courses = Course::where('batch_id', $value)->get();
+        $this->courses = Course::all();
         $this->course_id = null;
     }
     public function updatedCourseId($value)
