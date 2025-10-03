@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\Batch;
+use App\Models\Campus;
 use App\Models\Course;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,7 +12,17 @@ class CreateNewCourse extends Component
 {
     use WithPagination;
 
-    public $search = '',$title, $description,$id;
+    public $search = '';
+
+    public $title;
+
+    public $description;
+
+    public $id;
+
+    // public $campuses = [];
+
+    public $batches = [];
 
     public function render()
     {
@@ -20,11 +32,13 @@ class CreateNewCourse extends Component
             ->orderBy('id', 'desc')
             ->paginate(10);
 
-        return view('livewire.create-new-course',compact('courses'));
+        return view('livewire.create-new-course', compact('courses'));
     }
-    public function save(){
+
+    public function save()
+    {
         $rules = [
-            'title' => 'required|unique:campuses,title,' . $this->id,
+            'title' => 'required|unique:campuses,title,'.$this->id,
             'description' => 'required',
         ];
 
@@ -32,16 +46,18 @@ class CreateNewCourse extends Component
             'title.required' => 'The title is required.',
             'description.required' => 'The description is required.',
         ];
-         $validatedData = $this->validate($rules, $messages);
-         if (strlen($this->title) > 20) {
+        $validatedData = $this->validate($rules, $messages);
+        if (strlen($this->title) > 20) {
             $this->dispatch('course-saved', title: 'Error!', text: 'Title must not exceed 20 characters.', icon: 'error');
+
             return;
         }
         if (strlen($this->description) > 500) {
             $this->dispatch('course-saved', title: 'Error!', text: 'Description must not exceed 500 characters.', icon: 'error');
+
             return;
         }
-          // Save or update campus
+        // Save or update campus
         Course::updateOrCreate(
             ['id' => $this->id],
             $validatedData
@@ -51,11 +67,5 @@ class CreateNewCourse extends Component
         $this->reset();
         $this->dispatch('course-saved', title: 'Success!', text: "Course has been $message successfully.", icon: 'success');
     }
-     public function edit($id)
-    {
-        $course = Course::findOrFail($id);
-        $this->id = $course->id;
-        $this->title = $course->title;
-        $this->description = $course->description;
-    }
+
 }

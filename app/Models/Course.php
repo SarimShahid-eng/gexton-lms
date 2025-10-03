@@ -8,7 +8,9 @@ class Course extends Model
 {
      protected $fillable = [
         'title',
-        'description'
+        'description',
+        'batch_id',
+        'campus_id'
     ];
     //
 }
