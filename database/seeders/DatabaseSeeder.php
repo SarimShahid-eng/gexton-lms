@@ -3,14 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Phase;
+use App\Models\Campus;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Course;
 use App\Models\CustomSession;
 use App\Models\EnrollStudent;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\StudentDetail;
 use App\Models\StudentRegister;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
 use App\Models\EnrollStudentDetail;
+use Database\Factories\PhaseFactory;
+use Database\Factories\CourseFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,28 +24,35 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 50 student users
-        $students = User::factory()->count(10)->student()->create();
+    //     User::factory(1)->create([
+    //         'email'=>'admin2@admin.com',
+    //         'user_type' => 'admin',
+    // ]);
+    //       $factory = new CourseFactory();
 
-        // Profiles for those students
-        foreach ($students as $u) {
-            EnrollStudent::factory()->create(['student_id' => $u->id]);
-            EnrollStudentDetail::factory()->forStudent($u->id)->create([
-                'course_id' => 1, // static
-                'batch_id'  => 1,
-                'campus_id' => 1,
-            ]);
-        }
+    // foreach ($factory->predefinedCourses() as $course) {
+    //     Course::create($course);
+    // }
+        // 50 student users
+        // $students = User::factory()->count(10)->student()->create();
+
+        // // Profiles for those students
+        // foreach ($students as $u) {
+        //     EnrollStudent::factory()->create(['student_id' => $u->id]);
+        //     EnrollStudentDetail::factory()->forStudent($u->id)->create([
+        //         'course_id' => 1, // static
+        //         'batch_id'  => 1,
+        //         'campus_id' => 1,
+        //     ]);
+        // }
 
         // StudentRegister::factory()->count(50)->create();
         //     $this->call([
         //     CustomSessionSeeder::class,
         // ]);
         // CustomSession::factory(1)->create();
-        // User::factory()->create([
-        //     'firstname' => 'Hadi',
-        //     'email' => 'student@example.com',
-        //     'user_type'=>'student',
+        // User::factory(3000)->create([
+        //     'user_type'=>'teacher',
         // ]);
         // StudentDetail::create([
         //     'user_id'=>'3',
@@ -48,7 +60,8 @@ class DatabaseSeeder extends Seeder
         //     'group_id'=>'1',
         //     'course_id'=>'1'
         // ]);
-
+// Phase::factory(5)->create();
+// Campus::factory(10)->create();
 
 
         // $faker = FakerFactory::create();

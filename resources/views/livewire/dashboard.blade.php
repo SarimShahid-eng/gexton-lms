@@ -1,7 +1,7 @@
 <div id="rootDiv">
     @role('admin')
         <div class="mainParent">
-            {{-- <div
+            <div
                 class="flex gap-5  card bg-white px-6 pb-3 pt-6 rounded-t-xl align-end border-t border-r border-l border-t-gray-200">
 
                 <div class="filter-parent w-1/3">
@@ -15,7 +15,7 @@
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                 shadow-sm transition duration-150 ease-in-out">
-                        <option selected>Select Center</option>
+                        <option value="">Select Center</option>
                         @foreach (config('filters.study_centers') as $value => $label)
                             <option wire:key="{{ $value }}" value="{{ $value }}">{{ $label }}</option>
                         @endforeach
@@ -32,7 +32,7 @@
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                    shadow-sm transition duration-150 ease-in-out">
-                        <option selected>Select Domicile</option>
+                        <option value="">Select Domicile</option>
                         <option value="urban">Urban</option>
                         <option value="rural">Rural</option>
                     </select>
@@ -65,7 +65,7 @@
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                 shadow-sm transition duration-150 ease-in-out">
-                        <option selected>Select Batch</option>
+                        <option value="">Select Batch</option>
                         @foreach ($batches as $batch)
                             <option wire:key="{{ $batch->id }}" value="{{ $batch->id }}">{{ $batch->title }}</option>
                         @endforeach
@@ -82,15 +82,15 @@
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                    shadow-sm transition duration-150 ease-in-out">
-                        <option selected>Select Course</option>
+                        <option value="">Select Course</option>
                         @foreach ($courses as $course)
                             <option value="{{ $course->id }}">{{ $course->title }}</option>
                         @endforeach
 
                     </select>
                 </div>
-            </div> --}}
-            {{-- <div
+            </div>
+            <div
                 class="flex gap-5 mb-3 card bg-white px-6 pb-6 pt-3 rounded-b-xl align-end border-b border-r border-l border-b-gray-200">
                 <div class="filter-parent w-1/3">
                     <label
@@ -102,7 +102,7 @@
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                 shadow-sm transition duration-150 ease-in-out">
-                        <option selected>Select Highest Qualification</option>
+                        <option value="">Select Highest Qualification</option>
                         @foreach (config('filters.qualifications') as $value => $label)
                             <option wire:key="{{ $value }}" value="{{ $value }}">{{ $label }}</option>
                         @endforeach
@@ -119,7 +119,7 @@
                                    placeholder:text-gray-400 dark:placeholder:text-white/30
                                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-50
                                    shadow-sm transition duration-150 ease-in-out">
-                        <option selected>Select Age Group</option>
+                        <option value="">Select Age Group</option>
                         <option value="below 18"> Below 18</option>
                         <option value="18–22">18–22</option>
                         <option value="23–26">23–26</option>
@@ -166,7 +166,7 @@
                     </button>
                 </div>
 
-            </div> --}}
+            </div>
             <div class="grid grid-cols-12 gap-4 md:gap-6 ">
                 <div class="col-span-12 xl:col-span-6">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">

@@ -45,31 +45,31 @@
                 <ul class="flex flex-col gap-2 mb-6">
                     @role('admin')
 
-                            <!-- Menu Item Dashboard -->
-                            <li>
-                                <a href="{{ route('dashboard') }}"
-                                    class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                        <!-- Menu Item Dashboard -->
+                        <li>
+                            <a href="{{ route('dashboard') }}"
+                                class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
                                {{ request()->routeIs('dashboard') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                                    <svg class="w-5 h-5 text-slate-300" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V8.99998C3.25 10.2426 4.25736 11.25 5.5 11.25H9C10.2426 11.25 11.25 10.2426 11.25 8.99998V5.5C11.25 4.25736 10.2426 3.25 9 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H9C9.41421 4.75 9.75 5.08579 9.75 5.5V8.99998C9.75 9.41419 9.41421 9.74998 9 9.74998H5.5C5.08579 9.74998 4.75 9.41419 4.75 8.99998V5.5ZM5.5 12.75C4.25736 12.75 3.25 13.7574 3.25 15V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H9C10.2426 20.75 11.25 19.7427 11.25 18.5V15C11.25 13.7574 10.2426 12.75 9 12.75H5.5ZM4.75 15C4.75 14.5858 5.08579 14.25 5.5 14.25H9C9.41421 14.25 9.75 14.5858 9.75 15V18.5C9.75 18.9142 9.41421 19.25 9 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V15ZM12.75 5.5C12.75 4.25736 13.7574 3.25 15 3.25H18.5C19.7426 3.25 20.75 4.25736 20.75 5.5V8.99998C20.75 10.2426 19.7426 11.25 18.5 11.25H15C13.7574 11.25 12.75 10.2426 12.75 8.99998V5.5ZM15 4.75C14.5858 4.75 14.25 5.08579 14.25 5.5V8.99998C14.25 9.41419 14.5858 9.74998 15 9.74998H18.5C18.9142 9.74998 19.25 9.41419 19.25 8.99998V5.5C19.25 5.08579 18.9142 4.75 18.5 4.75H15ZM15 12.75C13.7574 12.75 12.75 13.7574 12.75 15V18.5C12.75 19.7426 13.7574 20.75 15 20.75H18.5C19.7426 20.75 20.75 19.7427 20.75 18.5V15C20.75 13.7574 19.7426 12.75 18.5 12.75H15ZM14.25 15C14.25 14.5858 14.5858 14.25 15 14.25H18.5C18.9142 14.25 19.25 14.5858 19.25 15V18.5C19.25 18.9142 18.9142 19.25 18.5 19.25H15C14.5858 19.25 14.25 18.9142 14.25 18.5V15Z"
-                                            fill="currentColor" />
-                                    </svg>
+                                <svg class="w-5 h-5 text-slate-300" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V8.99998C3.25 10.2426 4.25736 11.25 5.5 11.25H9C10.2426 11.25 11.25 10.2426 11.25 8.99998V5.5C11.25 4.25736 10.2426 3.25 9 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H9C9.41421 4.75 9.75 5.08579 9.75 5.5V8.99998C9.75 9.41419 9.41421 9.74998 9 9.74998H5.5C5.08579 9.74998 4.75 9.41419 4.75 8.99998V5.5ZM5.5 12.75C4.25736 12.75 3.25 13.7574 3.25 15V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H9C10.2426 20.75 11.25 19.7427 11.25 18.5V15C11.25 13.7574 10.2426 12.75 9 12.75H5.5ZM4.75 15C4.75 14.5858 5.08579 14.25 5.5 14.25H9C9.41421 14.25 9.75 14.5858 9.75 15V18.5C9.75 18.9142 9.41421 19.25 9 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V15ZM12.75 5.5C12.75 4.25736 13.7574 3.25 15 3.25H18.5C19.7426 3.25 20.75 4.25736 20.75 5.5V8.99998C20.75 10.2426 19.7426 11.25 18.5 11.25H15C13.7574 11.25 12.75 10.2426 12.75 8.99998V5.5ZM15 4.75C14.5858 4.75 14.25 5.08579 14.25 5.5V8.99998C14.25 9.41419 14.5858 9.74998 15 9.74998H18.5C18.9142 9.74998 19.25 9.41419 19.25 8.99998V5.5C19.25 5.08579 18.9142 4.75 18.5 4.75H15ZM15 12.75C13.7574 12.75 12.75 13.7574 12.75 15V18.5C12.75 19.7426 13.7574 20.75 15 20.75H18.5C19.7426 20.75 20.75 19.7427 20.75 18.5V15C20.75 13.7574 19.7426 12.75 18.5 12.75H15ZM14.25 15C14.25 14.5858 14.5858 14.25 15 14.25H18.5C18.9142 14.25 19.25 14.5858 19.25 15V18.5C19.25 18.9142 18.9142 19.25 18.5 19.25H15C14.5858 19.25 14.25 18.9142 14.25 18.5V15Z"
+                                        fill="currentColor" />
+                                </svg>
 
-                                    <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                        Dashboard
-                                    </span>
+                                <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Dashboard
+                                </span>
 
-                                    @if (request()->routeIs('dashboard'))
-                                        <div
-                                            class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
-                                        </div>
-                                    @endif
-                                </a>
-                            </li>
-                             @if (!(auth()->user()->id == 1 && auth()->user()->user_type == 'admin'))
+                                @if (request()->routeIs('dashboard'))
+                                    <div
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+                        @if (!(auth()->user()->id == 1 && auth()->user()->user_type == 'admin'))
                             <li>
                                 <a href="{{ route('create_teacher') }}"
                                     class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
@@ -184,8 +184,55 @@
                                     @endif
                                 </a>
                             </li>
+                            <!-- Menu Item Desingn a  Time Slot -->
+                            <li>
+                                <a href="{{ route('time_slot') }}"
+                                    class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('time_slot') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
 
-                            <!-- Menu Item Courses -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-300" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6V4a2 2 0 00-2-2H5a2 2 0 00-2 2v16a2 2 0 002 2h5a2 2 0 002-2v-2m0-12h5a2 2 0 012 2v6m-7 8h5a2 2 0 002-2v-6" />
+                                    </svg>
+
+
+                                    <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                        Time Slot
+                                    </span>
+                                    @if (request()->routeIs('time_slot'))
+                                        <div
+                                            class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                        </div>
+                                    @endif
+                                </a>
+                            </li>
+                            <!-- Menu Item Create a  Course -->
+                            <li>
+                                <a href="{{ route('courses_new_course') }}"
+                                    class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
+                               {{ request()->routeIs('courses_new_course') ? 'bg-slate-700/70 text-white shadow-lg border border-slate-600/50' : '' }}">
+
+                                    <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                    </svg>
+
+
+                                    <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                        Design a Course
+                                    </span>
+                                    @if (request()->routeIs('courses_new_course'))
+                                        <div
+                                            class="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse">
+                                        </div>
+                                    @endif
+                                </a>
+                            </li>
+
+
+                            <!-- Menu Item Desingn a  Course -->
                             <li>
                                 <a href="{{ route('courses_create') }}"
                                     class="group relative flex items-center gap-3 rounded-2xl px-4 py-3.5 font-medium text-slate-300 duration-300 ease-in-out hover:bg-slate-700/50 hover:text-white transition-all backdrop-blur-sm font-['Open_Sans']
@@ -199,7 +246,7 @@
 
 
                                     <span class="menu-item-text font-medium" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                        Courses
+                                        Assign course to teacher
                                     </span>
                                     @if (request()->routeIs('courses_create'))
                                         <div

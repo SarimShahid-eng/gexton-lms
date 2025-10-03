@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Livewire\Batch;
 use App\Livewire\Campus;
 use App\Livewire\CreateCourses;
+use App\Livewire\CreateNewCourse;
 use App\Livewire\Dashboard;
 use App\Livewire\EditProfile;
 use App\Livewire\EnrollStudent;
@@ -21,6 +22,7 @@ use App\Livewire\StudentTaskUplode;
 use App\Livewire\StudentView;
 use App\Livewire\Teacher;
 use App\Livewire\TeacherTask;
+use App\Livewire\TimeSlot;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
@@ -37,7 +39,9 @@ Route::middleware('auth')->group(function () {
             // Route::get('/show-programmes', ProgrammeCreate::class)->name('show_programme');
             Route::get('/show-batches', Campus::class)->name('show_campus');
             Route::get('/show-campus', Batch::class)->name('show_batches');
-            Route::get('show-courses', CreateCourses::class)->name('courses_create');
+            Route::get('time-slot', TimeSlot::class)->name('time_slot');
+            Route::get('create-course', CreateNewCourse::class)->name('courses_new_course');
+            Route::get('assign-course-to-teacher', CreateCourses::class)->name('courses_create');
             Route::get('registered-student', ShowStudent::class)->name('show_students');
             Route::get('enroll-student', EnrollStudent::class)->name('enroll_students');
             Route::get('/students/enroll-export', [EnrollStudent::class, 'export'])->name('enroll_students.export');

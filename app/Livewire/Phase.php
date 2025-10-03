@@ -52,7 +52,6 @@ class Phase extends Component
         $message = $this->id ? 'updated' : 'saved';
         $this->reset();
         $this->dispatch('phase-saved', title: 'Success!', text: "Phase has been $message successfully.", icon: 'success');
-        sleep(1);
 
         return redirect()->route('show_phase');
 

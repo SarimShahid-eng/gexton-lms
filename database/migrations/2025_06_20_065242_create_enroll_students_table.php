@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('domicile_form_c');
             $table->string('domicile_district');
             $table->string('university_name')->nullable();
+            $table->tinyInteger('cancel_enrollment')->default(0);
             $table->timestamps();
         });
     }

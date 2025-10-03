@@ -1,63 +1,57 @@
-<div class=" bg-white rounded-r-lg shadow flex items-center">
-{{-- @dd($ageGroupData) --}}
-    <div
-        wire:ignore
-
-        x-data="{
-            {{-- // 💡 Pass the new PHP ageGroupData to Alpine.js --}}
-            chartData: @js($ageGroupData),
-            chart: null,
-
-            init() {
-                const ctx = this.$refs.enrollmentChart.getContext('2d');
-
-                this.chart = new Chart(ctx, {
-                    {{-- // 💡 CHART TYPE IS NOW 'bar' --}}
-                    type: 'bar',
-                    data: {
-                        labels: this.chartData.labels,
-                        datasets: [{
-                            label: 'Total Enrollment',
-                             {{-- // Label for the legend/tooltip --}}
-                            data: this.chartData.data,
-                            backgroundColor: this.chartData.backgroundColor[0],
-                            {{-- // Use single color --}}
-                            borderColor: this.chartData.borderColor[0],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        {{-- // Fixed size settings from previous step --}}
-                        responsive: true,
-                        maintainAspectRatio: false,
-
-                        {{-- // 💡 SIZING IS APPLIED TO THE CONTAINER
-                        // This div container sets the size to 400px x 400px --}}
-
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                                 {{-- // Hide legend for a single dataset --}}
-                            },
-                            title: {
-                                display: true,
-                                {{-- // 💡 NEW CHART TITLE --}}
-                                text: 'Enrollment by Age Group'
-                            }
-                        }
-                    }
-                });
-            },
-        }"
-        {{-- 💡 Container classes for 400px x 400px size --}}
-        class="w-[600px] h-[400px] p-3"
-    >
-        <canvas x-ref="enrollmentChart"></canvas>
+<div class="bg-white rounded-r-lg shadow flex items-center">
+    <div class="w-[600px] h-[400px] p-3" wire:ignore>
+        <canvas id="enrollmentAgeGroupChart"></canvas>
     </div>
-
 </div>
+
+@push('script')
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        const ctx = document.getElementById('enrollmentAgeGroupChart').getContext('2d');
+        let ageGroupChart;
+
+        // 1. Initialize chart
+        ageGroupChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @js($initialLabels),
+                datasets: [{
+                    label: 'Total Enrollment',
+                    data: @js($initialData),
+                    backgroundColor: @js($initialBackgrounds),
+                    borderColor: @js($initialBorders),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', // ✅ horizontal bars
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Enrollment by Age Group' }
+                }
+            }
+        });
+
+        // 2. Listen for Livewire updates
+        Livewire.on('chartDataUpdated', (event) => {
+            ageGroupChart.data.labels = event.labels;
+            ageGroupChart.data.datasets[0].data = event.data;
+            ageGroupChart.data.datasets[0].backgroundColor = event.backgrounds;
+            ageGroupChart.data.datasets[0].borderColor = event.borders;
+            ageGroupChart.update();
+        });
+
+        // 3. Cleanup
+        Livewire.hook('element.removed', (el) => {
+            if (el.id === 'enrollmentAgeGroupChart') {
+                ageGroupChart.destroy();
+            }
+        });
+    });
+</script>
+@endpush
