@@ -28,7 +28,7 @@ class UserFactory extends Factory
             // 'lastname' => $this->faker->lastName,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
-            'password' => bcrypt('password'), // or use Hash::make('password') if importing Hash
+            'password' => Hash::make('password'), // or use Hash::make('password') if importing Hash
             'is_active' => '1', // Default to active
             'user_type' => $this->faker->randomElement(['admin', 'teacher', 'student']),
             'remember_token' => Str::random(10),

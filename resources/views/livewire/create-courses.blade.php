@@ -6,7 +6,7 @@
             <!-- Header Section -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <h3 class="text-xl font-bold text-gray-800 dark:text-white font-['Open_Sans']">
-                    Create New Course
+                   Design a new course
                 </h3>
                 <button @click="showCourseForm = !showCourseForm"
                     class="w-10 h-10 rounded-lg  bg-gradient-to-br from-slate-800 via-slate-900 to-black dark:from-slate-900 dark:via-black dark:to-slate-950 hover:from-gray-600 hover:to-gray-700 text-white flex items-center justify-center transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -141,12 +141,17 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                 </svg>
-                                Course Title
+                                Course
                             </label>
-                            <input type="text" wire:model="title" placeholder="Enter course title"
-                                class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 font-['Open_Sans']"
-                                aria-describedby="title-error">
-                            @error('title')
+                            <select wire:model="course_id"
+                                class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                aria-describedby="user-error">
+                                <option value="">Select Course</option>
+                                @foreach ($courses as $course)
+                                    <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                @endforeach
+                            </select>
+                            @error('course_id')
                                 <p id="title-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
                                     {{ $message }}
                                 </p>
@@ -158,42 +163,22 @@
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        d="M8 9a3 3 0 116 0 3 3 0 01-6 0zm4 4H9a3 3 0 00-3 3v1h10v-1a3 3 0 00-3-3zM21 12h-6m0 0v-6m0 6l-3-3m0 0l-3 3" />
                                 </svg>
                                 Time Slot
                             </label>
-                            <select wire:model.live="time_slot"
+                            <select wire:model.live="time_slot_id"
                                 class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 aria-describedby="user-error">
                                 <option value="">Select Time Slot</option>
-                                @foreach (config('filters.timeSlots') as $key => $timeSlot)
-                                    <option value="{{ $key }}">{{ $timeSlot }}</option>
+                                @foreach ($time_slots as $time_slot)
+                                    <option value="{{ $time_slot->id }}">{{ $time_slot->title }}</option>
                                 @endforeach
                             </select>
-                            @error('time_slot')
-                                <p id="title-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
+                            @error('user_id')
+                                <p id="user-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
                                     {{ $message }}
                                 </p>
-                            @enderror
-                        </div>
-
-                        <!-- Course Description -->
-                        <div class="space-y-2">
-                            <label
-                                class="block text-sm font-semibold text-gray-700 dark:text-gray-300 font-['Open_Sans'] flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Course Description
-                            </label>
-                            <textarea wire:model="description" rows="4" placeholder="Enter detailed course description"
-                                class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 resize-none font-['Open_Sans']"
-                                aria-describedby="description-error"></textarea>
-                            @error('description')
-                                <p id="description-error" class="text-red-500 text-sm mt-1 font-['Open_Sans']">
-                                    {{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -223,7 +208,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 4v16m8-8H4" />
                                     </svg>
-                                    <span>{{ $editMode ? 'Update Batch' : 'Create Batch' }}</span>
+                                    <span>{{ $editMode ? 'Update Designed Course' : 'Design Course' }}</span>
                                 </div>
                             </button>
                         </div>
@@ -245,7 +230,7 @@
                 <!-- Title -->
                 <div>
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white/90 font-['Open_Sans']">
-                        All Courses
+                        All Designed Courses
                     </h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         Manage courses information, edit details, and perform actions.
@@ -256,7 +241,7 @@
                 <div class="mt-3 sm:mt-0">
                     <div class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg inline-block">
                         <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
-                            {{ $courses->total() }} Courses
+                            {{ $course_details->total() }} Courses
                         </span>
                     </div>
                 </div>
@@ -305,7 +290,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                        @forelse ($courses as $course)
+                        @forelse ($course_details as $course_detail)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200">
                                 <td class="py-4 px-3">
                                     <span
@@ -315,38 +300,38 @@
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->title }}
+                                        {{ $course_detail->course->title }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->campus->phase->title }}
+                                        {{ $course_detail->campus->phase->title }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="text-sm font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->user->full_name ?? 'N/A' }}
+                                        {{ $course_detail->user->full_name ?? 'N/A' }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="text-sm font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->batch->title ?? 'N/A' }}
+                                        {{ $course_detail->batch->title ?? 'N/A' }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <p class="text-sm font-semibold text-gray-800 dark:text-white font-['Open_Sans']">
-                                        {{ $course->campus->title ?? 'N/A' }}
+                                        {{ $course_detail->campus->title ?? 'N/A' }}
                                     </p>
                                 </td>
                                 <td class="py-4 px-3">
                                     <div class="flex items-center justify-center gap-3">
                                         <!-- Edit Button with Tooltip -->
                                         <div x-data="{ showTooltip: false }" class="relative">
-                                            <button wire:click="edit({{ $course->id }})"
+                                            <button wire:click="edit({{ $course_detail->id }})"
                                                 @click="showCourseForm = true" @mouseenter="showTooltip = true"
                                                 @mouseleave="showTooltip = false"
                                                 class="group relative inline-flex items-center justify-center w-9 h-9  text-blue-500 hover:bg-blue-500/10 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                                aria-label="Edit course {{ $course->title }}">
+                                                aria-label="Edit course {{ $course_detail->title }}">
                                                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
                                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -367,7 +352,7 @@
                                         </div>
 
                                         <!-- Delete Button with Tooltip -->
-                                        <div x-data="{ showTooltip: false }" class="relative">
+                                        {{-- <div x-data="{ showTooltip: false }" class="relative">
                                             <button wire:click="confirmDelete({{ $course->id }})"
                                                 @mouseenter="showTooltip = true" @mouseleave="showTooltip = false"
                                                 class="group relative inline-flex items-center justify-center w-9 h-9 text-red-500 hover:bg-red-500/10 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
@@ -389,7 +374,7 @@
                                                 class="absolute z-10 bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-md shadow-md whitespace-nowrap">
                                                 Delete course
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -419,9 +404,9 @@
                         @endforelse
                     </tbody>
                 </table>
-                @if ($courses->hasPages())
+                @if ($course_details->hasPages())
                     <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-                        {{ $courses->links() }}
+                        {{ $course_details->links() }}
                     </div>
                 @endif
             </div>
