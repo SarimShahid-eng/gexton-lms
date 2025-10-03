@@ -13,6 +13,7 @@ class EnrollStudentDetail extends Model
         'campus_id',
         'batch_id',
         'course_id',
+        'time_slot_id'
     ];
     public function student()
     {

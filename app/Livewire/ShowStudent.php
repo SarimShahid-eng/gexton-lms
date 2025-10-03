@@ -10,6 +10,7 @@ use App\Models\EnrollStudent;
 use App\Models\EnrollStudentDetail;
 use App\Models\Phase;
 use App\Models\StudentRegister;
+use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -108,8 +109,10 @@ class ShowStudent extends Component
     public $course_id;
 
     public $student_id;
+    public $time_slot_id;
 
     public $campuses = [];
+    public $timeSlots = [];
 
     public $batches = [];
 
@@ -252,7 +255,10 @@ class ShowStudent extends Component
         $this->courses = Course::where('batch_id', $value)->get();
         $this->course_id = null;
     }
-
+    public function updatedCourseId($value)
+    {
+        $this->timeSlots = TimeSlot::where('status',1)->get();
+    }
     public function enroll_student($id)
     {
         $this->reset(['campus_id', 'batch_id', 'course_id', 'batches', 'courses']);
@@ -273,11 +279,13 @@ class ShowStudent extends Component
             'campus_id' => 'required',
             'batch_id' => 'required',
             'course_id' => 'required',
+            'time_slot_id'=>'required'
         ], [
             'phase_id.required' => 'Phase field is required.',
             'campus_id.required' => 'Batch field is required.',
             'batch_id.required' => 'Campus field is required.',
             'course_id.required' => 'Course field is required.',
+            'time_slot_id.required' => 'Time Slot field is required.',
         ]);
 
         $student = StudentRegister::findOrFail($id);
@@ -349,6 +357,7 @@ class ShowStudent extends Component
                         'campus_id' => $this->campus_id,
                         'batch_id' => $this->batch_id,
                         'course_id' => $this->course_id,
+                        'time_slot_id' => $this->time_slot_id,
                     ]);
                 }
                 // delete any other rows for this student except the current one
