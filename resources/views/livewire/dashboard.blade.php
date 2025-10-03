@@ -1,7 +1,7 @@
 <div id="rootDiv">
     @role('admin')
         <div class="mainParent">
-            <div
+            {{-- <div
                 class="flex gap-5  card bg-white px-6 pb-3 pt-6 rounded-t-xl align-end border-t border-r border-l border-t-gray-200">
 
                 <div class="filter-parent w-1/3">
@@ -166,7 +166,7 @@
                     </button>
                 </div>
 
-            </div>
+            </div> --}}
             <div class="grid grid-cols-12 gap-4 md:gap-6 ">
                 <div class="col-span-12 xl:col-span-6">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
